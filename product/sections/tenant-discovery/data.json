@@ -1,0 +1,40 @@
+{
+  "properties": [
+    {
+      "id": "h1",
+      "name": "St Christopher's Barcelona",
+      "location": "Barcelona",
+      "rating": 9.5,
+      "reviewCount": 5743,
+      "imageUrl": "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "isFeatured": true,
+      "amenities": [
+        { "id": "a1", "label": "Free WiFi", "icon": "wifi" },
+        { "id": "a2", "label": "Breakfast", "icon": "coffee" },
+        { "id": "a3", "label": "Linen Included", "icon": "layers" }
+      ],
+      "trustSignals": [
+        { "id": "ts1", "label": "Follows Covid-19 Sanitation Guidance", "icon": "shield-check" },
+        { "id": "ts2", "label": "Award Winning hostel", "icon": "trophy" }
+      ],
+      "priceFrom": 18.00,
+      "originalPrice": 20.00
+    },
+    {
+      "id": "h2",
+      "name": "Generator Paris",
+      "location": "Paris",
+      "rating": 8.8,
+      "reviewCount": 4230,
+      "imageUrl": "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "amenities": [
+        { "id": "a1", "label": "Free WiFi", "icon": "wifi" },
+        { "id": "a4", "label": "Bar", "icon": "glass-water" }
+      ],
+      "trustSignals": [
+        { "id": "ts2", "label": "Award Winning hostel", "icon": "trophy" }
+      ],
+      "priceFrom": 25.00
+    }
+  ]
+}
