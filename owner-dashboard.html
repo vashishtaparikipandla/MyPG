@@ -668,7 +668,219 @@
       </div>
       <div class="wizard-actions">
         <button class="btn-secondary" onclick="navigate('screen-onboard-2')" style="width:auto;padding:0 24px;">Back</button>
-        <button class="btn-primary" onclick="navigate('screen-dashboard')" style="width:auto;padding:0 32px;">Continue to Pricing</button>
+        <button class="btn-primary" onclick="navigate('screen-onboard-4')" style="width:auto;padding:0 32px;">Continue to Pricing</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN: ONBOARDING — Step 4: Pricing & Amenities
+══════════════════════════════════════════════════════════ -->
+<div id="screen-onboard-4" class="screen">
+  <div class="wizard-shell">
+    <div class="wizard-sidebar">
+      <div class="logo"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#9FE870"/><path d="M8 20L14 12l5 6 3-4 6 6" stroke="#163300" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>MyPG</span></div>
+      <div class="wizard-steps">
+        <div class="wizard-step done"><div class="wizard-step-num"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="wizard-step-label">Account Setup</div></div>
+        <div class="wizard-step done"><div class="wizard-step-num"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="wizard-step-label">Property Details</div></div>
+        <div class="wizard-step done"><div class="wizard-step-num"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="wizard-step-label">Room &amp; Bed Structure</div></div>
+        <div class="wizard-step active"><div class="wizard-step-num">4</div><div class="wizard-step-label">Pricing &amp; Amenities</div></div>
+        <div class="wizard-step"><div class="wizard-step-num">5</div><div class="wizard-step-label">Subscription Plan</div></div>
+      </div>
+    </div>
+    <div class="wizard-content">
+      <h2>Pricing &amp; Amenities</h2>
+      <p class="step-desc">Set base rent per room type and check off what your PG offers. Tenants will see this on their app.</p>
+
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px;color:var(--color-primary);">Rent per Bed by Room Type</div>
+      <div style="border:1.5px solid var(--color-border-2);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:28px;">
+        <table style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr style="background:var(--color-bg);">
+              <th style="padding:10px 16px;text-align:left;font-size:12px;font-weight:600;color:var(--color-text-3);text-transform:uppercase;letter-spacing:.5px;">Room Type</th>
+              <th style="padding:10px 16px;text-align:left;font-size:12px;font-weight:600;color:var(--color-text-3);text-transform:uppercase;letter-spacing:.5px;">Rooms configured</th>
+              <th style="padding:10px 16px;text-align:left;font-size:12px;font-weight:600;color:var(--color-text-3);text-transform:uppercase;letter-spacing:.5px;">Rent per bed / month (₹)</th>
+              <th style="padding:10px 16px;text-align:left;font-size:12px;font-weight:600;color:var(--color-text-3);text-transform:uppercase;letter-spacing:.5px;">Deposit (₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-top:1px solid var(--color-border);">
+              <td style="padding:12px 16px;font-weight:600;">Single (1-share)</td>
+              <td style="padding:12px 16px;color:var(--color-text-3);">2 rooms</td>
+              <td style="padding:12px 16px;"><input type="number" class="input-sm" placeholder="e.g. 12000" style="width:140px;"/></td>
+              <td style="padding:12px 16px;"><input type="number" class="input-sm" placeholder="e.g. 24000" style="width:140px;"/></td>
+            </tr>
+            <tr style="border-top:1px solid var(--color-border);">
+              <td style="padding:12px 16px;font-weight:600;">Double (2-share)</td>
+              <td style="padding:12px 16px;color:var(--color-text-3);">14 rooms</td>
+              <td style="padding:12px 16px;"><input type="number" class="input-sm" value="8000" style="width:140px;"/></td>
+              <td style="padding:12px 16px;"><input type="number" class="input-sm" value="16000" style="width:140px;"/></td>
+            </tr>
+            <tr style="border-top:1px solid var(--color-border);">
+              <td style="padding:12px 16px;font-weight:600;">Triple (3-share)</td>
+              <td style="padding:12px 16px;color:var(--color-text-3);">4 rooms</td>
+              <td style="padding:12px 16px;"><input type="number" class="input-sm" value="6500" style="width:140px;"/></td>
+              <td style="padding:12px 16px;"><input type="number" class="input-sm" value="13000" style="width:140px;"/></td>
+            </tr>
+            <tr style="border-top:1px solid var(--color-border);">
+              <td style="padding:12px 16px;font-weight:600;">Quad (4-share)</td>
+              <td style="padding:12px 16px;color:var(--color-text-3);">4 rooms</td>
+              <td style="padding:12px 16px;"><input type="number" class="input-sm" value="5000" style="width:140px;"/></td>
+              <td style="padding:12px 16px;"><input type="number" class="input-sm" value="10000" style="width:140px;"/></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px;color:var(--color-primary);">Property Amenities</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;">
+        <label style="display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--color-border-2);border-radius:var(--radius-md);padding:12px 14px;cursor:pointer;font-size:13px;font-weight:500;">
+          <input type="checkbox" checked style="width:15px;height:15px;accent-color:var(--color-primary);"/>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+          WiFi
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--color-border-2);border-radius:var(--radius-md);padding:12px 14px;cursor:pointer;font-size:13px;font-weight:500;">
+          <input type="checkbox" checked style="width:15px;height:15px;accent-color:var(--color-primary);"/>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+          Food (Mess)
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--color-border-2);border-radius:var(--radius-md);padding:12px 14px;cursor:pointer;font-size:13px;font-weight:500;">
+          <input type="checkbox" checked style="width:15px;height:15px;accent-color:var(--color-primary);"/>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          Housekeeping
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--color-border-2);border-radius:var(--radius-md);padding:12px 14px;cursor:pointer;font-size:13px;font-weight:500;">
+          <input type="checkbox" style="width:15px;height:15px;accent-color:var(--color-primary);"/>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          Gym
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--color-border-2);border-radius:var(--radius-md);padding:12px 14px;cursor:pointer;font-size:13px;font-weight:500;">
+          <input type="checkbox" style="width:15px;height:15px;accent-color:var(--color-primary);"/>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Parking
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--color-border-2);border-radius:var(--radius-md);padding:12px 14px;cursor:pointer;font-size:13px;font-weight:500;">
+          <input type="checkbox" checked style="width:15px;height:15px;accent-color:var(--color-primary);"/>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Laundry
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--color-border-2);border-radius:var(--radius-md);padding:12px 14px;cursor:pointer;font-size:13px;font-weight:500;">
+          <input type="checkbox" style="width:15px;height:15px;accent-color:var(--color-primary);"/>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          CCTV Security
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--color-border-2);border-radius:var(--radius-md);padding:12px 14px;cursor:pointer;font-size:13px;font-weight:500;">
+          <input type="checkbox" checked style="width:15px;height:15px;accent-color:var(--color-primary);"/>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          24/7 Hot Water
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--color-border-2);border-radius:var(--radius-md);padding:12px 14px;cursor:pointer;font-size:13px;font-weight:500;">
+          <input type="checkbox" style="width:15px;height:15px;accent-color:var(--color-primary);"/>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Common TV Lounge
+        </label>
+      </div>
+
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px;color:var(--color-primary);">Food &amp; Billing Defaults</div>
+      <div class="form-grid" style="margin-bottom:0;">
+        <div class="form-field"><label>Lunch opt-out cutoff</label><input type="time" value="10:00"/></div>
+        <div class="form-field"><label>Dinner opt-out cutoff</label><input type="time" value="18:00"/></div>
+        <div class="form-field"><label>Default billing cycle day</label><select><option>1st of month</option><option>5th of month</option><option>10th of month</option></select></div>
+        <div class="form-field"><label>Late payment grace period (days)</label><input type="number" value="5" min="0" max="30"/></div>
+      </div>
+
+      <div class="wizard-actions">
+        <button class="btn-secondary" onclick="navigate('screen-onboard-3')" style="width:auto;padding:0 24px;">Back</button>
+        <button class="btn-primary" onclick="navigate('screen-onboard-5')" style="width:auto;padding:0 32px;">Continue to Plan Selection</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN: ONBOARDING — Step 5: Subscription Plan
+══════════════════════════════════════════════════════════ -->
+<div id="screen-onboard-5" class="screen">
+  <div class="wizard-shell">
+    <div class="wizard-sidebar">
+      <div class="logo"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#9FE870"/><path d="M8 20L14 12l5 6 3-4 6 6" stroke="#163300" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>MyPG</span></div>
+      <div class="wizard-steps">
+        <div class="wizard-step done"><div class="wizard-step-num"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="wizard-step-label">Account Setup</div></div>
+        <div class="wizard-step done"><div class="wizard-step-num"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="wizard-step-label">Property Details</div></div>
+        <div class="wizard-step done"><div class="wizard-step-num"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="wizard-step-label">Room &amp; Bed Structure</div></div>
+        <div class="wizard-step done"><div class="wizard-step-num"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="wizard-step-label">Pricing &amp; Amenities</div></div>
+        <div class="wizard-step active"><div class="wizard-step-num">5</div><div class="wizard-step-label">Subscription Plan</div></div>
+      </div>
+    </div>
+    <div class="wizard-content">
+      <h2>Choose your plan</h2>
+      <p class="step-desc">Based on 48 beds configured — the <strong>Starter plan</strong> is recommended. Your 30-day free trial covers all features.</p>
+
+      <div class="alert-banner success" style="margin-bottom:24px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <p>Your 30-day free trial starts today — full access, no credit card required. We'll remind you 7 days before it ends.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:32px;">
+        <div style="border:2px solid var(--color-accent);border-radius:var(--radius-lg);padding:20px;background:var(--color-success-bg);position:relative;">
+          <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--color-primary);color:var(--color-accent);font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;">RECOMMENDED</div>
+          <div style="font-size:16px;font-weight:700;margin-bottom:4px;">Starter</div>
+          <div style="font-size:26px;font-weight:800;color:var(--color-primary);">₹1,499<span style="font-size:13px;font-weight:400;color:var(--color-text-3);">/mo</span></div>
+          <div style="font-size:11px;color:var(--color-text-3);margin-bottom:14px;">Up to 100 beds</div>
+          <ul class="plan-features">
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>1 Property</li>
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Tenant &amp; Bed Mgmt</li>
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Issue Queue</li>
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Food &amp; Menu</li>
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Waitlist (up to 20)</li>
+          </ul>
+          <button class="btn-primary" style="width:100%;margin-top:16px;justify-content:center;" onclick="navigate('screen-dashboard')">Start Free Trial</button>
+        </div>
+        <div style="border:1.5px solid var(--color-border-2);border-radius:var(--radius-lg);padding:20px;background:white;">
+          <div style="font-size:16px;font-weight:700;margin-bottom:4px;">Growth</div>
+          <div style="font-size:26px;font-weight:800;color:var(--color-primary);">₹3,999<span style="font-size:13px;font-weight:400;color:var(--color-text-3);">/mo</span></div>
+          <div style="font-size:11px;color:var(--color-text-3);margin-bottom:14px;">101–300 beds</div>
+          <ul class="plan-features">
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Up to 5 Properties</li>
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Managers &amp; Staff</li>
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Unlimited Waitlist</li>
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Expense Tracking</li>
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>P&amp;L Reports</li>
+          </ul>
+          <button class="btn-secondary" style="width:100%;margin-top:16px;justify-content:center;" onclick="navigate('screen-dashboard')">Select Growth</button>
+        </div>
+        <div style="border:1.5px solid var(--color-border-2);border-radius:var(--radius-lg);padding:20px;background:white;">
+          <div style="font-size:16px;font-weight:700;margin-bottom:4px;">Scale</div>
+          <div style="font-size:26px;font-weight:800;color:var(--color-primary);">₹8,499<span style="font-size:13px;font-weight:400;color:var(--color-text-3);">/mo</span></div>
+          <div style="font-size:11px;color:var(--color-text-3);margin-bottom:14px;">301–750 beds</div>
+          <ul class="plan-features">
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Unlimited Properties</li>
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Dedicated Support</li>
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Advanced Analytics</li>
+          </ul>
+          <button class="btn-secondary" style="width:100%;margin-top:16px;justify-content:center;" onclick="navigate('screen-dashboard')">Select Scale</button>
+        </div>
+        <div style="border:1.5px solid var(--color-border-2);border-radius:var(--radius-lg);padding:20px;background:var(--color-primary);">
+          <div style="font-size:16px;font-weight:700;margin-bottom:4px;color:white;">Enterprise</div>
+          <div style="font-size:22px;font-weight:800;color:var(--color-accent);">Custom</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:14px;">750+ beds</div>
+          <ul style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+            <li style="display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,.8);"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9FE870" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>SLA-backed uptime</li>
+            <li style="display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,.8);"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9FE870" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Onboarding team</li>
+            <li style="display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,.8);"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9FE870" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Custom integrations</li>
+          </ul>
+          <button class="btn-accent" style="width:100%;margin-top:16px;justify-content:center;">Contact Sales</button>
+        </div>
+      </div>
+
+      <div style="text-align:center;padding:16px;background:var(--color-bg);border-radius:var(--radius-md);font-size:13px;color:var(--color-text-3);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:4px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Annual billing saves 20% &nbsp;·&nbsp; Cancel anytime &nbsp;·&nbsp; No contracts &nbsp;·&nbsp; Your data is always yours
+      </div>
+
+      <div class="wizard-actions">
+        <button class="btn-secondary" onclick="navigate('screen-onboard-4')" style="width:auto;padding:0 24px;">Back</button>
       </div>
     </div>
   </div>
@@ -742,10 +954,27 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           Staff & Managers
         </div>
+        <div class="nav-item" onclick="setActive(this,'screen-pnl')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          P&amp;L Report
+        </div>
         <div class="nav-section">Account</div>
         <div class="nav-item" onclick="setActive(this,'screen-subscription')">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
           Subscription
+        </div>
+        <div class="nav-section">Settings</div>
+        <div class="nav-item" onclick="setActive(this,'screen-settings-property')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Property Settings
+        </div>
+        <div class="nav-item" onclick="setActive(this,'screen-settings-tnc')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          House Rules &amp; T&amp;C
+        </div>
+        <div class="nav-item" onclick="setActive(this,'screen-settings-account')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Account &amp; Privacy
         </div>
       </nav>
       <div class="sidebar-user">
@@ -1720,6 +1949,161 @@
             </div>
           </div>
         </div>
+      </div>
+
+        <!-- ════════════ P&L REPORT PANEL ════════════ -->
+        <div id="panel-pnl" class="panel-screen" style="display:none;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+            <h2 style="font-size:20px;font-weight:700;">Profit &amp; Loss</h2>
+            <div style="display:flex;gap:12px;">
+              <select class="input-sm"><option>2026</option><option>2025</option></select>
+              <button class="btn-secondary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export PDF</button>
+              <button class="btn-primary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export CSV</button>
+            </div>
+          </div>
+          
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:24px;">
+            <div class="card" style="padding:24px;">
+              <div style="font-size:13px;color:var(--color-text-3);font-weight:500;margin-bottom:8px;">Total Revenue (YTD)</div>
+              <div style="font-size:28px;font-weight:800;color:var(--color-primary);">₹18,45,000</div>
+              <div style="font-size:12px;color:var(--color-success);font-weight:500;margin-top:8px;">+12% vs last year</div>
+            </div>
+            <div class="card" style="padding:24px;">
+              <div style="font-size:13px;color:var(--color-text-3);font-weight:500;margin-bottom:8px;">Total Expenses (YTD)</div>
+              <div style="font-size:28px;font-weight:800;color:var(--color-danger);">₹6,12,400</div>
+              <div style="font-size:12px;color:var(--color-danger);font-weight:500;margin-top:8px;">+5% vs last year</div>
+            </div>
+            <div class="card" style="padding:24px;">
+              <div style="font-size:13px;color:var(--color-text-3);font-weight:500;margin-bottom:8px;">Net Profit (YTD)</div>
+              <div style="font-size:28px;font-weight:800;color:var(--color-success);">₹12,32,600</div>
+              <div style="font-size:12px;color:var(--color-success);font-weight:500;margin-top:8px;">Margin: 66.8%</div>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div style="padding:16px 20px;border-bottom:1px solid var(--color-border);font-weight:600;">Monthly Breakdown</div>
+            <div style="padding:0;">
+              <table style="width:100%;border-collapse:collapse;text-align:left;">
+                <thead>
+                  <tr style="background:var(--color-bg);color:var(--color-text-3);font-size:12px;text-transform:uppercase;letter-spacing:.5px;">
+                    <th style="padding:12px 20px;">Month</th>
+                    <th style="padding:12px 20px;">Revenue</th>
+                    <th style="padding:12px 20px;">Expenses</th>
+                    <th style="padding:12px 20px;">Net Profit</th>
+                    <th style="padding:12px 20px;">Margin</th>
+                  </tr>
+                </thead>
+                <tbody style="font-size:14px;">
+                  <tr style="border-top:1px solid var(--color-border);">
+                    <td style="padding:14px 20px;font-weight:500;">Oct 2026 (MTD)</td>
+                    <td style="padding:14px 20px;color:var(--color-success);">₹1,85,000</td>
+                    <td style="padding:14px 20px;color:var(--color-danger);">₹45,200</td>
+                    <td style="padding:14px 20px;font-weight:700;">₹1,39,800</td>
+                    <td style="padding:14px 20px;">75.5%</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--color-border);">
+                    <td style="padding:14px 20px;font-weight:500;">Sep 2026</td>
+                    <td style="padding:14px 20px;color:var(--color-success);">₹3,10,000</td>
+                    <td style="padding:14px 20px;color:var(--color-danger);">₹1,05,500</td>
+                    <td style="padding:14px 20px;font-weight:700;">₹2,04,500</td>
+                    <td style="padding:14px 20px;">65.9%</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--color-border);">
+                    <td style="padding:14px 20px;font-weight:500;">Aug 2026</td>
+                    <td style="padding:14px 20px;color:var(--color-success);">₹2,95,000</td>
+                    <td style="padding:14px 20px;color:var(--color-danger);">₹98,200</td>
+                    <td style="padding:14px 20px;font-weight:700;">₹1,96,800</td>
+                    <td style="padding:14px 20px;">66.7%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ════════════ PROPERTY SETTINGS PANEL ════════════ -->
+        <div id="panel-settings-property" class="panel-screen" style="display:none;">
+          <h2 style="font-size:20px;font-weight:700;margin-bottom:24px;">Property Settings</h2>
+          
+          <div class="card" style="padding:24px;margin-bottom:24px;">
+            <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">Billing Defaults</h3>
+            <div class="form-grid">
+              <div class="form-field"><label>Default Billing Cycle Day</label><select><option>1st of month</option><option>5th of month</option></select></div>
+              <div class="form-field"><label>Late Payment Grace Period (days)</label><input type="number" value="5"/></div>
+              <div class="form-field"><label>Late Fee Amount (₹/day)</label><input type="number" value="100"/></div>
+              <div class="form-field"><label>Security Deposit Months</label><select><option>1 Month</option><option selected>2 Months</option></select></div>
+            </div>
+          </div>
+          
+          <div class="card" style="padding:24px;margin-bottom:24px;">
+            <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">Food &amp; Kitchen Options</h3>
+            <div class="form-grid">
+              <div class="form-field"><label>Breakfast Time</label><div style="display:flex;gap:12px;"><input type="time" value="07:30" style="flex:1;"/><input type="time" value="09:30" style="flex:1;"/></div></div>
+              <div class="form-field"><label>Lunch Time</label><div style="display:flex;gap:12px;"><input type="time" value="12:30" style="flex:1;"/><input type="time" value="14:30" style="flex:1;"/></div></div>
+              <div class="form-field"><label>Dinner Time</label><div style="display:flex;gap:12px;"><input type="time" value="19:30" style="flex:1;"/><input type="time" value="21:30" style="flex:1;"/></div></div>
+              <div class="form-field"><label>Opt-out Cutoff Buffer</label><select><option>2 hours before</option><option selected>4 hours before</option></select></div>
+            </div>
+          </div>
+          
+          <button class="btn-primary">Save Settings</button>
+        </div>
+
+        <!-- ════════════ HOUSE RULES & T&C PANEL ════════════ -->
+        <div id="panel-settings-tnc" class="panel-screen" style="display:none;">
+          <h2 style="font-size:20px;font-weight:700;margin-bottom:24px;">House Rules &amp; Terms</h2>
+          <p style="color:var(--color-text-3);margin-bottom:24px;">These terms are shown to tenants during onboarding. They must agree before making their advance payment.</p>
+          
+          <div class="card" style="padding:24px;margin-bottom:24px;">
+            <textarea style="width:100%;height:300px;padding:16px;border:1px solid var(--color-border-2);border-radius:var(--radius-md);font-family:monospace;font-size:13px;resize:vertical;">
+1. Rent is due by the 5th of every month.
+2. Late payments incur a fee of ₹100/day.
+3. Visitors are not allowed past 10 PM.
+4. Smoking and alcohol consumption is strictly prohibited on the premises.
+5. 30 days notice is required before vacating.
+6. The security deposit will be refunded within 15 days of vacating, subject to damage deductions.
+7. Food opt-outs must be marked at least 4 hours in advance.
+8. Quiet hours are from 10 PM to 6 AM.
+            </textarea>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;">
+              <span style="font-size:12px;color:var(--color-text-3);">Last updated: 14 Aug 2026</span>
+              <button class="btn-primary">Publish Updates</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ════════════ ACCOUNT & PRIVACY PANEL ════════════ -->
+        <div id="panel-settings-account" class="panel-screen" style="display:none;">
+          <h2 style="font-size:20px;font-weight:700;margin-bottom:24px;">Account &amp; Privacy</h2>
+          
+          <div class="card" style="padding:24px;margin-bottom:24px;">
+            <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">Owner Details</h3>
+            <div class="form-grid">
+              <div class="form-field"><label>Full Name</label><input type="text" value="Rajesh Kumar"/></div>
+              <div class="form-field"><label>Phone Number</label><input type="tel" value="+91 98765 43210"/></div>
+              <div class="form-field"><label>Email Address</label><input type="email" value="rajesh.kumar@example.com"/></div>
+              <div class="form-field"><label>GSTIN (Optional)</label><input type="text" value="29ABCDE1234F1Z5"/></div>
+            </div>
+            <button class="btn-secondary" style="margin-top:16px;">Update Details</button>
+          </div>
+          
+          <div class="card" style="padding:24px;margin-bottom:24px;border-color:var(--color-danger-bg);">
+            <h3 style="font-size:16px;font-weight:600;color:var(--color-danger);margin-bottom:16px;">Danger Zone</h3>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:12px;">
+              <div>
+                <div style="font-weight:600;margin-bottom:4px;">Export Account Data</div>
+                <div style="font-size:12px;color:var(--color-text-3);">Download a complete archive of your properties, tenants, and financial data.</div>
+              </div>
+              <button class="btn-secondary">Request Export</button>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;border:1px solid var(--color-danger-bg);background:var(--color-danger-bg);border-radius:var(--radius-md);">
+              <div>
+                <div style="font-weight:600;color:var(--color-danger);margin-bottom:4px;">Delete Account</div>
+                <div style="font-size:12px;color:var(--color-danger);">Permanently remove your account and all associated data. This action is irreversible.</div>
+              </div>
+              <button class="btn-primary" style="background:var(--color-danger);">Delete Account</button>
+            </div>
+          </div>
+        </div>
 
       </div> <!-- /content -->
     </div> <!-- /main -->
@@ -2072,7 +2456,11 @@
       'screen-food':        'panel-food',
       'screen-notices':     'panel-notices',
       'screen-staff':       'panel-staff',
+      'screen-pnl':         'panel-pnl',
       'screen-subscription':'panel-subscription',
+      'screen-settings-property':'panel-settings-property',
+      'screen-settings-tnc':     'panel-settings-tnc',
+      'screen-settings-account': 'panel-settings-account',
     };
 
     // Hide all panels
@@ -2095,7 +2483,11 @@
       'panel-food':        'Food & Menu',
       'panel-notices':     'Broadcasts',
       'panel-staff':       'Staff & Managers',
+      'panel-pnl':         'P&L Report',
       'panel-subscription':'Subscription',
+      'panel-settings-property':'Property Settings',
+      'panel-settings-tnc':     'House Rules & T&C',
+      'panel-settings-account': 'Account & Privacy',
     };
     const title = document.getElementById('topbar-title');
     if (title && panelId) title.textContent = titles[panelId] || '';
