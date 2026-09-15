@@ -377,10 +377,10 @@
   .floor-room.empty { border-color: var(--color-info); background: var(--color-info-bg); }
   .floor-room .rm-label { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
   .floor-room .bed-dots { display: flex; gap: 4px; flex-wrap: wrap; }
-  .bed-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .bed-dot.occ { background: var(--color-success); }
-  .bed-dot.vac { background: var(--color-border-2); }
-  .bed-dot.mnt { background: var(--color-warn); }
+  .bed-avatar { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; }
+  .bed-avatar.occ { background: var(--color-success); }
+  .bed-avatar.vac { background: var(--color-border-2); box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1); }
+  .bed-avatar.mnt { background: var(--color-warn); }
 
   /* Payment / TnC */
   .payment-breakdown { background: var(--color-bg); border-radius: var(--radius-md); padding: 16px; margin-bottom: 20px; }
@@ -995,15 +995,49 @@
     <div class="topbar">
       <span class="topbar-title" id="topbar-title">Overview</span>
       <div class="topbar-actions">
+        <!-- Date Filter -->
+        <select class="input-field" style="height:36px;padding:0 32px 0 12px;font-size:13px;width:auto;">
+          <option>Last 30 Days</option>
+          <option>Last 60 Days</option>
+          <option>Last 6 Months</option>
+          <option>Last 1 Year</option>
+          <option>Year to Date (YTD)</option>
+        </select>
+        
+        <div class="topbar-divider" style="margin:0 4px;"></div>
+        
         <button class="icon-btn" onclick="openModal('modal-add-tenant')" title="Onboard Tenant">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
         </button>
-        <div class="topbar-divider"></div>
-        <button class="icon-btn" title="Notifications">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-          <span class="dot"></span>
-        </button>
-        <button class="icon-btn" title="Help">
+        
+        <div style="position:relative;">
+          <button class="icon-btn" title="Notifications" onclick="document.getElementById('notif-dropdown').style.display = document.getElementById('notif-dropdown').style.display === 'block' ? 'none' : 'block';">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="dot"></span>
+          </button>
+          <!-- Notification Dropdown -->
+          <div id="notif-dropdown" style="display:none;position:absolute;top:44px;right:0;width:320px;background:white;border:1px solid var(--color-border);border-radius:var(--radius-lg);box-shadow:0 10px 24px rgba(0,0,0,0.1);z-index:100;overflow:hidden;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--color-border);background:var(--color-bg);">
+              <span style="font-weight:600;font-size:14px;">Notifications</span>
+              <a href="#" style="font-size:12px;color:var(--color-primary);font-weight:500;">Mark all read</a>
+            </div>
+            <div style="max-height:300px;overflow-y:auto;">
+              <div style="padding:12px 16px;border-bottom:1px solid var(--color-border);cursor:pointer;" onmouseover="this.style.background='var(--color-bg)'" onmouseout="this.style.background='white'">
+                <div style="font-size:13px;font-weight:600;margin-bottom:2px;">Rent Overdue — Bed 204</div>
+                <div style="font-size:12px;color:var(--color-text-3);margin-bottom:4px;">Ramesh has not paid ₹12,000 rent due on 1st Sep.</div>
+                <div style="font-size:11px;color:var(--color-text-4);">2 hours ago</div>
+              </div>
+              <div style="padding:12px 16px;border-bottom:1px solid var(--color-border);cursor:pointer;" onmouseover="this.style.background='var(--color-bg)'" onmouseout="this.style.background='white'">
+                <div style="font-size:13px;font-weight:600;margin-bottom:2px;">SOS Alert Resolved</div>
+                <div style="font-size:12px;color:var(--color-text-3);margin-bottom:4px;">Medical emergency in Room 102 was resolved by Manager.</div>
+                <div style="font-size:11px;color:var(--color-text-4);">Yesterday, 10:45 PM</div>
+              </div>
+            </div>
+            <div style="padding:10px;text-align:center;border-top:1px solid var(--color-border);background:var(--color-bg);cursor:pointer;font-size:13px;font-weight:500;">View All Activity</div>
+          </div>
+        </div>
+
+        <button class="icon-btn" title="Help" onclick="openModal('modal-support')">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         </button>
       </div>
@@ -1036,8 +1070,8 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
                 Total Beds Occupied
               </div>
-              <div class="kpi-value">41<span style="font-size:16px;font-weight:400;color:rgba(255,255,255,.5)"> / 48</span></div>
-              <div class="kpi-change up">
+              <div class="kpi-value" id="dash-kpi-beds">41<span style="font-size:16px;font-weight:400;color:rgba(255,255,255,.5)"> / 48</span></div>
+              <div class="kpi-change up" id="dash-kpi-beds-sub">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
                 85.4% occupancy
               </div>
@@ -1047,7 +1081,7 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                 Revenue This Month
               </div>
-              <div class="kpi-value">₹3.28L</div>
+              <div class="kpi-value" id="dash-kpi-rev">₹3.28L</div>
               <div class="kpi-change up">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
                 +₹14,000 vs last month
@@ -1058,19 +1092,21 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                 Outstanding Dues
               </div>
-              <div class="kpi-value" style="color:var(--color-danger)">₹24,500</div>
-              <div class="kpi-change down">
+              <div class="kpi-value" id="dash-kpi-dues" style="color:var(--color-danger)">₹24,500</div>
+              <div class="kpi-change down" id="dash-kpi-dues-sub">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                 4 tenants overdue
               </div>
             </div>
             <div class="kpi-card">
               <div class="kpi-label">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                 Open Issues
               </div>
-              <div class="kpi-value">7</div>
-              <div class="kpi-change neutral">3 unassigned · 1 high priority</div>
+              <div class="kpi-value" id="dash-kpi-issues">3</div>
+              <div class="kpi-change">
+                2 high priority
+              </div>
             </div>
           </div>
 
@@ -1125,12 +1161,12 @@
               <div class="card-header"><h2>Upcoming Rent Due</h2><span class="text-xs text-muted">Next 7 days</span></div>
               <div class="table-wrap">
                 <table>
-                  <thead><tr><th>Tenant</th><th>Room</th><th>Amount</th><th>Due Date</th><th>Status</th></tr></thead>
+                  <thead><tr><th>Tenant</th><th>Room</th><th>Amount</th><th>Due Date</th><th>Status</th><th style="text-align:right">Action</th></tr></thead>
                   <tbody>
-                    <tr><td><div class="font-semibold">Ananya Sharma</div><div class="text-xs text-muted">Green Valley</div></td><td>204-B</td><td>₹8,000</td><td>16 Sep</td><td><span class="badge overdue dot">Overdue</span></td></tr>
-                    <tr><td><div class="font-semibold">Rohit Mehta</div><div class="text-xs text-muted">Koramangala PG</div></td><td>312-A</td><td>₹10,500</td><td>17 Sep</td><td><span class="badge pending dot">Due soon</span></td></tr>
-                    <tr><td><div class="font-semibold">Priya Nair</div><div class="text-xs text-muted">Indiranagar PG</div></td><td>101-A</td><td>₹9,000</td><td>18 Sep</td><td><span class="badge pending dot">Due soon</span></td></tr>
-                    <tr><td><div class="font-semibold">Kiran Patel</div><div class="text-xs text-muted">Green Valley</div></td><td>205-A</td><td>₹7,500</td><td>20 Sep</td><td><span class="badge active dot">On track</span></td></tr>
+                    <tr><td><div class="font-semibold">Ananya Sharma</div><div class="text-xs text-muted">Green Valley</div></td><td>204-B</td><td>₹8,000</td><td>16 Sep</td><td><span class="badge overdue dot">Overdue</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);margin-right:4px;">Remind</button><button class="btn-primary" style="padding:4px 8px;font-size:11px;">Log Cash</button></td></tr>
+                    <tr><td><div class="font-semibold">Rohit Mehta</div><div class="text-xs text-muted">Koramangala PG</div></td><td>312-A</td><td>₹10,500</td><td>17 Sep</td><td><span class="badge pending dot">Due soon</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);margin-right:4px;">Remind</button><button class="btn-primary" style="padding:4px 8px;font-size:11px;">Log Cash</button></td></tr>
+                    <tr><td><div class="font-semibold">Priya Nair</div><div class="text-xs text-muted">Indiranagar PG</div></td><td>101-A</td><td>₹9,000</td><td>18 Sep</td><td><span class="badge pending dot">Due soon</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);margin-right:4px;">Remind</button><button class="btn-primary" style="padding:4px 8px;font-size:11px;">Log Cash</button></td></tr>
+                    <tr><td><div class="font-semibold">Kiran Patel</div><div class="text-xs text-muted">Green Valley</div></td><td>205-A</td><td>₹7,500</td><td>20 Sep</td><td><span class="badge active dot">On track</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);">Remind</button></td></tr>
                   </tbody>
                 </table>
               </div>
@@ -1159,7 +1195,7 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
                 List View
               </button>
-              <button class="btn-accent">
+              <button class="btn-accent" onclick="openModal('modal-add-property')">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 Add Property
               </button>
@@ -1230,37 +1266,37 @@
               <div class="floor-grid">
                 <div class="floor-room full" onclick="openModal('modal-room-detail')">
                   <div class="rm-label">Room 101</div>
-                  <div class="bed-dots"><div class="bed-dot occ"></div><div class="bed-dot occ"></div></div>
+                  <div class="bed-dots"><div class="bed-avatar occ" title="Ananya S">AS</div><div class="bed-avatar occ" title="Meera K">MK</div></div>
                   <div class="text-xs text-muted mt-1">2-share · ₹8,000/bed</div>
                 </div>
                 <div class="floor-room full">
                   <div class="rm-label">Room 102</div>
-                  <div class="bed-dots"><div class="bed-dot occ"></div><div class="bed-dot occ"></div></div>
+                  <div class="bed-dots"><div class="bed-avatar occ" title="Rohit M">RM</div><div class="bed-avatar occ" title="Rahul D">RD</div></div>
                   <div class="text-xs text-muted mt-1">2-share · ₹8,000/bed</div>
                 </div>
                 <div class="floor-room partial">
                   <div class="rm-label">Room 103</div>
-                  <div class="bed-dots"><div class="bed-dot occ"></div><div class="bed-dot vac"></div><div class="bed-dot occ"></div></div>
+                  <div class="bed-dots"><div class="bed-avatar occ" title="Kiran P">KP</div><div class="bed-avatar vac"></div><div class="bed-avatar occ" title="Sam T">ST</div></div>
                   <div class="text-xs text-muted mt-1">3-share · 1 vacant</div>
                 </div>
                 <div class="floor-room empty">
                   <div class="rm-label">Room 104</div>
-                  <div class="bed-dots"><div class="bed-dot vac"></div><div class="bed-dot vac"></div></div>
+                  <div class="bed-dots"><div class="bed-avatar vac"></div><div class="bed-avatar vac"></div></div>
                   <div class="text-xs text-muted mt-1">2-share · 2 vacant</div>
                 </div>
                 <div class="floor-room full">
                   <div class="rm-label">Room 105</div>
-                  <div class="bed-dots"><div class="bed-dot occ"></div><div class="bed-dot occ"></div><div class="bed-dot occ"></div><div class="bed-dot occ"></div></div>
+                  <div class="bed-dots"><div class="bed-avatar occ">P</div><div class="bed-avatar occ">V</div><div class="bed-avatar occ">M</div><div class="bed-avatar occ">S</div></div>
                   <div class="text-xs text-muted mt-1">4-share · Full</div>
                 </div>
                 <div class="floor-room partial">
                   <div class="rm-label">Room 106</div>
-                  <div class="bed-dots"><div class="bed-dot occ"></div><div class="bed-dot mnt"></div></div>
-                  <div class="text-xs text-muted mt-1">2-share · 1 maintenance</div>
+                  <div class="bed-dots"><div class="bed-avatar occ" title="Divya">D</div><div class="bed-avatar mnt" title="Maintenance"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div></div>
+                  <div class="text-xs text-muted mt-1">2-share · 1 maint</div>
                 </div>
                 <div class="floor-room full">
                   <div class="rm-label">Room 107</div>
-                  <div class="bed-dots"><div class="bed-dot occ"></div></div>
+                  <div class="bed-dots"><div class="bed-avatar occ" title="Raj">R</div></div>
                   <div class="text-xs text-muted mt-1">Single · Full</div>
                 </div>
                 <div class="floor-room full">
@@ -1924,8 +1960,8 @@
                 <table>
                   <thead><tr><th>Name</th><th>Properties</th><th>Status</th><th></th></tr></thead>
                   <tbody>
-                    <tr><td><div class="flex items-center gap-2"><div class="user-avatar" style="width:30px;height:30px;font-size:11px;background:#4F46E5;">SK</div><div><div class="font-semibold">Suresh Kumar</div><div class="text-xs text-muted">+91 98765 77777</div></div></div></td><td class="text-sm">Green Valley, Koramangala</td><td><span class="badge active dot">Active</span></td><td><button class="btn-ghost" style="font-size:12px;">Edit Scope</button></td></tr>
-                    <tr><td><div class="flex items-center gap-2"><div class="user-avatar" style="width:30px;height:30px;font-size:11px;background:#D97706;">LM</div><div><div class="font-semibold">Lakshmi M.</div><div class="text-xs text-muted">+91 98765 88888</div></div></div></td><td class="text-sm">Indiranagar</td><td><span class="badge active dot">Active</span></td><td><button class="btn-ghost" style="font-size:12px;">Edit Scope</button></td></tr>
+                    <tr><td><div class="flex items-center gap-2"><div class="user-avatar" style="width:30px;height:30px;font-size:11px;background:#4F46E5;">SK</div><div><div class="font-semibold">Suresh Kumar</div><div class="text-xs text-muted">+91 98765 77777</div></div></div></td><td class="text-sm">Green Valley, Koramangala</td><td><span class="badge active dot">Active</span></td><td><button class="btn-ghost" style="font-size:12px;" onclick="openModal('modal-staff-access')">Manage Access</button></td></tr>
+                    <tr><td><div class="flex items-center gap-2"><div class="user-avatar" style="width:30px;height:30px;font-size:11px;background:#D97706;">LM</div><div><div class="font-semibold">Lakshmi M.</div><div class="text-xs text-muted">+91 98765 88888</div></div></div></td><td class="text-sm">Indiranagar</td><td><span class="badge active dot">Active</span></td><td><button class="btn-ghost" style="font-size:12px;" onclick="openModal('modal-staff-access')">Manage Access</button></td></tr>
                   </tbody>
                 </table>
               </div>
@@ -2096,6 +2132,35 @@
             </div>
             <button class="btn-secondary" style="margin-top:16px;">Update Details</button>
           </div>
+
+          <div class="card" style="padding:24px;margin-bottom:24px;">
+            <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">Bank Payout Details</h3>
+            <div class="form-grid">
+              <div class="form-field"><label>Account Holder Name</label><input type="text" value="Rajesh Kumar"/></div>
+              <div class="form-field"><label>Bank Name</label><input type="text" value="HDFC Bank"/></div>
+              <div class="form-field"><label>Account Number</label><input type="password" value="12345678901234"/></div>
+              <div class="form-field"><label>IFSC Code</label><input type="text" value="HDFC0001234"/></div>
+            </div>
+            <button class="btn-secondary" style="margin-top:16px;">Update Bank Details</button>
+          </div>
+
+          <div class="card" style="padding:24px;margin-bottom:24px;">
+            <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">Security</h3>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:12px;">
+              <div>
+                <div style="font-weight:600;margin-bottom:4px;">Password</div>
+                <div style="font-size:12px;color:var(--color-text-3);">Last changed 3 months ago.</div>
+              </div>
+              <button class="btn-secondary">Change Password</button>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;border:1px solid var(--color-border);border-radius:var(--radius-md);">
+              <div>
+                <div style="font-weight:600;margin-bottom:4px;">Two-Factor Authentication (2FA)</div>
+                <div style="font-size:12px;color:var(--color-text-3);">Add an extra layer of security using an authenticator app.</div>
+              </div>
+              <button class="btn-primary">Enable 2FA</button>
+            </div>
+          </div>
           
           <div class="card" style="padding:24px;margin-bottom:24px;border-color:var(--color-danger-bg);">
             <h3 style="font-size:16px;font-weight:600;color:var(--color-danger);margin-bottom:16px;">Danger Zone</h3>
@@ -2217,6 +2282,125 @@
 <!-- ═══════════════════════════════════════════════════════
      MODALS
 ══════════════════════════════════════════════════════════ -->
+
+<!-- Modal: Staff Access Control -->
+<div id="modal-staff-access" class="modal-overlay">
+  <div class="modal" style="width:480px;">
+    <div class="modal-header">
+      <h2>Manager Access Permissions</h2>
+      <button onclick="closeModal('modal-staff-access')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--color-border);">
+        <div class="user-avatar" style="width:40px;height:40px;font-size:14px;background:#4F46E5;">SK</div>
+        <div><div style="font-weight:600;font-size:15px;">Suresh Kumar</div><div style="font-size:13px;color:var(--color-text-3);">Green Valley, Koramangala</div></div>
+      </div>
+      <h3 style="font-size:14px;font-weight:600;margin-bottom:12px;">Permissions</h3>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <label style="display:flex;align-items:center;gap:12px;"><input type="checkbox" checked/> View Tenants &amp; Leads</label>
+        <label style="display:flex;align-items:center;gap:12px;"><input type="checkbox" checked/> Edit Tenant Profiles &amp; Assign Beds</label>
+        <label style="display:flex;align-items:center;gap:12px;"><input type="checkbox" checked/> Manage Maintenance Issues</label>
+        <label style="display:flex;align-items:center;gap:12px;"><input type="checkbox" /> View Financials (P&amp;L, Revenue)</label>
+        <label style="display:flex;align-items:center;gap:12px;"><input type="checkbox" /> Manage Staff &amp; Salaries</label>
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content:space-between;">
+      <button class="btn-ghost" style="color:var(--color-danger);">Revoke Access</button>
+      <button class="btn-primary" onclick="closeModal('modal-staff-access')">Save Permissions</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Add Property Wizard -->
+<div id="modal-add-property" class="modal-overlay">
+  <div class="modal" style="width:600px;">
+    <div class="modal-header">
+      <h2>List New Property</h2>
+      <button onclick="closeModal('modal-add-property')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;gap:8px;margin-bottom:24px;">
+        <div style="flex:1;height:4px;background:var(--color-primary);border-radius:2px;"></div>
+        <div style="flex:1;height:4px;background:var(--color-border);border-radius:2px;"></div>
+        <div style="flex:1;height:4px;background:var(--color-border);border-radius:2px;"></div>
+      </div>
+      <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">Step 1: Basic &amp; Location Details</h3>
+      <div class="form-grid">
+        <div class="form-field"><label>Property Name</label><input type="text" placeholder="e.g. HSR Layout Boys PG" /></div>
+        <div class="form-field"><label>Property Type</label><select class="input-field"><option>Men</option><option>Women</option><option>Co-ed</option></select></div>
+        <div class="form-field" style="grid-column:1/-1;"><label>Full Address</label><input type="text" placeholder="Street address, block, area..." /></div>
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content:flex-end;">
+      <button class="btn-primary" onclick="closeModal('modal-add-property')">Next Step &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Room Detail / Edit -->
+<div id="modal-room-detail" class="modal-overlay">
+  <div class="modal" style="width:500px;">
+    <div class="modal-header">
+      <h2>Room 204 Settings</h2>
+      <button onclick="closeModal('modal-room-detail')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid" style="margin-bottom:20px;">
+        <div class="form-field"><label>Sharing Type</label><select class="input-field"><option>Single</option><option selected>2-Sharing</option><option>3-Sharing</option></select></div>
+        <div class="form-field"><label>Base Rent per Bed</label><input type="text" value="₹8,000" /></div>
+      </div>
+      <h3 style="font-size:14px;font-weight:600;margin-bottom:12px;">Room Amenities</h3>
+      <div style="display:flex;gap:12px;margin-bottom:24px;">
+        <div style="padding:10px;border:2px solid var(--color-primary);border-radius:var(--radius-md);color:var(--color-primary);background:var(--color-success-bg);cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12A10 10 0 1 1 12 2a10 10 0 0 1 10 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><div style="font-size:11px;font-weight:600;margin-top:4px;">AC</div></div>
+        <div style="padding:10px;border:1px solid var(--color-border);border-radius:var(--radius-md);color:var(--color-text-3);cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg><div style="font-size:11px;font-weight:600;margin-top:4px;">TV</div></div>
+        <div style="padding:10px;border:2px solid var(--color-primary);border-radius:var(--radius-md);color:var(--color-primary);background:var(--color-success-bg);cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><div style="font-size:11px;font-weight:600;margin-top:4px;">Attached Bath</div></div>
+      </div>
+      <h3 style="font-size:14px;font-weight:600;margin-bottom:12px;">Manage Beds</h3>
+      <div style="border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;">
+        <div style="padding:12px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--color-border);">
+          <div><div style="font-weight:600;font-size:14px;">Bed A</div><div style="font-size:12px;color:var(--color-success);">Occupied by Ravi T.</div></div>
+          <button class="btn-ghost" style="font-size:12px;">Edit</button>
+        </div>
+        <div style="padding:12px;display:flex;justify-content:space-between;align-items:center;">
+          <div><div style="font-weight:600;font-size:14px;">Bed B</div><div style="font-size:12px;color:var(--color-warn);">Vacant</div></div>
+          <button class="btn-ghost" style="font-size:12px;">Edit</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content:space-between;">
+      <button class="btn-ghost" style="color:var(--color-text-3);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Bed</button>
+      <button class="btn-primary" onclick="closeModal('modal-room-detail')">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Help & Support -->
+<div id="modal-support" class="modal-overlay">
+  <div class="modal" style="width:400px;">
+    <div class="modal-header">
+      <h2>Help &amp; Support</h2>
+      <button onclick="closeModal('modal-support')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body" style="padding:16px;">
+      <p style="font-size:13px;color:var(--color-text-3);margin-bottom:20px;">Need help managing your properties? Find resources or contact support below.</p>
+      
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <a href="#" style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;color:var(--color-text-1);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+          <div><div style="font-weight:600;font-size:14px;">Documentation &amp; FAQ</div><div style="font-size:12px;color:var(--color-text-3);">Read guides on platform features.</div></div>
+        </a>
+        <a href="#" style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;color:var(--color-text-1);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <div><div style="font-weight:600;font-size:14px;">Contact Admin</div><div style="font-size:12px;color:var(--color-text-3);">Call platform support for urgent issues.</div></div>
+        </a>
+        <a href="#" style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;color:var(--color-text-1);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <div><div style="font-weight:600;font-size:14px;">Raise a Ticket</div><div style="font-size:12px;color:var(--color-text-3);">Report a bug or feature request.</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Modal: Property Switcher -->
 <div id="modal-property-switcher" class="modal-overlay">
@@ -2703,6 +2887,39 @@
         h1.textContent = original;
       }
     });
+
+    // Update Dashboard KPIs dynamically based on context
+    const dashKpiBeds = document.getElementById('dash-kpi-beds');
+    const dashKpiBedsSub = document.getElementById('dash-kpi-beds-sub');
+    const dashKpiRev = document.getElementById('dash-kpi-rev');
+    const dashKpiDues = document.getElementById('dash-kpi-dues');
+    const dashKpiDuesSub = document.getElementById('dash-kpi-dues-sub');
+    const dashKpiIssues = document.getElementById('dash-kpi-issues');
+    
+    if (dashKpiBeds && dashKpiRev && dashKpiDues && dashKpiIssues) {
+      if (contextName === 'GLOBAL') {
+        dashKpiBeds.innerHTML = '41<span style="font-size:16px;font-weight:400;color:rgba(255,255,255,.5)"> / 48</span>';
+        dashKpiBedsSub.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg> 85.4% occupancy';
+        dashKpiRev.textContent = '₹3.28L';
+        dashKpiDues.textContent = '₹24,500';
+        dashKpiDuesSub.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg> 4 tenants overdue';
+        dashKpiIssues.textContent = '3';
+      } else if (contextName === 'Green Valley PG') {
+        dashKpiBeds.innerHTML = '33<span style="font-size:16px;font-weight:400;color:rgba(255,255,255,.5)"> / 36</span>';
+        dashKpiBedsSub.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg> 91.6% occupancy';
+        dashKpiRev.textContent = '₹2.45L';
+        dashKpiDues.textContent = '₹12,000';
+        dashKpiDuesSub.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg> 1 tenant overdue';
+        dashKpiIssues.textContent = '1';
+      } else {
+        dashKpiBeds.innerHTML = '8<span style="font-size:16px;font-weight:400;color:rgba(255,255,255,.5)"> / 12</span>';
+        dashKpiBedsSub.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg> 66.6% occupancy';
+        dashKpiRev.textContent = '₹0.83L';
+        dashKpiDues.textContent = '₹12,500';
+        dashKpiDuesSub.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg> 3 tenants overdue';
+        dashKpiIssues.textContent = '2';
+      }
+    }
   }
 
   // Initialize sidebar on load
