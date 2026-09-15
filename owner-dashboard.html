@@ -964,14 +964,6 @@
           Subscription
         </div>
         <div class="nav-section">Settings</div>
-        <div class="nav-item" onclick="setActive(this,'screen-settings-property')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          Property Settings
-        </div>
-        <div class="nav-item" onclick="setActive(this,'screen-settings-tnc')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          House Rules &amp; T&amp;C
-        </div>
         <div class="nav-item" onclick="setActive(this,'screen-settings-account')">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           Account &amp; Privacy
@@ -1196,7 +1188,15 @@
             </div>
           </div>
 
-          <!-- Floor selector -->
+          <!-- Property Sub-Tabs -->
+          <div class="detail-tabs" style="margin-bottom:24px;border-bottom:1px solid var(--color-border);">
+            <div class="detail-tab active" onclick="setPropView('prop-view-floormap', this)">Floor Map</div>
+            <div class="detail-tab" onclick="setPropView('prop-view-settings', this)">Property Settings</div>
+            <div class="detail-tab" onclick="setPropView('prop-view-tnc', this)">House Rules &amp; T&amp;C</div>
+          </div>
+
+          <div id="prop-view-floormap" class="prop-subview">
+            <!-- Floor selector -->
           <div style="display:flex;gap:8px;margin-bottom:16px;">
             <button class="btn-primary" style="height:32px;width:auto;padding:0 16px;font-size:13px;">Floor 1</button>
             <button class="btn-secondary" style="height:32px;width:auto;padding:0 16px;font-size:13px;">Floor 2</button>
@@ -1256,6 +1256,53 @@
                   <div class="bed-dots"><div class="bed-dot occ"></div><div class="bed-dot occ"></div></div>
                   <div class="text-xs text-muted mt-1">2-share · Full</div>
                 </div>
+              </div>
+            </div>
+          </div>
+          </div> <!-- /prop-view-floormap -->
+
+          <!-- PROPERTY SETTINGS SUB-VIEW -->
+          <div id="prop-view-settings" class="prop-subview" style="display:none;">
+            <div class="card" style="padding:24px;margin-bottom:24px;">
+              <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">Billing Defaults</h3>
+              <div class="form-grid">
+                <div class="form-field"><label>Default Billing Cycle Day</label><select><option>1st of month</option><option>5th of month</option></select></div>
+                <div class="form-field"><label>Late Payment Grace Period (days)</label><input type="number" value="5"/></div>
+                <div class="form-field"><label>Late Fee Amount (₹/day)</label><input type="number" value="100"/></div>
+                <div class="form-field"><label>Security Deposit Months</label><select><option>1 Month</option><option selected>2 Months</option></select></div>
+              </div>
+            </div>
+            
+            <div class="card" style="padding:24px;margin-bottom:24px;">
+              <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">Food &amp; Kitchen Options</h3>
+              <div class="form-grid">
+                <div class="form-field"><label>Breakfast Time</label><div style="display:flex;gap:12px;"><input type="time" value="07:30" style="flex:1;"/><input type="time" value="09:30" style="flex:1;"/></div></div>
+                <div class="form-field"><label>Lunch Time</label><div style="display:flex;gap:12px;"><input type="time" value="12:30" style="flex:1;"/><input type="time" value="14:30" style="flex:1;"/></div></div>
+                <div class="form-field"><label>Dinner Time</label><div style="display:flex;gap:12px;"><input type="time" value="19:30" style="flex:1;"/><input type="time" value="21:30" style="flex:1;"/></div></div>
+                <div class="form-field"><label>Opt-out Cutoff Buffer</label><select><option>2 hours before</option><option selected>4 hours before</option></select></div>
+              </div>
+            </div>
+            <button class="btn-primary">Save Settings</button>
+          </div>
+
+          <!-- HOUSE RULES SUB-VIEW -->
+          <div id="prop-view-tnc" class="prop-subview" style="display:none;">
+            <p style="color:var(--color-text-3);margin-bottom:24px;">These terms are shown to tenants during onboarding for <strong>Green Valley PG</strong>. They must agree before making their advance payment.</p>
+            
+            <div class="card" style="padding:24px;margin-bottom:24px;">
+              <textarea style="width:100%;height:300px;padding:16px;border:1px solid var(--color-border-2);border-radius:var(--radius-md);font-family:monospace;font-size:13px;resize:vertical;">
+1. Rent is due by the 5th of every month.
+2. Late payments incur a fee of ₹100/day.
+3. Visitors are not allowed past 10 PM.
+4. Smoking and alcohol consumption is strictly prohibited on the premises.
+5. 30 days notice is required before vacating.
+6. The security deposit will be refunded within 15 days of vacating, subject to damage deductions.
+7. Food opt-outs must be marked at least 4 hours in advance.
+8. Quiet hours are from 10 PM to 6 AM.
+              </textarea>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;">
+                <span style="font-size:12px;color:var(--color-text-3);">Last updated: 14 Aug 2026</span>
+                <button class="btn-primary">Publish Updates</button>
               </div>
             </div>
           </div>
@@ -2021,55 +2068,7 @@
           </div>
         </div>
 
-        <!-- ════════════ PROPERTY SETTINGS PANEL ════════════ -->
-        <div id="panel-settings-property" class="panel-screen" style="display:none;">
-          <h2 style="font-size:20px;font-weight:700;margin-bottom:24px;">Property Settings</h2>
-          
-          <div class="card" style="padding:24px;margin-bottom:24px;">
-            <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">Billing Defaults</h3>
-            <div class="form-grid">
-              <div class="form-field"><label>Default Billing Cycle Day</label><select><option>1st of month</option><option>5th of month</option></select></div>
-              <div class="form-field"><label>Late Payment Grace Period (days)</label><input type="number" value="5"/></div>
-              <div class="form-field"><label>Late Fee Amount (₹/day)</label><input type="number" value="100"/></div>
-              <div class="form-field"><label>Security Deposit Months</label><select><option>1 Month</option><option selected>2 Months</option></select></div>
-            </div>
-          </div>
-          
-          <div class="card" style="padding:24px;margin-bottom:24px;">
-            <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">Food &amp; Kitchen Options</h3>
-            <div class="form-grid">
-              <div class="form-field"><label>Breakfast Time</label><div style="display:flex;gap:12px;"><input type="time" value="07:30" style="flex:1;"/><input type="time" value="09:30" style="flex:1;"/></div></div>
-              <div class="form-field"><label>Lunch Time</label><div style="display:flex;gap:12px;"><input type="time" value="12:30" style="flex:1;"/><input type="time" value="14:30" style="flex:1;"/></div></div>
-              <div class="form-field"><label>Dinner Time</label><div style="display:flex;gap:12px;"><input type="time" value="19:30" style="flex:1;"/><input type="time" value="21:30" style="flex:1;"/></div></div>
-              <div class="form-field"><label>Opt-out Cutoff Buffer</label><select><option>2 hours before</option><option selected>4 hours before</option></select></div>
-            </div>
-          </div>
-          
-          <button class="btn-primary">Save Settings</button>
-        </div>
 
-        <!-- ════════════ HOUSE RULES & T&C PANEL ════════════ -->
-        <div id="panel-settings-tnc" class="panel-screen" style="display:none;">
-          <h2 style="font-size:20px;font-weight:700;margin-bottom:24px;">House Rules &amp; Terms</h2>
-          <p style="color:var(--color-text-3);margin-bottom:24px;">These terms are shown to tenants during onboarding. They must agree before making their advance payment.</p>
-          
-          <div class="card" style="padding:24px;margin-bottom:24px;">
-            <textarea style="width:100%;height:300px;padding:16px;border:1px solid var(--color-border-2);border-radius:var(--radius-md);font-family:monospace;font-size:13px;resize:vertical;">
-1. Rent is due by the 5th of every month.
-2. Late payments incur a fee of ₹100/day.
-3. Visitors are not allowed past 10 PM.
-4. Smoking and alcohol consumption is strictly prohibited on the premises.
-5. 30 days notice is required before vacating.
-6. The security deposit will be refunded within 15 days of vacating, subject to damage deductions.
-7. Food opt-outs must be marked at least 4 hours in advance.
-8. Quiet hours are from 10 PM to 6 AM.
-            </textarea>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;">
-              <span style="font-size:12px;color:var(--color-text-3);">Last updated: 14 Aug 2026</span>
-              <button class="btn-primary">Publish Updates</button>
-            </div>
-          </div>
-        </div>
 
         <!-- ════════════ ACCOUNT & PRIVACY PANEL ════════════ -->
         <div id="panel-settings-account" class="panel-screen" style="display:none;">
@@ -2497,6 +2496,18 @@
     document.querySelectorAll('.panel-screen').forEach(p => p.style.display = 'none');
     const panel = document.getElementById(panelId);
     if (panel) panel.style.display = 'block';
+  }
+
+  function setPropView(viewId, tabElement) {
+    // Hide all sub-views inside properties panel
+    document.querySelectorAll('#panel-properties .prop-subview').forEach(v => v.style.display = 'none');
+    // Show the target one
+    const target = document.getElementById(viewId);
+    if (target) target.style.display = 'block';
+    // Update active tab styling
+    const tabs = tabElement.parentElement.querySelectorAll('.detail-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    tabElement.classList.add('active');
   }
 
   // Wire up nav items
