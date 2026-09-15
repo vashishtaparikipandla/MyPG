@@ -1,0 +1,2145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MyPG — Owner Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  /* ── DESIGN TOKENS (Wise-inspired) ── */
+  :root {
+    --color-bg:        #F6F7F9;
+    --color-surface:   #FFFFFF;
+    --color-border:    #E8EAED;
+    --color-border-2:  #D1D5DB;
+    --color-primary:   #163300;
+    --color-primary-h: #1E4800;
+    --color-accent:    #9FE870;
+    --color-accent-d:  #7DD44E;
+    --color-text-1:    #111827;
+    --color-text-2:    #374151;
+    --color-text-3:    #6B7280;
+    --color-text-4:    #9CA3AF;
+    --color-danger:    #DC2626;
+    --color-danger-bg: #FEF2F2;
+    --color-warn:      #D97706;
+    --color-warn-bg:   #FFFBEB;
+    --color-success:   #16A34A;
+    --color-success-bg:#F0FDF4;
+    --color-info:      #2563EB;
+    --color-info-bg:   #EFF6FF;
+    --color-sidebar:   #163300;
+    --color-sidebar-t: #C8E6B0;
+    --color-sidebar-a: #9FE870;
+    --radius-sm:       6px;
+    --radius-md:       8px;
+    --radius-lg:       12px;
+    --radius-xl:       16px;
+    --shadow-sm:       0 1px 3px rgba(0,0,0,.08);
+    --shadow-md:       0 4px 12px rgba(0,0,0,.10);
+    --shadow-lg:       0 8px 24px rgba(0,0,0,.12);
+    --font:            'Inter', system-ui, sans-serif;
+    --sidebar-w:       240px;
+    --topbar-h:        60px;
+  }
+
+  /* ── RESET ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); font-size: 14px; color: var(--color-text-1); background: var(--color-bg); min-height: 100vh; }
+  a { color: inherit; text-decoration: none; }
+  button { cursor: pointer; border: none; background: none; font: inherit; }
+  input, select, textarea { font: inherit; outline: none; }
+  ul { list-style: none; }
+
+  /* ── AUTH SCREENS ── */
+  .auth-shell { display: flex; min-height: 100vh; background: var(--color-bg); }
+  .auth-brand { width: 480px; background: var(--color-primary); display: flex; flex-direction: column; justify-content: center; padding: 60px 56px; color: white; flex-shrink: 0; }
+  .auth-brand-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 56px; }
+  .auth-brand-logo span { font-size: 22px; font-weight: 700; color: white; letter-spacing: -.4px; }
+  .auth-brand h1 { font-size: 32px; font-weight: 700; line-height: 1.2; margin-bottom: 16px; color: white; }
+  .auth-brand p { font-size: 15px; color: var(--color-sidebar-t); line-height: 1.6; }
+  .auth-brand-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 40px; }
+  .auth-brand-pill { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18); border-radius: 20px; padding: 6px 14px; font-size: 13px; color: var(--color-sidebar-t); }
+  .auth-form-area { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px; }
+  .auth-card { background: var(--color-surface); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); padding: 48px 44px; width: 100%; max-width: 440px; }
+  .auth-card h2 { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+  .auth-card p.sub { color: var(--color-text-3); font-size: 14px; margin-bottom: 32px; }
+  .field-group { margin-bottom: 20px; }
+  .field-group label { display: block; font-size: 13px; font-weight: 500; color: var(--color-text-2); margin-bottom: 6px; }
+  .field-input { display: flex; align-items: center; border: 1.5px solid var(--color-border-2); border-radius: var(--radius-md); overflow: hidden; transition: border-color .15s; }
+  .field-input:focus-within { border-color: var(--color-primary); }
+  .field-input .prefix { padding: 0 12px; color: var(--color-text-3); font-size: 14px; border-right: 1.5px solid var(--color-border-2); height: 44px; display: flex; align-items: center; background: var(--color-bg); }
+  .field-input input { flex: 1; padding: 0 14px; height: 44px; border: none; background: transparent; font-size: 14px; }
+  .field-input input::placeholder { color: var(--color-text-4); }
+  .btn-primary { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--color-primary); color: var(--color-accent); border-radius: var(--radius-md); padding: 0 20px; height: 44px; font-size: 14px; font-weight: 600; width: 100%; transition: background .15s; }
+  .btn-primary:hover { background: var(--color-primary-h); }
+  .btn-secondary { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--color-bg); color: var(--color-text-2); border: 1.5px solid var(--color-border-2); border-radius: var(--radius-md); padding: 0 20px; height: 44px; font-size: 14px; font-weight: 500; }
+  .btn-secondary:hover { background: var(--color-border); }
+  .btn-accent { background: var(--color-accent); color: var(--color-primary); border-radius: var(--radius-md); padding: 0 20px; height: 36px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: background .15s; }
+  .btn-accent:hover { background: var(--color-accent-d); }
+  .btn-ghost { color: var(--color-text-2); border-radius: var(--radius-md); padding: 0 14px; height: 36px; font-size: 13px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-ghost:hover { background: var(--color-bg); }
+  .btn-danger { background: var(--color-danger-bg); color: var(--color-danger); border: 1.5px solid #FCA5A5; border-radius: var(--radius-md); padding: 0 16px; height: 36px; font-size: 13px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+  .divider { display: flex; align-items: center; gap: 12px; margin: 24px 0; color: var(--color-text-4); font-size: 13px; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--color-border); }
+  .social-row { display: flex; gap: 10px; }
+  .btn-social { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; height: 42px; border: 1.5px solid var(--color-border-2); border-radius: var(--radius-md); font-size: 13px; font-weight: 500; background: white; transition: background .15s; }
+  .btn-social:hover { background: var(--color-bg); }
+  .otp-grid { display: flex; gap: 10px; margin: 20px 0; }
+  .otp-box { flex: 1; height: 52px; text-align: center; font-size: 22px; font-weight: 700; border: 1.5px solid var(--color-border-2); border-radius: var(--radius-md); background: var(--color-bg); color: var(--color-text-1); }
+  .otp-box:focus { border-color: var(--color-primary); background: white; }
+  .auth-footer { margin-top: 24px; text-align: center; font-size: 13px; color: var(--color-text-3); }
+  .auth-footer a { color: var(--color-primary); font-weight: 500; }
+
+  /* ── ONBOARDING WIZARD ── */
+  .wizard-shell { display: flex; min-height: 100vh; background: var(--color-bg); }
+  .wizard-sidebar { width: 280px; background: var(--color-surface); border-right: 1px solid var(--color-border); padding: 32px 24px; flex-shrink: 0; }
+  .wizard-sidebar .logo { display: flex; align-items: center; gap: 8px; margin-bottom: 40px; }
+  .wizard-sidebar .logo span { font-size: 18px; font-weight: 700; color: var(--color-primary); }
+  .wizard-steps { display: flex; flex-direction: column; gap: 4px; }
+  .wizard-step { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: var(--radius-md); }
+  .wizard-step.active { background: var(--color-success-bg); }
+  .wizard-step.done { }
+  .wizard-step-num { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--color-border-2); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--color-text-3); flex-shrink: 0; }
+  .wizard-step.active .wizard-step-num { border-color: var(--color-success); background: var(--color-success); color: white; }
+  .wizard-step.done .wizard-step-num { border-color: var(--color-success); background: var(--color-success-bg); color: var(--color-success); }
+  .wizard-step-label { font-size: 13px; font-weight: 500; color: var(--color-text-3); }
+  .wizard-step.active .wizard-step-label { color: var(--color-text-1); }
+  .wizard-step.done .wizard-step-label { color: var(--color-text-2); }
+  .wizard-content { flex: 1; padding: 48px 60px; overflow-y: auto; }
+  .wizard-content h2 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+  .wizard-content .step-desc { color: var(--color-text-3); font-size: 14px; margin-bottom: 36px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-field { display: flex; flex-direction: column; gap: 6px; }
+  .form-field.full { grid-column: 1 / -1; }
+  .form-field label { font-size: 13px; font-weight: 500; color: var(--color-text-2); }
+  .form-field input, .form-field select, .form-field textarea { height: 42px; padding: 0 12px; border: 1.5px solid var(--color-border-2); border-radius: var(--radius-md); font-size: 14px; background: white; color: var(--color-text-1); }
+  .form-field textarea { height: 80px; padding: 10px 12px; resize: none; }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--color-primary); }
+  .form-field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 32px; }
+  .wizard-actions { display: flex; gap: 12px; margin-top: 40px; }
+  .bed-builder { border: 1.5px dashed var(--color-border-2); border-radius: var(--radius-lg); padding: 28px; background: var(--color-bg); }
+  .bed-builder-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+  .bed-builder-row label { font-size: 13px; font-weight: 500; color: var(--color-text-2); width: 140px; flex-shrink: 0; }
+  .bed-builder-row input { width: 80px; height: 36px; padding: 0 10px; border: 1.5px solid var(--color-border-2); border-radius: var(--radius-md); text-align: center; }
+  .room-preview { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; margin-top: 20px; }
+  .room-chip { background: white; border: 1.5px solid var(--color-border-2); border-radius: var(--radius-md); padding: 10px; text-align: center; }
+  .room-chip .rc-label { font-size: 12px; font-weight: 600; color: var(--color-text-2); }
+  .room-chip .rc-beds { font-size: 11px; color: var(--color-text-4); margin-top: 2px; }
+
+  /* ── APP SHELL (Dashboard) ── */
+  .app-shell { display: flex; min-height: 100vh; }
+  .sidebar { width: var(--sidebar-w); background: var(--color-sidebar); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; }
+  .sidebar-logo { padding: 20px 20px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .sidebar-logo a { display: flex; align-items: center; gap: 10px; }
+  .sidebar-logo .logo-text { font-size: 19px; font-weight: 700; color: white; letter-spacing: -.3px; }
+  .sidebar-logo .logo-badge { background: var(--color-accent); color: var(--color-primary); font-size: 10px; font-weight: 700; border-radius: 4px; padding: 2px 6px; margin-top: 1px; }
+  .property-switcher { margin: 14px 12px; }
+  .prop-switch-btn { width: 100%; display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-md); padding: 9px 12px; color: white; font-size: 13px; font-weight: 500; cursor: pointer; transition: background .15s; }
+  .prop-switch-btn:hover { background: rgba(255,255,255,.14); }
+  .prop-switch-btn .prop-name { flex: 1; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sidebar-nav { flex: 1; padding: 8px 0; overflow-y: auto; }
+  .nav-section { padding: 8px 12px 4px; font-size: 10px; font-weight: 600; color: rgba(255,255,255,.35); letter-spacing: .8px; text-transform: uppercase; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 16px; color: rgba(255,255,255,.7); font-size: 13.5px; font-weight: 500; cursor: pointer; border-radius: 0; transition: color .15s, background .15s; margin: 1px 8px; border-radius: var(--radius-md); }
+  .nav-item:hover { color: white; background: rgba(255,255,255,.08); }
+  .nav-item.active { color: var(--color-primary); background: var(--color-accent); font-weight: 600; }
+  .nav-item.active svg { color: var(--color-primary); }
+  .nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .nav-item .badge { margin-left: auto; background: var(--color-danger); color: white; border-radius: 10px; padding: 2px 7px; font-size: 10px; font-weight: 700; }
+  .sidebar-user { border-top: 1px solid rgba(255,255,255,.08); padding: 14px 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .sidebar-user:hover { background: rgba(255,255,255,.05); }
+  .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--color-accent); color: var(--color-primary); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .user-info { flex: 1; min-width: 0; }
+  .user-name { font-size: 13px; font-weight: 600; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .user-role { font-size: 11px; color: rgba(255,255,255,.45); }
+
+  /* ── TOP BAR ── */
+  .topbar { position: fixed; top: 0; left: var(--sidebar-w); right: 0; height: var(--topbar-h); background: var(--color-surface); border-bottom: 1px solid var(--color-border); display: flex; align-items: center; padding: 0 28px; z-index: 90; gap: 16px; }
+  .topbar-title { font-size: 17px; font-weight: 700; color: var(--color-text-1); flex: 1; }
+  .topbar-actions { display: flex; align-items: center; gap: 8px; }
+  .icon-btn { width: 36px; height: 36px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--color-text-3); transition: background .15s, color .15s; position: relative; }
+  .icon-btn:hover { background: var(--color-bg); color: var(--color-text-1); }
+  .icon-btn .dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; background: var(--color-danger); border-radius: 50%; border: 2px solid white; }
+  .topbar-divider { width: 1px; height: 24px; background: var(--color-border); }
+
+  /* ── MAIN CONTENT ── */
+  .main { margin-left: var(--sidebar-w); padding-top: var(--topbar-h); min-height: 100vh; }
+  .content { padding: 28px 32px; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ── PAGE HEADER ── */
+  .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+  .page-header h1 { font-size: 22px; font-weight: 700; }
+  .page-header .actions { display: flex; gap: 10px; align-items: center; }
+  .breadcrumb { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; font-size: 12px; color: var(--color-text-4); }
+  .breadcrumb a { color: var(--color-text-3); }
+  .breadcrumb a:hover { color: var(--color-primary); }
+  .breadcrumb span { color: var(--color-text-4); }
+
+  /* ── KPI CARDS ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .kpi-card { background: var(--color-surface); border-radius: var(--radius-lg); padding: 20px; border: 1px solid var(--color-border); }
+  .kpi-label { font-size: 12px; font-weight: 500; color: var(--color-text-3); display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+  .kpi-value { font-size: 28px; font-weight: 700; color: var(--color-text-1); line-height: 1; margin-bottom: 6px; }
+  .kpi-change { font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+  .kpi-change.up { color: var(--color-success); }
+  .kpi-change.down { color: var(--color-danger); }
+  .kpi-change.neutral { color: var(--color-text-3); }
+  .kpi-card.accent { background: var(--color-primary); border-color: transparent; }
+  .kpi-card.accent .kpi-label { color: rgba(159,232,112,.7); }
+  .kpi-card.accent .kpi-value { color: white; }
+  .kpi-card.accent .kpi-change { color: var(--color-accent); }
+
+  /* ── CARDS / PANELS ── */
+  .card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); }
+  .card-header { padding: 18px 20px; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; justify-content: space-between; }
+  .card-header h2 { font-size: 15px; font-weight: 600; }
+  .card-body { padding: 20px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+
+  /* ── OCCUPANCY BAR ── */
+  .occ-bar-wrap { display: flex; flex-direction: column; gap: 10px; }
+  .occ-row { display: flex; align-items: center; gap: 12px; }
+  .occ-row label { font-size: 13px; color: var(--color-text-2); width: 100px; flex-shrink: 0; }
+  .occ-bar { flex: 1; height: 8px; background: var(--color-border); border-radius: 4px; overflow: hidden; }
+  .occ-bar-fill { height: 100%; border-radius: 4px; background: var(--color-primary); }
+  .occ-row .pct { font-size: 12px; font-weight: 600; color: var(--color-text-2); width: 36px; text-align: right; }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th { padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 600; color: var(--color-text-3); text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid var(--color-border); background: var(--color-bg); }
+  tbody td { padding: 13px 14px; border-bottom: 1px solid var(--color-border); font-size: 13.5px; color: var(--color-text-1); vertical-align: middle; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--color-bg); }
+  .table-action { display: flex; gap: 4px; }
+  .table-action button { padding: 4px 10px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; }
+
+  /* ── STATUS BADGES ── */
+  .badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 600; }
+  .badge.occupied   { background: var(--color-success-bg); color: var(--color-success); }
+  .badge.vacant     { background: var(--color-info-bg); color: var(--color-info); }
+  .badge.maintenance{ background: var(--color-warn-bg); color: var(--color-warn); }
+  .badge.blocked    { background: #F3F4F6; color: var(--color-text-3); }
+  .badge.active     { background: var(--color-success-bg); color: var(--color-success); }
+  .badge.pending    { background: var(--color-warn-bg); color: var(--color-warn); }
+  .badge.overdue    { background: var(--color-danger-bg); color: var(--color-danger); }
+  .badge.new-i      { background: #EEF2FF; color: #4F46E5; }
+  .badge.notified   { background: #FEF3C7; color: #92400E; }
+  .badge.accepted   { background: var(--color-success-bg); color: var(--color-success); }
+  .badge.converted  { background: var(--color-primary); color: var(--color-accent); }
+  .badge.expired    { background: #F3F4F6; color: var(--color-text-3); }
+  .badge.declined   { background: var(--color-danger-bg); color: var(--color-danger); }
+  .badge.dot::before { content: ''; display: block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  /* ── SEARCH & FILTER BAR ── */
+  .filter-bar { display: flex; gap: 10px; margin-bottom: 16px; align-items: center; }
+  .search-input { flex: 1; max-width: 320px; position: relative; }
+  .search-input svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--color-text-4); }
+  .search-input input { width: 100%; height: 38px; padding: 0 12px 0 36px; border: 1.5px solid var(--color-border-2); border-radius: var(--radius-md); font-size: 13.5px; }
+  .search-input input:focus { border-color: var(--color-primary); }
+  .filter-select { height: 38px; padding: 0 32px 0 12px; border: 1.5px solid var(--color-border-2); border-radius: var(--radius-md); font-size: 13px; background: white; color: var(--color-text-2); appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 8px center; }
+
+  /* ── KANBAN ── */
+  .kanban { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; align-items: start; }
+  .kanban-col { background: var(--color-bg); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--color-border); }
+  .kanban-col-header { padding: 12px 14px; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; justify-content: space-between; }
+  .kanban-col-header .col-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--color-text-2); }
+  .kanban-col-header .col-count { background: var(--color-border); border-radius: 10px; padding: 1px 7px; font-size: 11px; font-weight: 600; color: var(--color-text-3); }
+  .kanban-cards { padding: 10px; display: flex; flex-direction: column; gap: 10px; min-height: 60px; }
+  .kanban-card { background: white; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; cursor: pointer; transition: box-shadow .15s; }
+  .kanban-card:hover { box-shadow: var(--shadow-md); }
+  .kanban-card .k-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .kanban-card .k-meta { font-size: 11.5px; color: var(--color-text-3); display: flex; gap: 6px; align-items: center; }
+  .kanban-card .k-cat { background: var(--color-bg); border-radius: 4px; padding: 2px 6px; font-size: 10.5px; }
+
+  /* ── TENANT PROFILE ── */
+  .profile-layout { display: grid; grid-template-columns: 300px 1fr; gap: 24px; }
+  .profile-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 24px; text-align: center; }
+  .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--color-primary); color: var(--color-accent); font-size: 28px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
+  .profile-name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .profile-sub { font-size: 13px; color: var(--color-text-3); margin-bottom: 16px; }
+  .profile-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--color-border); border-radius: var(--radius-md); overflow: hidden; margin-top: 16px; }
+  .profile-stat { background: var(--color-surface); padding: 12px; text-align: center; }
+  .profile-stat .val { font-size: 16px; font-weight: 700; }
+  .profile-stat .lbl { font-size: 11px; color: var(--color-text-3); margin-top: 2px; }
+  .detail-tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--color-border); margin-bottom: 20px; }
+  .detail-tab { padding: 10px 16px; font-size: 13px; font-weight: 500; color: var(--color-text-3); border-bottom: 2px solid transparent; cursor: pointer; margin-bottom: -1px; }
+  .detail-tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); font-weight: 600; }
+  .info-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--color-border); }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .info-label { font-size: 12px; color: var(--color-text-3); width: 130px; flex-shrink: 0; }
+  .info-row .info-val { font-size: 13.5px; color: var(--color-text-1); font-weight: 500; }
+
+  /* ── WAITLIST ── */
+  .waitlist-item { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-bottom: 1px solid var(--color-border); background: white; transition: background .1s; }
+  .waitlist-item:hover { background: var(--color-bg); }
+  .waitlist-item:last-child { border-bottom: none; }
+  .waitlist-rank { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--color-border-2); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--color-text-3); flex-shrink: 0; }
+  .waitlist-rank.top { border-color: var(--color-warn); color: var(--color-warn); background: var(--color-warn-bg); }
+  .wl-name { font-size: 13.5px; font-weight: 600; }
+  .wl-meta { font-size: 12px; color: var(--color-text-3); }
+  .wl-actions { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+  .drag-handle { color: var(--color-text-4); cursor: grab; }
+
+  /* ── EXPENSE / FINANCE ── */
+  .finance-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .fin-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 20px; }
+  .fin-card .fin-label { font-size: 12px; color: var(--color-text-3); font-weight: 500; margin-bottom: 8px; }
+  .fin-card .fin-value { font-size: 24px; font-weight: 700; }
+  .fin-card .fin-sub { font-size: 12px; color: var(--color-text-3); margin-top: 4px; }
+
+  /* ── FOOD / MENU ── */
+  .menu-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+  .menu-day { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+  .menu-day-header { padding: 8px 10px; font-size: 12px; font-weight: 600; text-align: center; background: var(--color-primary); color: white; }
+  .menu-slot { padding: 8px 10px; border-bottom: 1px solid var(--color-border); }
+  .menu-slot:last-child { border-bottom: none; }
+  .menu-slot .slot-label { font-size: 10px; font-weight: 600; color: var(--color-text-3); text-transform: uppercase; letter-spacing: .5px; }
+  .menu-slot .slot-item { font-size: 12px; color: var(--color-text-1); margin-top: 2px; }
+
+  /* ── NOTICE BOARD ── */
+  .notice-item { padding: 14px 16px; border-bottom: 1px solid var(--color-border); display: flex; gap: 12px; }
+  .notice-item:last-child { border-bottom: none; }
+  .notice-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .notice-icon.general { background: var(--color-info-bg); color: var(--color-info); }
+  .notice-icon.urgent { background: var(--color-danger-bg); color: var(--color-danger); }
+  .notice-icon.food { background: var(--color-warn-bg); color: var(--color-warn); }
+  .notice-text h3 { font-size: 13.5px; font-weight: 600; margin-bottom: 3px; }
+  .notice-text p { font-size: 12.5px; color: var(--color-text-3); }
+  .notice-text .meta { font-size: 11px; color: var(--color-text-4); margin-top: 5px; }
+
+  /* ── SETTINGS / SUBSCRIPTION ── */
+  .plan-card { border: 2px solid var(--color-border); border-radius: var(--radius-lg); padding: 24px; background: white; }
+  .plan-card.current { border-color: var(--color-accent); background: var(--color-success-bg); }
+  .plan-card .plan-name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .plan-card .plan-price { font-size: 28px; font-weight: 700; color: var(--color-primary); }
+  .plan-card .plan-price span { font-size: 14px; font-weight: 400; color: var(--color-text-3); }
+  .plan-features { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .plan-features li { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .plan-features li svg { color: var(--color-success); flex-shrink: 0; }
+
+  /* ── MISC ── */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item { display: flex; gap: 14px; }
+  .tl-line { display: flex; flex-direction: column; align-items: center; gap: 0; flex-shrink: 0; }
+  .tl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--color-primary); flex-shrink: 0; margin-top: 3px; }
+  .tl-line .connector { width: 2px; flex: 1; background: var(--color-border); min-height: 24px; }
+  .tl-content { padding-bottom: 20px; flex: 1; }
+  .tl-content .tl-title { font-size: 13px; font-weight: 600; }
+  .tl-content .tl-sub { font-size: 12px; color: var(--color-text-3); margin-top: 2px; }
+  .empty-state { padding: 60px 24px; text-align: center; }
+  .empty-state svg { color: var(--color-text-4); margin-bottom: 14px; }
+  .empty-state h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .empty-state p { font-size: 13px; color: var(--color-text-3); max-width: 300px; margin: 0 auto 20px; }
+  .tag { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: var(--radius-sm); font-size: 11px; font-weight: 500; }
+  .tag.purple { background: #EDE9FE; color: #6D28D9; }
+  .tag.blue { background: #DBEAFE; color: #1D4ED8; }
+  .tag.green { background: var(--color-success-bg); color: var(--color-success); }
+  .tag.orange { background: var(--color-warn-bg); color: var(--color-warn); }
+  .tag.red { background: var(--color-danger-bg); color: var(--color-danger); }
+  .alert-banner { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: var(--radius-md); margin-bottom: 16px; }
+  .alert-banner.warn { background: var(--color-warn-bg); border: 1px solid #FDE68A; color: var(--color-warn); }
+  .alert-banner.info { background: var(--color-info-bg); border: 1px solid #BFDBFE; color: var(--color-info); }
+  .alert-banner.success { background: var(--color-success-bg); border: 1px solid #BBF7D0; color: var(--color-success); }
+  .alert-banner.danger { background: var(--color-danger-bg); border: 1px solid #FECACA; color: var(--color-danger); }
+  .alert-banner p { font-size: 13px; font-weight: 500; flex: 1; }
+  .steps-bar { display: flex; gap: 0; margin-bottom: 32px; }
+  .step-bar-item { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; }
+  .step-bar-item::before { content: ''; position: absolute; top: 13px; left: 0; width: 50%; height: 2px; background: var(--color-border); }
+  .step-bar-item::after { content: ''; position: absolute; top: 13px; right: 0; width: 50%; height: 2px; background: var(--color-border); }
+  .step-bar-item:first-child::before { display: none; }
+  .step-bar-item:last-child::after { display: none; }
+  .step-bar-item.done::before, .step-bar-item.done::after { background: var(--color-success); }
+  .step-bar-item.active::before { background: var(--color-success); }
+  .step-circle { width: 28px; height: 28px; border-radius: 50%; background: var(--color-border); color: var(--color-text-3); font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; z-index: 1; position: relative; }
+  .step-bar-item.done .step-circle { background: var(--color-success); color: white; }
+  .step-bar-item.active .step-circle { background: var(--color-primary); color: white; }
+  .step-bar-item .step-label { font-size: 11px; font-weight: 500; color: var(--color-text-3); margin-top: 6px; text-align: center; }
+  .step-bar-item.active .step-label { color: var(--color-primary); font-weight: 600; }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 200; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: white; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); width: 540px; max-width: 95vw; max-height: 90vh; overflow-y: auto; }
+  .modal-header { padding: 20px 24px; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; justify-content: space-between; }
+  .modal-header h2 { font-size: 16px; font-weight: 700; }
+  .modal-body { padding: 24px; }
+  .modal-footer { padding: 16px 24px; border-top: 1px solid var(--color-border); display: flex; gap: 10px; justify-content: flex-end; }
+
+  /* Floor map */
+  .floor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
+  .floor-room { background: white; border: 1.5px solid var(--color-border-2); border-radius: var(--radius-md); padding: 12px; cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+  .floor-room:hover { border-color: var(--color-primary); box-shadow: var(--shadow-sm); }
+  .floor-room.full { border-color: var(--color-success); background: var(--color-success-bg); }
+  .floor-room.partial { border-color: var(--color-warn); background: var(--color-warn-bg); }
+  .floor-room.empty { border-color: var(--color-info); background: var(--color-info-bg); }
+  .floor-room .rm-label { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .floor-room .bed-dots { display: flex; gap: 4px; flex-wrap: wrap; }
+  .bed-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .bed-dot.occ { background: var(--color-success); }
+  .bed-dot.vac { background: var(--color-border-2); }
+  .bed-dot.mnt { background: var(--color-warn); }
+
+  /* Payment / TnC */
+  .payment-breakdown { background: var(--color-bg); border-radius: var(--radius-md); padding: 16px; margin-bottom: 20px; }
+  .payment-line { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed var(--color-border); }
+  .payment-line:last-child { border-bottom: none; font-weight: 700; font-size: 15px; }
+  .payment-line .label { font-size: 13.5px; color: var(--color-text-2); }
+  .payment-line .amount { font-size: 13.5px; font-weight: 600; }
+
+  /* Charts (CSS-based) */
+  .bar-chart { display: flex; gap: 10px; align-items: flex-end; height: 140px; padding: 10px 0; }
+  .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .bar { width: 100%; border-radius: 4px 4px 0 0; transition: opacity .15s; cursor: pointer; }
+  .bar:hover { opacity: .8; }
+  .bar.income { background: var(--color-primary); }
+  .bar.expense { background: #E5E7EB; }
+  .bar-label { font-size: 10px; color: var(--color-text-3); }
+  .bar-val { font-size: 9px; color: var(--color-text-4); }
+  .ring-chart { position: relative; width: 90px; height: 90px; }
+  .ring-chart svg { transform: rotate(-90deg); }
+  .ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-center .pct { font-size: 17px; font-weight: 700; }
+  .ring-center .lbl { font-size: 9px; color: var(--color-text-3); }
+
+  /* Scroll helper */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--color-border-2); border-radius: 10px; }
+
+  /* Misc utilities */
+  .flex { display: flex; }
+  .flex-col { display: flex; flex-direction: column; }
+  .items-center { align-items: center; }
+  .justify-between { justify-content: space-between; }
+  .gap-2 { gap: 8px; }
+  .gap-3 { gap: 12px; }
+  .gap-4 { gap: 16px; }
+  .mt-1 { margin-top: 4px; }
+  .mt-2 { margin-top: 8px; }
+  .mt-3 { margin-top: 12px; }
+  .mt-4 { margin-top: 16px; }
+  .mb-2 { margin-bottom: 8px; }
+  .mb-4 { margin-bottom: 16px; }
+  .text-sm { font-size: 13px; }
+  .text-xs { font-size: 11.5px; }
+  .text-muted { color: var(--color-text-3); }
+  .font-semibold { font-weight: 600; }
+  .font-bold { font-weight: 700; }
+  .w-full { width: 100%; }
+  .input-sm { height: 36px; padding: 0 10px; border: 1.5px solid var(--color-border-2); border-radius: var(--radius-md); font-size: 13px; }
+  .textarea-sm { padding: 8px 10px; border: 1.5px solid var(--color-border-2); border-radius: var(--radius-md); font-size: 13px; resize: none; width: 100%; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN 0: SIGN IN
+══════════════════════════════════════════════════════════ -->
+<div id="screen-signin" class="screen active">
+  <div class="auth-shell">
+    <div class="auth-brand">
+      <div class="auth-brand-logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#9FE870"/><path d="M8 20L14 12l5 6 3-4 6 6" stroke="#163300" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>MyPG</span>
+      </div>
+      <h1>Manage your PG like a pro</h1>
+      <p>The complete operating system for paying-guest homes. Track tenants, collect rent, resolve issues — all in one place.</p>
+      <div class="auth-brand-pills">
+        <span class="auth-brand-pill">Tenant Management</span>
+        <span class="auth-brand-pill">Rent Collection</span>
+        <span class="auth-brand-pill">Issue Resolution</span>
+        <span class="auth-brand-pill">Food Management</span>
+        <span class="auth-brand-pill">Staff Roster</span>
+        <span class="auth-brand-pill">Waitlist</span>
+      </div>
+    </div>
+    <div class="auth-form-area">
+      <div class="auth-card">
+        <h2>Welcome back</h2>
+        <p class="sub">Sign in to your owner account</p>
+        <div class="field-group">
+          <label>Mobile Number</label>
+          <div class="field-input">
+            <span class="prefix">+91</span>
+            <input type="tel" placeholder="98765 43210" />
+          </div>
+        </div>
+        <button class="btn-primary" onclick="navigate('screen-otp')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Send OTP via WhatsApp
+        </button>
+        <div class="divider">or continue with</div>
+        <div class="social-row">
+          <button class="btn-social">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+            Google
+          </button>
+          <button class="btn-social">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701z"/></svg>
+            Apple
+          </button>
+        </div>
+        <div class="auth-footer">
+          Don't have an account? <a href="#" onclick="navigate('screen-onboard-1')">Register your PG</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN 1: OTP VERIFICATION
+══════════════════════════════════════════════════════════ -->
+<div id="screen-otp" class="screen">
+  <div class="auth-shell">
+    <div class="auth-brand">
+      <div class="auth-brand-logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#9FE870"/><path d="M8 20L14 12l5 6 3-4 6 6" stroke="#163300" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>MyPG</span>
+      </div>
+      <h1>Verify it's you</h1>
+      <p>A 6-digit code was sent to your WhatsApp. Check your WhatsApp messages from MyPG.</p>
+    </div>
+    <div class="auth-form-area">
+      <div class="auth-card">
+        <h2>Enter OTP</h2>
+        <p class="sub">Sent to WhatsApp on +91 98765 43210 &nbsp;·&nbsp; <a href="#" style="color:var(--color-primary)">Change</a></p>
+        <div class="otp-grid">
+          <input class="otp-box" maxlength="1" type="text" />
+          <input class="otp-box" maxlength="1" type="text" />
+          <input class="otp-box" maxlength="1" type="text" />
+          <input class="otp-box" maxlength="1" type="text" />
+          <input class="otp-box" maxlength="1" type="text" />
+          <input class="otp-box" maxlength="1" type="text" />
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+          <span class="text-sm text-muted">Expires in <strong>9:43</strong></span>
+          <a href="#" class="text-sm" style="color:var(--color-primary);font-weight:500">Resend via SMS instead</a>
+        </div>
+        <button class="btn-primary" onclick="navigate('screen-dashboard')">Verify & Sign In</button>
+        <div class="auth-footer" style="margin-top:16px;">Didn't receive it? <a href="#" onclick="navigate('screen-signin')">Go back</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN 2: OWNER ONBOARDING WIZARD — Step 1
+══════════════════════════════════════════════════════════ -->
+<div id="screen-onboard-1" class="screen">
+  <div class="wizard-shell">
+    <div class="wizard-sidebar">
+      <div class="logo">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#9FE870"/><path d="M8 20L14 12l5 6 3-4 6 6" stroke="#163300" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>MyPG</span>
+      </div>
+      <div class="wizard-steps">
+        <div class="wizard-step active">
+          <div class="wizard-step-num">1</div>
+          <div class="wizard-step-label">Account Setup</div>
+        </div>
+        <div class="wizard-step">
+          <div class="wizard-step-num">2</div>
+          <div class="wizard-step-label">Property Details</div>
+        </div>
+        <div class="wizard-step">
+          <div class="wizard-step-num">3</div>
+          <div class="wizard-step-label">Room & Bed Structure</div>
+        </div>
+        <div class="wizard-step">
+          <div class="wizard-step-num">4</div>
+          <div class="wizard-step-label">Pricing & Amenities</div>
+        </div>
+        <div class="wizard-step">
+          <div class="wizard-step-num">5</div>
+          <div class="wizard-step-label">Subscription Plan</div>
+        </div>
+      </div>
+    </div>
+    <div class="wizard-content">
+      <h2>Set up your account</h2>
+      <p class="step-desc">Tell us about yourself — this helps us set up your owner profile correctly.</p>
+      <div class="form-grid">
+        <div class="form-field"><label>Full Name *</label><input type="text" placeholder="Ravi Kumar" /></div>
+        <div class="form-field"><label>Business / Trade Name</label><input type="text" placeholder="Ravi PG Homes" /></div>
+        <div class="form-field"><label>Email Address</label><input type="email" placeholder="ravi@example.com" /></div>
+        <div class="form-field"><label>WhatsApp Number</label><input type="tel" placeholder="+91 98765 43210" /></div>
+        <div class="form-field"><label>City *</label><input type="text" placeholder="Bengaluru" /></div>
+        <div class="form-field"><label>ID Proof Type</label>
+          <select><option>Aadhaar Card</option><option>PAN Card</option><option>Passport</option></select>
+        </div>
+        <div class="form-field full">
+          <label>Upload Government ID (optional — you can do this later)</label>
+          <div style="border:1.5px dashed var(--color-border-2);border-radius:var(--radius-md);padding:24px;text-align:center;background:var(--color-bg);cursor:pointer;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-4)" stroke-width="2" style="margin-bottom:8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p class="text-sm text-muted">Drag & drop or click to upload</p>
+            <p class="text-xs text-muted mt-1">PNG, JPG, PDF — max 5 MB</p>
+          </div>
+        </div>
+      </div>
+      <div class="wizard-actions">
+        <button class="btn-primary" onclick="navigate('screen-onboard-2')" style="width:auto;padding:0 32px;">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN 3: ONBOARDING — Step 2: Property Details
+══════════════════════════════════════════════════════════ -->
+<div id="screen-onboard-2" class="screen">
+  <div class="wizard-shell">
+    <div class="wizard-sidebar">
+      <div class="logo"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#9FE870"/><path d="M8 20L14 12l5 6 3-4 6 6" stroke="#163300" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>MyPG</span></div>
+      <div class="wizard-steps">
+        <div class="wizard-step done"><div class="wizard-step-num"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="wizard-step-label">Account Setup</div></div>
+        <div class="wizard-step active"><div class="wizard-step-num">2</div><div class="wizard-step-label">Property Details</div></div>
+        <div class="wizard-step"><div class="wizard-step-num">3</div><div class="wizard-step-label">Room & Bed Structure</div></div>
+        <div class="wizard-step"><div class="wizard-step-num">4</div><div class="wizard-step-label">Pricing & Amenities</div></div>
+        <div class="wizard-step"><div class="wizard-step-num">5</div><div class="wizard-step-label">Subscription Plan</div></div>
+      </div>
+    </div>
+    <div class="wizard-content">
+      <h2>Your first property</h2>
+      <p class="step-desc">You can add more properties later. Start with your primary PG or hostel.</p>
+      <div class="form-grid">
+        <div class="form-field full"><label>Property Name *</label><input type="text" placeholder="e.g. Green Valley PG" /></div>
+        <div class="form-field full"><label>Full Address *</label><textarea placeholder="No. 12, 4th Cross, Koramangala, Bengaluru – 560034"></textarea></div>
+        <div class="form-field"><label>City *</label><input type="text" placeholder="Bengaluru" /></div>
+        <div class="form-field"><label>Pincode *</label><input type="text" placeholder="560034" /></div>
+        <div class="form-field"><label>Property Category *</label>
+          <select><option>Budget</option><option>Standard</option><option>Premium</option><option>Luxury</option></select>
+        </div>
+        <div class="form-field"><label>Gender Policy *</label>
+          <select><option>Male Only</option><option>Female Only</option><option>Co-ed</option></select>
+        </div>
+      </div>
+      <div class="wizard-actions">
+        <button class="btn-secondary" onclick="navigate('screen-onboard-1')" style="width:auto;padding:0 24px;">Back</button>
+        <button class="btn-primary" onclick="navigate('screen-onboard-3')" style="width:auto;padding:0 32px;">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN 4: ONBOARDING — Step 3: Room & Bed Structure
+══════════════════════════════════════════════════════════ -->
+<div id="screen-onboard-3" class="screen">
+  <div class="wizard-shell">
+    <div class="wizard-sidebar">
+      <div class="logo"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#9FE870"/><path d="M8 20L14 12l5 6 3-4 6 6" stroke="#163300" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>MyPG</span></div>
+      <div class="wizard-steps">
+        <div class="wizard-step done"><div class="wizard-step-num"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="wizard-step-label">Account Setup</div></div>
+        <div class="wizard-step done"><div class="wizard-step-num"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="wizard-step-label">Property Details</div></div>
+        <div class="wizard-step active"><div class="wizard-step-num">3</div><div class="wizard-step-label">Room & Bed Structure</div></div>
+        <div class="wizard-step"><div class="wizard-step-num">4</div><div class="wizard-step-label">Pricing & Amenities</div></div>
+        <div class="wizard-step"><div class="wizard-step-num">5</div><div class="wizard-step-label">Subscription Plan</div></div>
+      </div>
+    </div>
+    <div class="wizard-content">
+      <h2>Define your room structure</h2>
+      <p class="step-desc">We'll auto-generate your room and bed hierarchy. You can edit individual rooms later.</p>
+      <div class="bed-builder">
+        <div class="bed-builder-row"><label>Number of floors</label><input type="number" value="3" min="1" /></div>
+        <div class="bed-builder-row"><label>Rooms per floor</label><input type="number" value="8" min="1" /></div>
+        <div class="bed-builder-row"><label>Beds per room (default)</label><input type="number" value="2" min="1" /></div>
+        <div style="padding:12px 0 4px;border-top:1px solid var(--color-border);margin-top:4px;">
+          <p class="text-sm text-muted" style="margin-bottom:12px;">Preview — 3 floors × 8 rooms × 2 beds = <strong>48 beds total</strong></p>
+          <div class="room-preview">
+            <div class="room-chip"><div class="rc-label">101</div><div class="rc-beds">2 beds</div></div>
+            <div class="room-chip"><div class="rc-label">102</div><div class="rc-beds">2 beds</div></div>
+            <div class="room-chip"><div class="rc-label">103</div><div class="rc-beds">2 beds</div></div>
+            <div class="room-chip"><div class="rc-label">104</div><div class="rc-beds">2 beds</div></div>
+            <div class="room-chip"><div class="rc-label">105</div><div class="rc-beds">2 beds</div></div>
+            <div class="room-chip"><div class="rc-label">106</div><div class="rc-beds">2 beds</div></div>
+            <div class="room-chip"><div class="rc-label">107</div><div class="rc-beds">2 beds</div></div>
+            <div class="room-chip"><div class="rc-label">108</div><div class="rc-beds">2 beds</div></div>
+            <div class="room-chip" style="background:var(--color-bg);border-style:dashed;cursor:pointer;display:flex;align-items:center;justify-content:center;min-height:58px;"><span class="text-xs text-muted">+ Floor 2</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="alert-banner info" style="margin-top:16px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <p>You can adjust beds per room individually after setup — some rooms can have 1 bed, others 4 or more. No limits.</p>
+      </div>
+      <div class="wizard-actions">
+        <button class="btn-secondary" onclick="navigate('screen-onboard-2')" style="width:auto;padding:0 24px;">Back</button>
+        <button class="btn-primary" onclick="navigate('screen-dashboard')" style="width:auto;padding:0 32px;">Continue to Pricing</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN 5: MAIN DASHBOARD (Hub for all other screens)
+══════════════════════════════════════════════════════════ -->
+<div id="screen-dashboard" class="screen">
+  <div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="sidebar-logo">
+        <a href="#" onclick="navigate('screen-dashboard')">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#9FE870"/><path d="M8 20L14 12l5 6 3-4 6 6" stroke="#163300" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="logo-text">MyPG</span>
+        </a>
+      </div>
+      <div class="property-switcher">
+        <button class="prop-switch-btn" onclick="openModal('modal-property-switcher')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span class="prop-name">All Properties</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section">Overview</div>
+        <div class="nav-item active" onclick="setActive(this,'screen-dashboard')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </div>
+        <div class="nav-section">Property</div>
+        <div class="nav-item" onclick="setActive(this,'screen-properties')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Properties & Beds
+        </div>
+        <div class="nav-item" onclick="setActive(this,'screen-tenants')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Tenants
+        </div>
+        <div class="nav-item" onclick="setActive(this,'screen-waitlist')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          Waitlist
+          <span class="badge">5</span>
+        </div>
+        <div class="nav-section">Finance</div>
+        <div class="nav-item" onclick="setActive(this,'screen-finance')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Revenue & Dues
+        </div>
+        <div class="nav-item" onclick="setActive(this,'screen-expenses')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Expenses
+        </div>
+        <div class="nav-section">Operations</div>
+        <div class="nav-item" onclick="setActive(this,'screen-issues')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Issue Queue
+          <span class="badge">3</span>
+        </div>
+        <div class="nav-item" onclick="setActive(this,'screen-food')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          Food & Menu
+        </div>
+        <div class="nav-item" onclick="setActive(this,'screen-notices')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Broadcasts
+        </div>
+        <div class="nav-item" onclick="setActive(this,'screen-staff')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Staff & Managers
+        </div>
+        <div class="nav-section">Account</div>
+        <div class="nav-item" onclick="setActive(this,'screen-subscription')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Subscription
+        </div>
+      </nav>
+      <div class="sidebar-user">
+        <div class="user-avatar">RK</div>
+        <div class="user-info">
+          <div class="user-name">Ravi Kumar</div>
+          <div class="user-role">Owner · Growth Plan</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+      </div>
+    </nav>
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <span class="topbar-title" id="topbar-title">Overview</span>
+      <div class="topbar-actions">
+        <button class="icon-btn" onclick="openModal('modal-add-tenant')" title="Onboard Tenant">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+        </button>
+        <div class="topbar-divider"></div>
+        <button class="icon-btn" title="Notifications">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="dot"></span>
+        </button>
+        <button class="icon-btn" title="Help">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="main">
+      <div class="content">
+
+        <!-- ─── SCREEN: DASHBOARD HOME ─── -->
+        <div id="panel-dashboard" class="panel-screen">
+          <div class="page-header">
+            <h1>Good morning, Ravi</h1>
+            <div class="actions">
+              <span class="text-sm text-muted">Mon, 15 Sep 2026</span>
+            </div>
+          </div>
+
+          <div class="alert-banner warn" style="margin-bottom:20px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <p><strong>Bed 204 is now vacant</strong> — You have 3 prospects on the waitlist matching 2-share rooms. <a href="#" onclick="setActiveByPanel('panel-waitlist')" style="color:var(--color-warn);font-weight:600;">Review Waitlist</a></p>
+            <button onclick="this.parentElement.style.display='none'" style="color:var(--color-text-3);padding:4px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+
+          <div class="kpi-grid">
+            <div class="kpi-card accent">
+              <div class="kpi-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                Total Beds Occupied
+              </div>
+              <div class="kpi-value">41<span style="font-size:16px;font-weight:400;color:rgba(255,255,255,.5)"> / 48</span></div>
+              <div class="kpi-change up">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+                85.4% occupancy
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                Revenue This Month
+              </div>
+              <div class="kpi-value">₹3.28L</div>
+              <div class="kpi-change up">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+                +₹14,000 vs last month
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Outstanding Dues
+              </div>
+              <div class="kpi-value" style="color:var(--color-danger)">₹24,500</div>
+              <div class="kpi-change down">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                4 tenants overdue
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72"/></svg>
+                Open Issues
+              </div>
+              <div class="kpi-value">7</div>
+              <div class="kpi-change neutral">3 unassigned · 1 high priority</div>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <!-- Revenue Chart -->
+            <div class="card">
+              <div class="card-header">
+                <h2>Revenue vs. Expenses</h2>
+                <div style="display:flex;gap:8px;align-items:center;">
+                  <span class="text-xs" style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:var(--color-primary);border-radius:2px;display:inline-block;"></span> Revenue</span>
+                  <span class="text-xs" style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:#E5E7EB;border-radius:2px;display:inline-block;"></span> Expenses</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="bar-chart">
+                  <div class="bar-col"><div class="bar income" style="height:65px;"></div><div class="bar expense" style="height:32px;"></div><div class="bar-label">Apr</div></div>
+                  <div class="bar-col"><div class="bar income" style="height:72px;"></div><div class="bar expense" style="height:28px;"></div><div class="bar-label">May</div></div>
+                  <div class="bar-col"><div class="bar income" style="height:68px;"></div><div class="bar expense" style="height:34px;"></div><div class="bar-label">Jun</div></div>
+                  <div class="bar-col"><div class="bar income" style="height:80px;"></div><div class="bar expense" style="height:30px;"></div><div class="bar-label">Jul</div></div>
+                  <div class="bar-col"><div class="bar income" style="height:90px;"></div><div class="bar expense" style="height:36px;"></div><div class="bar-label">Aug</div></div>
+                  <div class="bar-col"><div class="bar income" style="height:100px;background:var(--color-accent);"></div><div class="bar expense" style="height:38px;"></div><div class="bar-label" style="color:var(--color-primary);font-weight:600;">Sep</div></div>
+                </div>
+              </div>
+            </div>
+            <!-- Occupancy by Property -->
+            <div class="card">
+              <div class="card-header">
+                <h2>Occupancy by Property</h2>
+                <button class="btn-ghost" onclick="setActive(document.querySelector('.nav-item:nth-child(7)'),'screen-properties')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  View all
+                </button>
+              </div>
+              <div class="card-body">
+                <div class="occ-bar-wrap">
+                  <div class="occ-row"><label>Green Valley</label><div class="occ-bar"><div class="occ-bar-fill" style="width:92%"></div></div><span class="pct">92%</span></div>
+                  <div class="occ-row"><label>Koramangala PG</label><div class="occ-bar"><div class="occ-bar-fill" style="width:78%"></div></div><span class="pct">78%</span></div>
+                  <div class="occ-row"><label>Indiranagar PG</label><div class="occ-bar"><div class="occ-bar-fill" style="width:85%;background:var(--color-accent)"></div></div><span class="pct">85%</span></div>
+                </div>
+                <div style="margin-top:20px;display:flex;gap:20px;">
+                  <div><div class="text-xs text-muted">Vacant Beds</div><div style="font-size:22px;font-weight:700;color:var(--color-info);">7</div></div>
+                  <div><div class="text-xs text-muted">Upcoming Move-outs</div><div style="font-size:22px;font-weight:700;color:var(--color-warn);">3</div></div>
+                  <div><div class="text-xs text-muted">Move-ins this month</div><div style="font-size:22px;font-weight:700;color:var(--color-success);">5</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Activity + Upcoming Dues -->
+          <div class="two-col">
+            <div class="card">
+              <div class="card-header"><h2>Upcoming Rent Due</h2><span class="text-xs text-muted">Next 7 days</span></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Tenant</th><th>Room</th><th>Amount</th><th>Due Date</th><th>Status</th></tr></thead>
+                  <tbody>
+                    <tr><td><div class="font-semibold">Ananya Sharma</div><div class="text-xs text-muted">Green Valley</div></td><td>204-B</td><td>₹8,000</td><td>16 Sep</td><td><span class="badge overdue dot">Overdue</span></td></tr>
+                    <tr><td><div class="font-semibold">Rohit Mehta</div><div class="text-xs text-muted">Koramangala PG</div></td><td>312-A</td><td>₹10,500</td><td>17 Sep</td><td><span class="badge pending dot">Due soon</span></td></tr>
+                    <tr><td><div class="font-semibold">Priya Nair</div><div class="text-xs text-muted">Indiranagar PG</div></td><td>101-A</td><td>₹9,000</td><td>18 Sep</td><td><span class="badge pending dot">Due soon</span></td></tr>
+                    <tr><td><div class="font-semibold">Kiran Patel</div><div class="text-xs text-muted">Green Valley</div></td><td>205-A</td><td>₹7,500</td><td>20 Sep</td><td><span class="badge active dot">On track</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><h2>Recent Activity</h2></div>
+              <div class="card-body">
+                <div class="timeline">
+                  <div class="tl-item"><div class="tl-line"><div class="tl-dot"></div><div class="connector"></div></div><div class="tl-content"><div class="tl-title">Akash Reddy onboarded</div><div class="tl-sub">Room 304-A · Green Valley · 2h ago</div></div></div>
+                  <div class="tl-item"><div class="tl-line"><div class="tl-dot" style="background:var(--color-danger)"></div><div class="connector"></div></div><div class="tl-content"><div class="tl-title">Issue raised: WiFi not working</div><div class="tl-sub">Room 201 · Koramangala PG · 4h ago</div></div></div>
+                  <div class="tl-item"><div class="tl-line"><div class="tl-dot" style="background:var(--color-success)"></div><div class="connector"></div></div><div class="tl-content"><div class="tl-title">Rent received ₹8,000</div><div class="tl-sub">Sruthi K · Room 105-B · 6h ago</div></div></div>
+                  <div class="tl-item"><div class="tl-line"><div class="tl-dot" style="background:var(--color-warn)"></div><div class="connector"></div></div><div class="tl-content"><div class="tl-title">Meenu Verma — deboarding request</div><div class="tl-sub">Room 212-A · Green Valley · Yesterday</div></div></div>
+                  <div class="tl-item"><div class="tl-line"><div class="tl-dot"></div></div><div class="tl-content"><div class="tl-title">Monthly menu updated — October</div><div class="tl-sub">Green Valley · Yesterday</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── SCREEN: PROPERTIES ─── -->
+        <div id="panel-properties" class="panel-screen" style="display:none;">
+          <div class="page-header">
+            <h1>Properties & Beds</h1>
+            <div class="actions">
+              <button class="btn-secondary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+                List View
+              </button>
+              <button class="btn-accent">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Add Property
+              </button>
+            </div>
+          </div>
+
+          <!-- Property Tabs -->
+          <div class="detail-tabs" style="margin-bottom:24px;">
+            <div class="detail-tab active">Green Valley PG</div>
+            <div class="detail-tab">Koramangala PG</div>
+            <div class="detail-tab">Indiranagar PG</div>
+            <div class="detail-tab" style="color:var(--color-primary);font-weight:500;">+ Add Property</div>
+          </div>
+
+          <div class="two-col" style="margin-bottom:20px;">
+            <div>
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                <h2 style="font-size:17px;font-weight:700;">Green Valley PG</h2>
+                <span class="badge active dot">Active</span>
+                <span class="tag green">Premium</span>
+                <span class="tag blue">Male Only</span>
+              </div>
+              <p class="text-sm text-muted">No. 12, 4th Cross, Koramangala, Bengaluru — 560034</p>
+            </div>
+            <div style="display:flex;gap:12px;justify-content:flex-end;align-items:flex-start;">
+              <div class="ring-chart">
+                <svg width="90" height="90" viewBox="0 0 90 90">
+                  <circle cx="45" cy="45" r="35" fill="none" stroke="#E5E7EB" stroke-width="10"/>
+                  <circle cx="45" cy="45" r="35" fill="none" stroke="#163300" stroke-width="10" stroke-dasharray="196 220" stroke-linecap="round"/>
+                </svg>
+                <div class="ring-center"><span class="pct">89%</span><span class="lbl">OCCUPIED</span></div>
+              </div>
+              <div style="padding-top:8px;">
+                <div class="text-xs text-muted mb-2">32 of 36 beds occupied</div>
+                <div class="text-xs" style="color:var(--color-success);font-weight:600;margin-bottom:4px;">4 vacant beds</div>
+                <div class="text-xs" style="color:var(--color-warn);">2 under maintenance</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floor selector -->
+          <div style="display:flex;gap:8px;margin-bottom:16px;">
+            <button class="btn-primary" style="height:32px;width:auto;padding:0 16px;font-size:13px;">Floor 1</button>
+            <button class="btn-secondary" style="height:32px;width:auto;padding:0 16px;font-size:13px;">Floor 2</button>
+            <button class="btn-secondary" style="height:32px;width:auto;padding:0 16px;font-size:13px;">Floor 3</button>
+            <button class="btn-ghost" style="height:32px;font-size:13px;">+ Add Floor</button>
+          </div>
+
+          <!-- Room floor map -->
+          <div class="card" style="margin-bottom:20px;">
+            <div class="card-header">
+              <h2>Floor 1 — 8 Rooms</h2>
+              <div style="display:flex;gap:12px;font-size:12px;align-items:center;">
+                <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:var(--color-success);border-radius:50%;display:inline-block;"></span>Occupied</span>
+                <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:var(--color-border-2);border-radius:50%;display:inline-block;"></span>Vacant</span>
+                <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:var(--color-warn);border-radius:50%;display:inline-block;"></span>Maintenance</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="floor-grid">
+                <div class="floor-room full" onclick="openModal('modal-room-detail')">
+                  <div class="rm-label">Room 101</div>
+                  <div class="bed-dots"><div class="bed-dot occ"></div><div class="bed-dot occ"></div></div>
+                  <div class="text-xs text-muted mt-1">2-share · ₹8,000/bed</div>
+                </div>
+                <div class="floor-room full">
+                  <div class="rm-label">Room 102</div>
+                  <div class="bed-dots"><div class="bed-dot occ"></div><div class="bed-dot occ"></div></div>
+                  <div class="text-xs text-muted mt-1">2-share · ₹8,000/bed</div>
+                </div>
+                <div class="floor-room partial">
+                  <div class="rm-label">Room 103</div>
+                  <div class="bed-dots"><div class="bed-dot occ"></div><div class="bed-dot vac"></div><div class="bed-dot occ"></div></div>
+                  <div class="text-xs text-muted mt-1">3-share · 1 vacant</div>
+                </div>
+                <div class="floor-room empty">
+                  <div class="rm-label">Room 104</div>
+                  <div class="bed-dots"><div class="bed-dot vac"></div><div class="bed-dot vac"></div></div>
+                  <div class="text-xs text-muted mt-1">2-share · 2 vacant</div>
+                </div>
+                <div class="floor-room full">
+                  <div class="rm-label">Room 105</div>
+                  <div class="bed-dots"><div class="bed-dot occ"></div><div class="bed-dot occ"></div><div class="bed-dot occ"></div><div class="bed-dot occ"></div></div>
+                  <div class="text-xs text-muted mt-1">4-share · Full</div>
+                </div>
+                <div class="floor-room partial">
+                  <div class="rm-label">Room 106</div>
+                  <div class="bed-dots"><div class="bed-dot occ"></div><div class="bed-dot mnt"></div></div>
+                  <div class="text-xs text-muted mt-1">2-share · 1 maintenance</div>
+                </div>
+                <div class="floor-room full">
+                  <div class="rm-label">Room 107</div>
+                  <div class="bed-dots"><div class="bed-dot occ"></div></div>
+                  <div class="text-xs text-muted mt-1">Single · Full</div>
+                </div>
+                <div class="floor-room full">
+                  <div class="rm-label">Room 108</div>
+                  <div class="bed-dots"><div class="bed-dot occ"></div><div class="bed-dot occ"></div></div>
+                  <div class="text-xs text-muted mt-1">2-share · Full</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── SCREEN: TENANTS ─── -->
+        <div id="panel-tenants" class="panel-screen" style="display:none;">
+          <div class="page-header">
+            <h1>Tenants</h1>
+            <div class="actions">
+              <button class="btn-secondary" onclick="openModal('modal-qr-scan')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="4" height="4"/></svg>
+                Scan QR / Import Profile
+              </button>
+              <button class="btn-accent" onclick="openModal('modal-add-tenant')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Onboard Tenant
+              </button>
+            </div>
+          </div>
+          <div class="filter-bar">
+            <div class="search-input">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" placeholder="Search by name, room, phone..." />
+            </div>
+            <select class="filter-select"><option>All Properties</option><option>Green Valley PG</option><option>Koramangala PG</option></select>
+            <select class="filter-select"><option>All Status</option><option>Active</option><option>Pending Activation</option><option>Deboarding</option></select>
+            <select class="filter-select"><option>All Dues</option><option>Overdue</option><option>Due This Week</option><option>Paid</option></select>
+            <button class="btn-ghost">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              Export CSV
+            </button>
+          </div>
+          <div class="card">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th><input type="checkbox"/></th><th>Tenant</th><th>Room / Bed</th><th>Move-in</th><th>Rent</th><th>Due Date</th><th>Payment</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="checkbox"/></td>
+                    <td><div class="flex items-center gap-2"><div class="user-avatar" style="width:32px;height:32px;font-size:12px;background:#4F46E5;color:white;">AS</div><div><div class="font-semibold">Ananya Sharma</div><div class="text-xs text-muted">+91 98765 00001</div></div></div></td>
+                    <td><span class="tag blue">204-B</span> Green Valley</td>
+                    <td class="text-sm">1 Jul 2026</td>
+                    <td class="font-semibold">₹8,000</td>
+                    <td class="text-sm">1 Sep</td>
+                    <td><span class="badge overdue dot">Overdue 14d</span></td>
+                    <td><span class="badge active dot">Active</span></td>
+                    <td><div class="table-action"><button class="btn-ghost" onclick="setActiveByPanel('panel-tenant-profile')" style="font-size:12px;">View</button><button class="btn-accent" style="font-size:12px;">Collect Rent</button></div></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox"/></td>
+                    <td><div class="flex items-center gap-2"><div class="user-avatar" style="width:32px;height:32px;font-size:12px;background:#16A34A;color:white;">RM</div><div><div class="font-semibold">Rohit Mehta</div><div class="text-xs text-muted">+91 98765 00002</div></div></div></td>
+                    <td><span class="tag blue">312-A</span> Koramangala</td>
+                    <td class="text-sm">10 Aug 2026</td>
+                    <td class="font-semibold">₹10,500</td>
+                    <td class="text-sm">17 Sep</td>
+                    <td><span class="badge pending dot">Due in 2d</span></td>
+                    <td><span class="badge active dot">Active</span></td>
+                    <td><div class="table-action"><button class="btn-ghost" style="font-size:12px;">View</button><button class="btn-accent" style="font-size:12px;">Collect Rent</button></div></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox"/></td>
+                    <td><div class="flex items-center gap-2"><div class="user-avatar" style="width:32px;height:32px;font-size:12px;background:#D97706;color:white;">PN</div><div><div class="font-semibold">Priya Nair</div><div class="text-xs text-muted">+91 98765 00003</div></div></div></td>
+                    <td><span class="tag blue">101-A</span> Indiranagar</td>
+                    <td class="text-sm">5 May 2026</td>
+                    <td class="font-semibold">₹9,000</td>
+                    <td class="text-sm">18 Sep</td>
+                    <td><span class="badge pending dot">Due in 3d</span></td>
+                    <td><span class="badge active dot">Active</span></td>
+                    <td><div class="table-action"><button class="btn-ghost" style="font-size:12px;">View</button><button class="btn-accent" style="font-size:12px;">Collect Rent</button></div></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox"/></td>
+                    <td><div class="flex items-center gap-2"><div class="user-avatar" style="width:32px;height:32px;font-size:12px;background:#DC2626;color:white;">MV</div><div><div class="font-semibold">Meenu Verma</div><div class="text-xs text-muted">+91 98765 00004</div></div></div></td>
+                    <td><span class="tag blue">212-A</span> Green Valley</td>
+                    <td class="text-sm">15 Jan 2026</td>
+                    <td class="font-semibold">₹7,500</td>
+                    <td class="text-sm">1 Oct</td>
+                    <td><span class="badge active dot">Paid</span></td>
+                    <td><span class="badge pending dot">Deboarding</span></td>
+                    <td><div class="table-action"><button class="btn-ghost" style="font-size:12px;">View Exit</button></div></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox"/></td>
+                    <td><div class="flex items-center gap-2"><div class="user-avatar" style="width:32px;height:32px;font-size:12px;">AR</div><div><div class="font-semibold">Akash Reddy</div><div class="text-xs text-muted">+91 98765 00005</div></div></div></td>
+                    <td><span class="tag blue">304-A</span> Green Valley</td>
+                    <td class="text-sm">13 Sep 2026</td>
+                    <td class="font-semibold">₹8,500</td>
+                    <td class="text-sm">1 Oct</td>
+                    <td><span class="badge new-i dot">Advance Paid</span></td>
+                    <td><span class="badge pending dot">Pending App Activation</span></td>
+                    <td><div class="table-action"><button class="btn-ghost" style="font-size:12px;">View</button><button class="btn-ghost" style="font-size:12px;">Resend Invite</button></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── SCREEN: TENANT PROFILE ─── -->
+        <div id="panel-tenant-profile" class="panel-screen" style="display:none;">
+          <div class="breadcrumb"><a href="#" onclick="setActiveByPanel('panel-tenants')">Tenants</a><span>/</span><span>Ananya Sharma</span></div>
+          <div class="page-header" style="margin-bottom:16px;">
+            <h1>Ananya Sharma</h1>
+            <div class="actions">
+              <button class="btn-ghost">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                WhatsApp
+              </button>
+              <button class="btn-danger" onclick="openModal('modal-deboard')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Initiate Deboarding
+              </button>
+            </div>
+          </div>
+          <div class="profile-layout">
+            <div>
+              <div class="profile-card">
+                <div class="profile-avatar">AS</div>
+                <div class="profile-name">Ananya Sharma</div>
+                <div class="profile-sub">Room 204-B · Green Valley PG</div>
+                <span class="badge overdue" style="margin:0 auto;">Rent Overdue 14 days</span>
+                <div class="profile-stats">
+                  <div class="profile-stat"><div class="val">₹8,000</div><div class="lbl">Monthly Rent</div></div>
+                  <div class="profile-stat"><div class="val">₹16,000</div><div class="lbl">Deposit Held</div></div>
+                  <div class="profile-stat"><div class="val">Jul 2026</div><div class="lbl">Move-in</div></div>
+                  <div class="profile-stat"><div class="val">2 mo</div><div class="lbl">Tenure</div></div>
+                </div>
+              </div>
+              <div class="card mt-3">
+                <div class="card-header"><h2>Quick Actions</h2></div>
+                <div class="card-body flex-col gap-2">
+                  <button class="btn-accent w-full">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    Log Rent Payment
+                  </button>
+                  <button class="btn-secondary w-full">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    Download Invoice
+                  </button>
+                  <button class="btn-secondary w-full">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4l1 12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2l1-12"/></svg>
+                    Change Bed
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="detail-tabs">
+                <div class="detail-tab active">Profile</div>
+                <div class="detail-tab">Payments</div>
+                <div class="detail-tab">Issues</div>
+                <div class="detail-tab">Documents</div>
+                <div class="detail-tab">Activity Log</div>
+              </div>
+              <div class="card">
+                <div class="card-body">
+                  <div class="info-row"><span class="info-label">Full Name</span><span class="info-val">Ananya Sharma</span></div>
+                  <div class="info-row"><span class="info-label">Phone</span><span class="info-val">+91 98765 00001</span></div>
+                  <div class="info-row"><span class="info-label">Email</span><span class="info-val">ananya.sharma@gmail.com</span></div>
+                  <div class="info-row"><span class="info-label">Date of Birth</span><span class="info-val">14 March 2000 (26 yrs)</span></div>
+                  <div class="info-row"><span class="info-label">Gender</span><span class="info-val">Female</span></div>
+                  <div class="info-row"><span class="info-label">Occupation</span><span class="info-val">Software Engineer · Infosys</span></div>
+                  <div class="info-row"><span class="info-label">Hometown</span><span class="info-val">Jaipur, Rajasthan</span></div>
+                  <div class="info-row"><span class="info-label">Food Preference</span><span class="info-val"><span class="tag green">Vegetarian</span></span></div>
+                  <div class="info-row"><span class="info-label">Emergency Contact</span><span class="info-val">Sunita Sharma (Mother) · +91 98765 11111</span></div>
+                  <div class="info-row"><span class="info-label">ID Document</span><span class="info-val"><span class="badge active">Aadhaar verified</span></span></div>
+                  <div class="info-row"><span class="info-label">T&C Accepted</span><span class="info-val"><span class="badge active">v1.2 · 1 Jul 2026 at 10:23 AM</span></span></div>
+                  <div class="info-row"><span class="info-label">Welcome Journey</span><span class="info-val"><span class="badge active">Completed · 2 Jul 2026</span></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── SCREEN: WAITLIST ─── -->
+        <div id="panel-waitlist" class="panel-screen" style="display:none;">
+          <div class="page-header">
+            <h1>Prospect Waitlist</h1>
+            <div class="actions">
+              <select class="filter-select"><option>All Properties</option><option>Green Valley PG</option><option>Koramangala PG</option></select>
+              <button class="btn-accent" onclick="openModal('modal-add-prospect')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Add Prospect
+              </button>
+            </div>
+          </div>
+
+          <div class="alert-banner success" style="margin-bottom:20px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <p><strong>Bed 204-B is now vacant</strong> — 3 prospects in the queue matching 2-share rooms. Review and notify below.</p>
+            <button class="btn-accent" style="height:28px;font-size:12px;">Notify Prospects</button>
+          </div>
+
+          <div class="two-col" style="margin-bottom:20px;">
+            <div class="card">
+              <div class="card-body" style="padding:16px 20px;">
+                <div class="text-xs text-muted mb-2">Prospects in Queue</div>
+                <div style="font-size:32px;font-weight:700;color:var(--color-primary);">8</div>
+                <div class="text-xs text-muted mt-1">Across all properties</div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-body" style="padding:16px 20px;">
+                <div style="display:flex;gap:16px;">
+                  <div><div class="text-xs text-muted mb-1">2-share</div><div style="font-size:20px;font-weight:700;">3</div></div>
+                  <div><div class="text-xs text-muted mb-1">Private</div><div style="font-size:20px;font-weight:700;">2</div></div>
+                  <div><div class="text-xs text-muted mb-1">3-share</div><div style="font-size:20px;font-weight:700;">2</div></div>
+                  <div><div class="text-xs text-muted mb-1">Any</div><div style="font-size:20px;font-weight:700;">1</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2>Active Waitlist — Green Valley PG</h2>
+              <div class="flex gap-2">
+                <select class="filter-select" style="height:32px;font-size:12px;"><option>All Room Types</option><option>2-share</option><option>Private</option></select>
+                <select class="filter-select" style="height:32px;font-size:12px;"><option>All Status</option><option>Interested</option><option>Notified</option></select>
+              </div>
+            </div>
+            <div>
+              <div class="waitlist-item">
+                <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="5" x2="9" y2="19"/><line x1="15" y1="5" x2="15" y2="19"/></svg></div>
+                <div class="waitlist-rank top">1</div>
+                <div style="flex:1;">
+                  <div class="wl-name">Siddharth Jain</div>
+                  <div class="wl-meta">+91 98765 22222 · 2-share preference · Added 2 Sep · Walk-in</div>
+                </div>
+                <span class="badge notified dot">Notified</span>
+                <div class="wl-actions">
+                  <span class="text-xs text-muted">Deadline: 17 Sep</span>
+                  <button class="btn-accent" style="height:30px;font-size:12px;" onclick="openModal('modal-convert-tenant')">Onboard as Tenant</button>
+                  <button class="btn-ghost" style="height:30px;font-size:12px;">Decline</button>
+                </div>
+              </div>
+              <div class="waitlist-item">
+                <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="5" x2="9" y2="19"/><line x1="15" y1="5" x2="15" y2="19"/></svg></div>
+                <div class="waitlist-rank top">2</div>
+                <div style="flex:1;">
+                  <div class="wl-name">Pooja Devi</div>
+                  <div class="wl-meta">+91 98765 33333 · 2-share preference · Added 5 Sep · Referral</div>
+                </div>
+                <span class="badge new-i dot">Interested</span>
+                <div class="wl-actions">
+                  <button class="btn-secondary" style="height:30px;font-size:12px;">Notify</button>
+                  <button class="btn-ghost" style="height:30px;font-size:12px;">Edit</button>
+                </div>
+              </div>
+              <div class="waitlist-item">
+                <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="5" x2="9" y2="19"/><line x1="15" y1="5" x2="15" y2="19"/></svg></div>
+                <div class="waitlist-rank">3</div>
+                <div style="flex:1;">
+                  <div class="wl-name">Raju Verma</div>
+                  <div class="wl-meta">+91 98765 44444 · Private room · Added 8 Sep · Phone inquiry</div>
+                </div>
+                <span class="badge new-i dot">Interested</span>
+                <div class="wl-actions">
+                  <button class="btn-secondary" style="height:30px;font-size:12px;">Notify</button>
+                  <button class="btn-ghost" style="height:30px;font-size:12px;">Edit</button>
+                </div>
+              </div>
+              <div class="waitlist-item">
+                <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="5" x2="9" y2="19"/><line x1="15" y1="5" x2="15" y2="19"/></svg></div>
+                <div class="waitlist-rank">4</div>
+                <div style="flex:1;">
+                  <div class="wl-name">Divya Krishnan</div>
+                  <div class="wl-meta">+91 98765 55555 · 3-share preference · Added 10 Sep · Website lead</div>
+                </div>
+                <span class="badge new-i dot">Interested</span>
+                <div class="wl-actions">
+                  <button class="btn-secondary" style="height:30px;font-size:12px;">Notify</button>
+                  <button class="btn-ghost" style="height:30px;font-size:12px;">Edit</button>
+                </div>
+              </div>
+              <div class="waitlist-item" style="opacity:.5;">
+                <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="5" x2="9" y2="19"/><line x1="15" y1="5" x2="15" y2="19"/></svg></div>
+                <div class="waitlist-rank">5</div>
+                <div style="flex:1;">
+                  <div class="wl-name">Tejas Nair</div>
+                  <div class="wl-meta">+91 98765 66666 · 2-share preference · Added 12 Sep</div>
+                </div>
+                <span class="badge expired dot">Expired</span>
+                <div class="wl-actions">
+                  <button class="btn-ghost" style="height:30px;font-size:12px;">Restore</button>
+                  <button class="btn-ghost" style="height:30px;font-size:12px;color:var(--color-danger)">Remove</button>
+                </div>
+              </div>
+            </div>
+            <div style="padding:12px 16px;border-top:1px solid var(--color-border);display:flex;gap:10px;">
+              <button class="btn-ghost" style="font-size:12px;color:var(--color-text-3);">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                Show deleted entries
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── SCREEN: FINANCE ─── -->
+        <div id="panel-finance" class="panel-screen" style="display:none;">
+          <div class="page-header">
+            <h1>Revenue & Dues</h1>
+            <div class="actions">
+              <button class="btn-secondary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Export Report (CSV / PDF)
+              </button>
+            </div>
+          </div>
+          <div class="finance-summary">
+            <div class="fin-card" style="background:var(--color-primary);border-color:transparent;">
+              <div class="fin-label" style="color:rgba(159,232,112,.7);">Total Revenue — Sep 2026</div>
+              <div class="fin-value" style="color:white;">₹3,28,000</div>
+              <div class="fin-sub" style="color:rgba(255,255,255,.5);">41 active beds across 3 properties</div>
+            </div>
+            <div class="fin-card">
+              <div class="fin-label">Outstanding Dues</div>
+              <div class="fin-value" style="color:var(--color-danger);">₹24,500</div>
+              <div class="fin-sub">4 tenants · 2 overdue &gt;15 days</div>
+            </div>
+            <div class="fin-card">
+              <div class="fin-label">Security Deposits Held</div>
+              <div class="fin-value">₹6,40,000</div>
+              <div class="fin-sub">41 tenants · 2 deposits partially deducted</div>
+            </div>
+          </div>
+          <div class="two-col">
+            <div class="card">
+              <div class="card-header"><h2>Payment Status — Sep 2026</h2></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Tenant</th><th>Property</th><th>Amount</th><th>Method</th><th>Status</th><th>Action</th></tr></thead>
+                  <tbody>
+                    <tr><td class="font-semibold">Ananya Sharma</td><td class="text-sm text-muted">Green Valley</td><td>₹8,000</td><td><span class="tag orange">Cash</span></td><td><span class="badge overdue dot">Overdue</span></td><td><button class="btn-accent" style="font-size:11px;height:26px;">Log Payment</button></td></tr>
+                    <tr><td class="font-semibold">Rohit Mehta</td><td class="text-sm text-muted">Koramangala</td><td>₹10,500</td><td><span class="tag blue">UPI</span></td><td><span class="badge pending dot">Pending</span></td><td><button class="btn-accent" style="font-size:11px;height:26px;">Log Payment</button></td></tr>
+                    <tr><td class="font-semibold">Priya Nair</td><td class="text-sm text-muted">Indiranagar</td><td>₹9,000</td><td><span class="tag orange">Cash</span></td><td><span class="badge active dot">Paid</span></td><td><button class="btn-ghost" style="font-size:11px;height:26px;">Invoice</button></td></tr>
+                    <tr><td class="font-semibold">Kiran Patel</td><td class="text-sm text-muted">Green Valley</td><td>₹7,500</td><td><span class="tag blue">UPI</span></td><td><span class="badge active dot">Paid</span></td><td><button class="btn-ghost" style="font-size:11px;height:26px;">Invoice</button></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><h2>Deposit Ledger</h2></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Tenant</th><th>Deposit</th><th>Status</th></tr></thead>
+                  <tbody>
+                    <tr><td class="font-semibold">Ananya Sharma</td><td>₹16,000</td><td><span class="badge active dot">Held</span></td></tr>
+                    <tr><td class="font-semibold">Rohit Mehta</td><td>₹21,000</td><td><span class="badge active dot">Held</span></td></tr>
+                    <tr><td class="font-semibold">Meenu Verma</td><td>₹15,000</td><td><span class="badge pending dot">Refund Pending</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── SCREEN: EXPENSES ─── -->
+        <div id="panel-expenses" class="panel-screen" style="display:none;">
+          <div class="page-header">
+            <h1>Expenses</h1>
+            <div class="actions">
+              <button class="btn-accent" onclick="openModal('modal-add-expense')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Add Expense
+              </button>
+            </div>
+          </div>
+          <div class="three-col">
+            <div class="fin-card"><div class="fin-label">Total Expenses — Sep 2026</div><div class="fin-value" style="color:var(--color-danger);">₹87,400</div></div>
+            <div class="fin-card"><div class="fin-label">Recurring Monthly</div><div class="fin-value">₹72,000</div><div class="fin-sub">Staff salaries, utilities, internet</div></div>
+            <div class="fin-card"><div class="fin-label">One-off / Repairs</div><div class="fin-value">₹15,400</div><div class="fin-sub">3 maintenance work orders</div></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h2>Expense Log — September 2026</h2></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Property</th><th>Amount</th><th>Receipt</th></tr></thead>
+                <tbody>
+                  <tr><td class="text-sm">1 Sep</td><td><span class="tag purple">Staff Salary</span></td><td>Housekeeping — 2 staff (Aug)</td><td>Green Valley</td><td class="font-semibold">₹22,000</td><td><button class="btn-ghost" style="font-size:11px;height:26px;">View</button></td></tr>
+                  <tr><td class="text-sm">3 Sep</td><td><span class="tag blue">Utilities</span></td><td>Electricity bill — Aug</td><td>Green Valley</td><td class="font-semibold">₹14,200</td><td><button class="btn-ghost" style="font-size:11px;height:26px;">View</button></td></tr>
+                  <tr><td class="text-sm">5 Sep</td><td><span class="tag orange">Repairs</span></td><td>AC compressor replacement — Room 204</td><td>Green Valley</td><td class="font-semibold">₹8,500</td><td><button class="btn-ghost" style="font-size:11px;height:26px;">View</button></td></tr>
+                  <tr><td class="text-sm">7 Sep</td><td><span class="tag blue">Internet</span></td><td>Broadband bill — Sep</td><td>Koramangala</td><td class="font-semibold">₹3,500</td><td><span class="text-muted text-xs">No receipt</span></td></tr>
+                  <tr><td class="text-sm">10 Sep</td><td><span class="tag purple">Staff Salary</span></td><td>Cook salary — Rajesh (Aug)</td><td>All Properties</td><td class="font-semibold">₹18,000</td><td><button class="btn-ghost" style="font-size:11px;height:26px;">View</button></td></tr>
+                  <tr><td class="text-sm">12 Sep</td><td><span class="tag orange">Repairs</span></td><td>Plumbing — 3rd floor bathroom</td><td>Indiranagar</td><td class="font-semibold">₹6,900</td><td><button class="btn-ghost" style="font-size:11px;height:26px;">View</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── SCREEN: ISSUE QUEUE ─── -->
+        <div id="panel-issues" class="panel-screen" style="display:none;">
+          <div class="page-header">
+            <h1>Issue Resolution Queue</h1>
+            <div class="actions">
+              <select class="filter-select"><option>All Properties</option><option>Green Valley PG</option></select>
+              <select class="filter-select"><option>All Categories</option><option>Electrical</option><option>Plumbing</option><option>WiFi</option></select>
+            </div>
+          </div>
+          <div class="kanban">
+            <div class="kanban-col">
+              <div class="kanban-col-header"><span class="col-title">New</span><span class="col-count">3</span></div>
+              <div class="kanban-cards">
+                <div class="kanban-card">
+                  <div class="k-title">WiFi not working in Room 201</div>
+                  <div class="k-meta"><span class="k-cat">WiFi</span> · Room 201 · 4h ago</div>
+                </div>
+                <div class="kanban-card">
+                  <div class="k-title">Bathroom tap leaking</div>
+                  <div class="k-meta"><span class="k-cat">Plumbing</span> · Room 305 · 1d ago</div>
+                </div>
+                <div class="kanban-card">
+                  <div class="k-title">Bed mattress needs replacement</div>
+                  <div class="k-meta"><span class="k-cat">Furniture</span> · Room 402 · 2d ago</div>
+                </div>
+              </div>
+            </div>
+            <div class="kanban-col">
+              <div class="kanban-col-header"><span class="col-title">Assigned</span><span class="col-count">2</span></div>
+              <div class="kanban-cards">
+                <div class="kanban-card">
+                  <div class="k-title">Light fixture flickering</div>
+                  <div class="k-meta"><span class="k-cat">Electrical</span> · Room 110 · Ravi (staff)</div>
+                </div>
+                <div class="kanban-card">
+                  <div class="k-title">Common area TV not working</div>
+                  <div class="k-meta"><span class="k-cat">Electrical</span> · Floor 2 · Suresh (staff)</div>
+                </div>
+              </div>
+            </div>
+            <div class="kanban-col">
+              <div class="kanban-col-header"><span class="col-title">In Progress</span><span class="col-count">1</span></div>
+              <div class="kanban-cards">
+                <div class="kanban-card">
+                  <div class="k-title">AC not cooling — Room 204</div>
+                  <div class="k-meta"><span class="k-cat" style="background:#FEE2E2;color:#DC2626;">High priority</span> · Service vendor called</div>
+                </div>
+              </div>
+            </div>
+            <div class="kanban-col">
+              <div class="kanban-col-header"><span class="col-title">Resolved</span><span class="col-count">8</span></div>
+              <div class="kanban-cards">
+                <div class="kanban-card" style="opacity:.7;">
+                  <div class="k-title">Door lock not working</div>
+                  <div class="k-meta">Room 103 · Resolved 13 Sep</div>
+                </div>
+                <div class="kanban-card" style="opacity:.7;">
+                  <div class="k-title">Hot water heater issue</div>
+                  <div class="k-meta">Room 206 · Resolved 11 Sep</div>
+                </div>
+              </div>
+            </div>
+            <div class="kanban-col">
+              <div class="kanban-col-header"><span class="col-title">Reopened</span><span class="col-count">1</span></div>
+              <div class="kanban-cards">
+                <div class="kanban-card" style="border-color:var(--color-danger);">
+                  <div class="k-title">Drainage blockage — Floor 1 bathroom</div>
+                  <div class="k-meta"><span class="k-cat">Plumbing</span> · Reopened by tenant</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── SCREEN: FOOD & MENU ─── -->
+        <div id="panel-food" class="panel-screen" style="display:none;">
+          <div class="page-header">
+            <h1>Food & Menu</h1>
+            <div class="actions">
+              <span class="text-sm text-muted">Week of 15–21 Sep 2026</span>
+              <button class="btn-secondary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                Edit Menu
+              </button>
+            </div>
+          </div>
+          <div class="alert-banner info" style="margin-bottom:20px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            <p><strong>Today's headcount (Lunch): 34 tenants</strong> · <strong>Dinner: 38 tenants</strong> · Cutoff for dinner opt-out: 6:00 PM</p>
+          </div>
+          <div class="menu-grid">
+            <div class="menu-day">
+              <div class="menu-day-header">Mon 15</div>
+              <div class="menu-slot"><div class="slot-label">Breakfast</div><div class="slot-item">Idli Sambar + Chutney</div></div>
+              <div class="menu-slot"><div class="slot-label">Lunch</div><div class="slot-item">Rice, Dal, Rajma, Jeera Aloo, Salad</div></div>
+              <div class="menu-slot"><div class="slot-label">Dinner</div><div class="slot-item">Chapati, Paneer Butter Masala, Dal Fry</div></div>
+            </div>
+            <div class="menu-day">
+              <div class="menu-day-header">Tue 16</div>
+              <div class="menu-slot"><div class="slot-label">Breakfast</div><div class="slot-item">Poha + Chai</div></div>
+              <div class="menu-slot"><div class="slot-label">Lunch</div><div class="slot-item">Roti, Chole, Dum Aloo, Raita</div></div>
+              <div class="menu-slot"><div class="slot-label">Dinner</div><div class="slot-item">Rice, Sambar, Egg Curry</div></div>
+            </div>
+            <div class="menu-day">
+              <div class="menu-day-header">Wed 17</div>
+              <div class="menu-slot"><div class="slot-label">Breakfast</div><div class="slot-item">Upma + Banana</div></div>
+              <div class="menu-slot"><div class="slot-label">Lunch</div><div class="slot-item">Biryani (Veg/Non-veg), Raita, Papad</div></div>
+              <div class="menu-slot"><div class="slot-label">Dinner</div><div class="slot-item">Dal Tadka, Jeera Rice, Sabzi</div></div>
+            </div>
+            <div class="menu-day">
+              <div class="menu-day-header">Thu 18</div>
+              <div class="menu-slot"><div class="slot-label">Breakfast</div><div class="slot-item">Dosa + Sambar</div></div>
+              <div class="menu-slot"><div class="slot-label">Lunch</div><div class="slot-item">Rajma Rice, Salad, Papad</div></div>
+              <div class="menu-slot"><div class="slot-label">Dinner</div><div class="slot-item">Roti, Aloo Gobhi, Dal</div></div>
+            </div>
+            <div class="menu-day">
+              <div class="menu-day-header">Fri 19</div>
+              <div class="menu-slot"><div class="slot-label">Breakfast</div><div class="slot-item">Bread Toast + Boiled Eggs</div></div>
+              <div class="menu-slot"><div class="slot-label">Lunch</div><div class="slot-item">Fish Curry + Rice (Non-veg day)</div></div>
+              <div class="menu-slot"><div class="slot-label">Dinner</div><div class="slot-item">Chapati, Paneer, Dal Makhani</div></div>
+            </div>
+            <div class="menu-day">
+              <div class="menu-day-header">Sat 20</div>
+              <div class="menu-slot"><div class="slot-label">Breakfast</div><div class="slot-item">Poori + Chana</div></div>
+              <div class="menu-slot"><div class="slot-label">Lunch</div><div class="slot-item">Pulao, Mixed Dal, Salad</div></div>
+              <div class="menu-slot"><div class="slot-label">Dinner</div><div class="slot-item">Roti, Chicken Curry, Raita</div></div>
+            </div>
+            <div class="menu-day">
+              <div class="menu-day-header">Sun 21</div>
+              <div class="menu-slot"><div class="slot-label">Breakfast</div><div class="slot-item">Chole Bhature</div></div>
+              <div class="menu-slot"><div class="slot-label">Lunch</div><div class="slot-item">Mutton Curry, Rice, Roti</div></div>
+              <div class="menu-slot"><div class="slot-label">Dinner</div><div class="slot-item">Pizza / Continental (Special)</div></div>
+            </div>
+          </div>
+          <div class="card" style="margin-top:20px;">
+            <div class="card-header"><h2>Today's Meal Count — 15 Sep</h2></div>
+            <div class="card-body">
+              <div class="three-col">
+                <div><div class="text-xs text-muted mb-1">Breakfast</div><div style="font-size:28px;font-weight:700;">38</div><div class="text-xs text-muted">tenants · 3 opted out</div></div>
+                <div><div class="text-xs text-muted mb-1">Lunch</div><div style="font-size:28px;font-weight:700;">34</div><div class="text-xs text-muted">tenants · 7 opted out</div></div>
+                <div><div class="text-xs text-muted mb-1">Dinner</div><div style="font-size:28px;font-weight:700;">38</div><div class="text-xs text-muted">Final count locks at 6 PM</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── SCREEN: NOTICES ─── -->
+        <div id="panel-notices" class="panel-screen" style="display:none;">
+          <div class="page-header">
+            <h1>Broadcasts & Notices</h1>
+            <div class="actions">
+              <button class="btn-accent" onclick="openModal('modal-compose-notice')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                Compose Broadcast
+              </button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h2>Sent Notices</h2><span class="text-xs text-muted">Showing last 30 days</span></div>
+            <div>
+              <div class="notice-item">
+                <div class="notice-icon general">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                </div>
+                <div class="notice-text" style="flex:1;">
+                  <h3>Water supply interruption — 16 Sep</h3>
+                  <p>Water supply will be off from 10 AM to 2 PM on Tuesday for maintenance. Please store water in advance.</p>
+                  <div class="meta">Sent to: All Properties (41 tenants) · 14 Sep, 6:30 PM · 39 read</div>
+                </div>
+                <span class="badge active">38 / 41 Read</span>
+              </div>
+              <div class="notice-item">
+                <div class="notice-icon food">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+                </div>
+                <div class="notice-text" style="flex:1;">
+                  <h3>Special lunch this Saturday</h3>
+                  <p>We're serving Biryani this Saturday for lunch. Please confirm your availability on the app by Friday evening.</p>
+                  <div class="meta">Sent to: Green Valley PG (36 tenants) · 12 Sep, 8:00 AM</div>
+                </div>
+                <span class="badge active">36 / 36 Read</span>
+              </div>
+              <div class="notice-item">
+                <div class="notice-icon urgent">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="notice-text" style="flex:1;">
+                  <h3>Rent reminder — September due</h3>
+                  <p>This is a friendly reminder that September rent is due by the 1st. Please pay promptly to avoid a late fee.</p>
+                  <div class="meta">Sent to: 8 tenants (unpaid) · 28 Aug, 9:00 AM</div>
+                </div>
+                <span class="badge pending">6 / 8 Read</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── SCREEN: STAFF ─── -->
+        <div id="panel-staff" class="panel-screen" style="display:none;">
+          <div class="page-header">
+            <h1>Staff & Managers</h1>
+            <div class="actions">
+              <button class="btn-accent" onclick="openModal('modal-add-staff')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Add Member
+              </button>
+            </div>
+          </div>
+          <div class="two-col">
+            <div class="card">
+              <div class="card-header"><h2>Managers</h2><span class="badge active">2 active</span></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Name</th><th>Properties</th><th>Status</th><th></th></tr></thead>
+                  <tbody>
+                    <tr><td><div class="flex items-center gap-2"><div class="user-avatar" style="width:30px;height:30px;font-size:11px;background:#4F46E5;">SK</div><div><div class="font-semibold">Suresh Kumar</div><div class="text-xs text-muted">+91 98765 77777</div></div></div></td><td class="text-sm">Green Valley, Koramangala</td><td><span class="badge active dot">Active</span></td><td><button class="btn-ghost" style="font-size:12px;">Edit Scope</button></td></tr>
+                    <tr><td><div class="flex items-center gap-2"><div class="user-avatar" style="width:30px;height:30px;font-size:11px;background:#D97706;">LM</div><div><div class="font-semibold">Lakshmi M.</div><div class="text-xs text-muted">+91 98765 88888</div></div></div></td><td class="text-sm">Indiranagar</td><td><span class="badge active dot">Active</span></td><td><button class="btn-ghost" style="font-size:12px;">Edit Scope</button></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><h2>Staff Roster</h2><span class="badge active">5 active</span></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Name</th><th>Role</th><th>Property</th><th>Status</th></tr></thead>
+                  <tbody>
+                    <tr><td class="font-semibold">Rajesh T.</td><td><span class="tag orange">Cook</span></td><td>All</td><td><span class="badge active dot">On Duty</span></td></tr>
+                    <tr><td class="font-semibold">Kavitha S.</td><td><span class="tag purple">Housekeeping</span></td><td>Green Valley</td><td><span class="badge active dot">On Duty</span></td></tr>
+                    <tr><td class="font-semibold">Mohan G.</td><td><span class="tag blue">Security</span></td><td>Green Valley</td><td><span class="badge pending dot">Night shift</span></td></tr>
+                    <tr><td class="font-semibold">Rupa K.</td><td><span class="tag purple">Housekeeping</span></td><td>Koramangala</td><td><span class="badge active dot">On Duty</span></td></tr>
+                    <tr><td class="font-semibold">Vijay M.</td><td><span class="tag orange">Warden</span></td><td>Indiranagar</td><td><span class="badge active dot">On Duty</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── SCREEN: SUBSCRIPTION ─── -->
+        <div id="panel-subscription" class="panel-screen" style="display:none;">
+          <div class="page-header"><h1>Subscription & Billing</h1></div>
+          <div class="alert-banner success" style="margin-bottom:20px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <p>You are on the <strong>Growth Plan</strong>. Next billing date: <strong>1 Oct 2026</strong> · Auto-renewal enabled</p>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;">
+            <div class="plan-card">
+              <div class="plan-name">Starter</div>
+              <div class="plan-price">₹1,499<span>/mo</span></div>
+              <div class="text-xs text-muted mt-1">Up to 100 beds</div>
+              <ul class="plan-features mt-3">
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>1 Property</li>
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Tenant & Bed Mgmt</li>
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Issue Queue</li>
+              </ul>
+            </div>
+            <div class="plan-card current">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div class="plan-name">Growth</div><span class="badge active">Current</span></div>
+              <div class="plan-price">₹3,999<span>/mo</span></div>
+              <div class="text-xs text-muted mt-1">101–300 beds</div>
+              <ul class="plan-features mt-3">
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Up to 5 Properties</li>
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Managers & Staff</li>
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Waitlist Panel</li>
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Expense Tracking</li>
+              </ul>
+            </div>
+            <div class="plan-card">
+              <div class="plan-name">Scale</div>
+              <div class="plan-price">₹8,499<span>/mo</span></div>
+              <div class="text-xs text-muted mt-1">301–750 beds</div>
+              <ul class="plan-features mt-3">
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Unlimited Properties</li>
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Dedicated Support</li>
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Advanced Reports</li>
+              </ul>
+            </div>
+            <div class="plan-card" style="background:var(--color-primary);border-color:transparent;">
+              <div class="plan-name" style="color:white;">Enterprise</div>
+              <div class="plan-price" style="color:var(--color-accent);">Custom</div>
+              <div class="text-xs mt-1" style="color:rgba(255,255,255,.5);">750+ beds</div>
+              <button class="btn-accent" style="margin-top:20px;width:100%;justify-content:center;">Contact Sales</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h2>Invoice History</h2></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Invoice</th><th>Period</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+                <tbody>
+                  <tr><td class="font-semibold">INV-2026-009</td><td>Sep 2026</td><td>₹3,999</td><td><span class="badge active dot">Paid</span></td><td><button class="btn-ghost" style="font-size:12px;">Download</button></td></tr>
+                  <tr><td class="font-semibold">INV-2026-008</td><td>Aug 2026</td><td>₹3,999</td><td><span class="badge active dot">Paid</span></td><td><button class="btn-ghost" style="font-size:12px;">Download</button></td></tr>
+                  <tr><td class="font-semibold">INV-2026-007</td><td>Jul 2026</td><td>₹3,999</td><td><span class="badge active dot">Paid</span></td><td><button class="btn-ghost" style="font-size:12px;">Download</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- /content -->
+    </div> <!-- /main -->
+  </div> <!-- /app-shell -->
+</div> <!-- /screen-dashboard -->
+
+<!-- ═══════════════════════════════════════════════════════
+     MODALS
+══════════════════════════════════════════════════════════ -->
+
+<!-- Modal: Property Switcher -->
+<div id="modal-property-switcher" class="modal-overlay">
+  <div class="modal" style="width:360px;">
+    <div class="modal-header"><h2>Switch Property</h2><button onclick="closeModal('modal-property-switcher')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body" style="padding:8px 0;">
+      <div style="padding:10px 20px 6px;font-size:11px;font-weight:600;color:var(--color-text-4);text-transform:uppercase;letter-spacing:.5px;">Consolidated</div>
+      <div onclick="closeModal('modal-property-switcher')" style="padding:12px 20px;display:flex;align-items:center;gap:12px;cursor:pointer;background:var(--color-success-bg);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        <div><div style="font-size:14px;font-weight:600;">All Properties</div><div style="font-size:12px;color:var(--color-text-3);">48 beds across 3 properties</div></div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2" style="margin-left:auto;"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div style="padding:10px 20px 6px;font-size:11px;font-weight:600;color:var(--color-text-4);text-transform:uppercase;letter-spacing:.5px;border-top:1px solid var(--color-border);">Individual Properties</div>
+      <div onclick="closeModal('modal-property-switcher')" style="padding:12px 20px;display:flex;align-items:center;gap:12px;cursor:pointer;" onmouseover="this.style.background='var(--color-bg)'" onmouseout="this.style.background='white'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <div><div style="font-size:14px;font-weight:600;">Green Valley PG</div><div style="font-size:12px;color:var(--color-text-3);">36 beds · 92% occupied</div></div>
+      </div>
+      <div onclick="closeModal('modal-property-switcher')" style="padding:12px 20px;display:flex;align-items:center;gap:12px;cursor:pointer;" onmouseover="this.style.background='var(--color-bg)'" onmouseout="this.style.background='white'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <div><div style="font-size:14px;font-weight:600;">Koramangala PG</div><div style="font-size:12px;color:var(--color-text-3);">8 beds · 78% occupied</div></div>
+      </div>
+      <div onclick="closeModal('modal-property-switcher')" style="padding:12px 20px;display:flex;align-items:center;gap:12px;cursor:pointer;" onmouseover="this.style.background='var(--color-bg)'" onmouseout="this.style.background='white'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <div><div style="font-size:14px;font-weight:600;">Indiranagar PG</div><div style="font-size:12px;color:var(--color-text-3);">4 beds · 85% occupied</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Add Tenant / Onboard -->
+<div id="modal-add-tenant" class="modal-overlay">
+  <div class="modal" style="width:600px;">
+    <div class="modal-header"><h2>Onboard New Tenant</h2><button onclick="closeModal('modal-add-tenant')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
+        <div style="border:2px solid var(--color-primary);border-radius:var(--radius-lg);padding:16px;cursor:pointer;background:var(--color-success-bg);">
+          <div style="font-size:14px;font-weight:700;margin-bottom:4px;">Path A — Enter Details</div>
+          <div style="font-size:12px;color:var(--color-text-3);">You fill in the tenant's profile information directly.</div>
+        </div>
+        <div style="border:1.5px solid var(--color-border-2);border-radius:var(--radius-lg);padding:16px;cursor:pointer;" onclick="closeModal('modal-add-tenant');openModal('modal-qr-scan')">
+          <div style="font-size:14px;font-weight:700;margin-bottom:4px;">Path B — Scan QR / Profile ID</div>
+          <div style="font-size:12px;color:var(--color-text-3);">Tenant already self-registered. Import their profile.</div>
+        </div>
+      </div>
+      <div class="steps-bar">
+        <div class="step-bar-item active"><div class="step-circle">1</div><div class="step-label">Personal Info</div></div>
+        <div class="step-bar-item"><div class="step-circle">2</div><div class="step-label">Stay Details</div></div>
+        <div class="step-bar-item"><div class="step-circle">3</div><div class="step-label">T&C + Payment</div></div>
+        <div class="step-bar-item"><div class="step-circle">4</div><div class="step-label">Confirm</div></div>
+      </div>
+      <div class="form-grid">
+        <div class="form-field"><label>Full Name *</label><input type="text" placeholder="Akash Reddy"/></div>
+        <div class="form-field"><label>Phone *</label><input type="tel" placeholder="+91 98765 00005"/></div>
+        <div class="form-field"><label>Email</label><input type="email" placeholder="akash@gmail.com"/></div>
+        <div class="form-field"><label>Gender *</label><select><option>Male</option><option>Female</option></select></div>
+        <div class="form-field"><label>Date of Birth</label><input type="date"/></div>
+        <div class="form-field"><label>Occupation</label><input type="text" placeholder="Software Engineer"/></div>
+        <div class="form-field"><label>ID Type *</label><select><option>Aadhaar</option><option>Passport</option><option>Driving Licence</option></select></div>
+        <div class="form-field"><label>ID Number *</label><input type="text" placeholder="XXXX XXXX XXXX"/></div>
+        <div class="form-field full"><label>Emergency Contact *</label><input type="text" placeholder="Name · Relationship · Phone"/></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-add-tenant')">Cancel</button>
+      <button class="btn-primary" style="width:auto;padding:0 24px;">Next: Stay Details</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: QR Scan -->
+<div id="modal-qr-scan" class="modal-overlay">
+  <div class="modal" style="width:440px;">
+    <div class="modal-header"><h2>Import Tenant Profile (Path B)</h2><button onclick="closeModal('modal-qr-scan')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body" style="text-align:center;">
+      <div style="background:var(--color-bg);border-radius:var(--radius-lg);padding:32px;margin-bottom:20px;border:2px dashed var(--color-border-2);">
+        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-4)" stroke-width="1.5" style="margin:0 auto 12px;"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="4" height="4"/></svg>
+        <p style="font-size:14px;font-weight:600;margin-bottom:4px;">Point camera at tenant's QR code</p>
+        <p style="font-size:12px;color:var(--color-text-3);">Or paste their Tenant Profile ID below</p>
+      </div>
+      <div class="field-input" style="margin-bottom:16px;">
+        <span class="prefix">ID</span>
+        <input type="text" placeholder="e.g. MYPG-TN-2026-00123"/>
+      </div>
+      <button class="btn-primary" onclick="closeModal('modal-qr-scan')">Fetch Profile</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Room Detail -->
+<div id="modal-room-detail" class="modal-overlay">
+  <div class="modal" style="width:500px;">
+    <div class="modal-header"><h2>Room 101 — Green Valley PG</h2><button onclick="closeModal('modal-room-detail')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body">
+      <div style="display:flex;gap:10px;margin-bottom:16px;"><span class="tag green">2-sharing</span><span class="tag blue">AC</span><span class="tag purple">Attached Bath</span><span class="tag green">Full</span></div>
+      <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Beds</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:var(--color-success-bg);border:1px solid #BBF7D0;border-radius:var(--radius-md);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:13px;font-weight:600;">Bed A — ₹8,000/mo</div><div style="font-size:12px;color:var(--color-text-3);">Ananya Sharma · Occupied since 1 Jul</div></div>
+          <span class="badge occupied dot">Occupied</span>
+        </div>
+        <div style="background:var(--color-success-bg);border:1px solid #BBF7D0;border-radius:var(--radius-md);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:13px;font-weight:600;">Bed B — ₹8,000/mo</div><div style="font-size:12px;color:var(--color-text-3);">Preethi R. · Occupied since 15 Jun</div></div>
+          <span class="badge occupied dot">Occupied</span>
+        </div>
+      </div>
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--color-border);">
+        <div style="font-size:13px;font-weight:600;margin-bottom:8px;">Room Amenities</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <span class="tag green">AC</span><span class="tag blue">Attached Bath</span><span class="tag purple">WiFi</span><span class="tag orange">Balcony</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeModal('modal-room-detail')">Close</button>
+      <button class="btn-secondary">Edit Room</button>
+      <button class="btn-accent">Add Bed</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Add Prospect to Waitlist -->
+<div id="modal-add-prospect" class="modal-overlay">
+  <div class="modal" style="width:480px;">
+    <div class="modal-header"><h2>Add Prospect to Waitlist</h2><button onclick="closeModal('modal-add-prospect')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-field"><label>Full Name *</label><input type="text" placeholder="Prospect name"/></div>
+        <div class="form-field"><label>Phone *</label><input type="tel" placeholder="+91 XXXXX XXXXX"/></div>
+        <div class="form-field"><label>Email</label><input type="email" placeholder="optional"/></div>
+        <div class="form-field"><label>Room Type Preference</label><select><option>Any</option><option>Private (1-sharing)</option><option>2-sharing</option><option>3-sharing</option><option>4-sharing</option><option>Dormitory</option></select></div>
+        <div class="form-field"><label>Source</label><select><option>Walk-in</option><option>Phone inquiry</option><option>Referral</option><option>Marketing website</option><option>Other</option></select></div>
+        <div class="form-field"><label>Property</label><select><option>Green Valley PG</option><option>Koramangala PG</option></select></div>
+        <div class="form-field full"><label>Notes (private)</label><textarea placeholder="Any notes about this prospect..."></textarea></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-add-prospect')">Cancel</button>
+      <button class="btn-primary" style="width:auto;padding:0 24px;" onclick="closeModal('modal-add-prospect')">Add to Waitlist</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Convert Prospect to Tenant -->
+<div id="modal-convert-tenant" class="modal-overlay">
+  <div class="modal" style="width:480px;">
+    <div class="modal-header"><h2>Convert Prospect to Tenant</h2><button onclick="closeModal('modal-convert-tenant')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body">
+      <div class="alert-banner info" style="margin-bottom:16px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <p>Pre-filled from Siddharth Jain's waitlist entry. Review and add stay details.</p>
+      </div>
+      <div class="form-grid">
+        <div class="form-field"><label>Name</label><input type="text" value="Siddharth Jain" readonly style="background:var(--color-bg);"/></div>
+        <div class="form-field"><label>Phone</label><input type="tel" value="+91 98765 22222" readonly style="background:var(--color-bg);"/></div>
+        <div class="form-field"><label>Bed Assignment *</label><select><option>204-B (2-share, vacant) — ₹8,000/mo</option><option>103-B (2-share, vacant)</option></select></div>
+        <div class="form-field"><label>Move-in Date *</label><input type="date"/></div>
+        <div class="form-field"><label>Negotiated Rent *</label><input type="text" placeholder="₹8,000"/></div>
+        <div class="form-field"><label>Security Deposit *</label><input type="text" placeholder="₹16,000"/></div>
+        <div class="form-field"><label>Billing Cycle Day</label><select><option>1st of month</option><option>5th of month</option><option>10th of month</option></select></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-convert-tenant')">Cancel</button>
+      <button class="btn-primary" style="width:auto;padding:0 24px;" onclick="closeModal('modal-convert-tenant');openModal('modal-tnc-payment')">Next: T&C & Payment</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: T&C + Payment Gate -->
+<div id="modal-tnc-payment" class="modal-overlay">
+  <div class="modal" style="width:520px;">
+    <div class="modal-header"><h2>Terms & Payment Gate</h2><button onclick="closeModal('modal-tnc-payment')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body">
+      <div class="steps-bar" style="margin-bottom:24px;">
+        <div class="step-bar-item done"><div class="step-circle"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="step-label">Profile</div></div>
+        <div class="step-bar-item done"><div class="step-circle"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="step-label">Stay Details</div></div>
+        <div class="step-bar-item active"><div class="step-circle">3</div><div class="step-label">T&C + Payment</div></div>
+        <div class="step-bar-item"><div class="step-circle">4</div><div class="step-label">Confirm</div></div>
+      </div>
+      <div style="background:var(--color-bg);border-radius:var(--radius-md);padding:14px;border:1px solid var(--color-border);max-height:160px;overflow-y:auto;font-size:12.5px;line-height:1.7;margin-bottom:16px;color:var(--color-text-2);">
+        <strong>Terms & Conditions — Green Valley PG</strong><br/>
+        <strong>Notice Period:</strong> 30 days written notice required before vacating. Short-notice exits forfeit a portion of the security deposit proportional to the notice shortfall.<br/>
+        <strong>Meal Policy:</strong> Opt-out by 10 AM for lunch, 6 PM for dinner. After the cutoff, you are counted as available and charged accordingly.<br/>
+        <strong>Visitor Policy:</strong> Visitors permitted in common areas between 8 AM – 9 PM. No overnight guests.<br/>
+        <strong>Deposit Refund:</strong> Full refund within 7 days of deboarding if no deductions. Any deductions will be communicated with photographic evidence.<br/>
+        <em>Platform T&C: MyPG acts as a management platform. Financial data is held securely and not shared with third parties except as required by law.</em>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
+        <input type="checkbox" id="tnc-agree" style="width:16px;height:16px;"/>
+        <label for="tnc-agree" style="font-size:13px;font-weight:500;">I confirm the tenant has read and agreed to these Terms & Conditions</label>
+      </div>
+      <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Payment at Move-in</div>
+      <div class="payment-breakdown">
+        <div class="payment-line"><span class="label">Security Deposit</span><span class="amount">₹16,000</span></div>
+        <div class="payment-line"><span class="label">First Month's Rent (pro-rated 15–30 Sep)</span><span class="amount">₹4,000</span></div>
+        <div class="payment-line"><span class="label">Total Due at Move-in</span><span class="amount" style="color:var(--color-primary)">₹20,000</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <button style="height:44px;border:1.5px solid var(--color-border-2);border-radius:var(--radius-md);font-size:13px;font-weight:500;background:white;cursor:pointer;">Mark as Cash Received</button>
+        <button class="btn-primary" style="font-size:13px;">UPI / Digital Payment</button>
+      </div>
+      <button style="width:100%;text-align:center;color:var(--color-text-3);font-size:12px;margin-top:10px;padding:6px;background:none;border:none;cursor:pointer;">Skip for now — collect later</button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-tnc-payment')">Back</button>
+      <button class="btn-primary" style="width:auto;padding:0 24px;" onclick="closeModal('modal-tnc-payment')">Confirm & Allot Bed</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Deboard Tenant -->
+<div id="modal-deboard" class="modal-overlay">
+  <div class="modal" style="width:480px;">
+    <div class="modal-header"><h2>Initiate Deboarding</h2><button onclick="closeModal('modal-deboard')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body">
+      <div class="alert-banner warn" style="margin-bottom:16px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+        <p>This will begin the exit flow for <strong>Ananya Sharma</strong> — Room 204-B. Bed will be freed on confirmation.</p>
+      </div>
+      <div class="form-grid">
+        <div class="form-field"><label>Move-out Date *</label><input type="date"/></div>
+        <div class="form-field"><label>Exit Reason</label><select><option>Tenant request</option><option>Non-payment</option><option>Rule violation</option><option>Owner-initiated</option><option>Completed stay</option></select></div>
+        <div class="form-field full"><label>Exit Notes</label><textarea placeholder="Internal notes about this deboarding..."></textarea></div>
+      </div>
+      <div style="margin-top:16px;font-size:13px;font-weight:600;margin-bottom:10px;">Exit Checklist</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;"><input type="checkbox"/> Room/bed condition checked and documented</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;"><input type="checkbox"/> Key / access card returned</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;"><input type="checkbox"/> All outstanding dues settled (₹8,000 overdue)</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;"><input type="checkbox"/> Deposit deduction logged (if any)</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;"><input type="checkbox"/> Final invoice generated</label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-deboard')">Cancel</button>
+      <button class="btn-danger" onclick="closeModal('modal-deboard')">Confirm Deboarding</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Add Expense -->
+<div id="modal-add-expense" class="modal-overlay">
+  <div class="modal" style="width:440px;">
+    <div class="modal-header"><h2>Add Expense</h2><button onclick="closeModal('modal-add-expense')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-field"><label>Date *</label><input type="date"/></div>
+        <div class="form-field"><label>Amount (₹) *</label><input type="number" placeholder="0.00"/></div>
+        <div class="form-field"><label>Category *</label><select><option>Staff Salary</option><option>Electricity</option><option>Water</option><option>Internet</option><option>Repairs / Maintenance</option><option>Building Rent</option><option>Other</option></select></div>
+        <div class="form-field"><label>Property</label><select><option>Green Valley PG</option><option>Koramangala PG</option><option>All Properties</option></select></div>
+        <div class="form-field full"><label>Description *</label><input type="text" placeholder="e.g. Housekeeping staff salary — August"/></div>
+        <div class="form-field full"><label>Recurring?</label>
+          <select><option>No — one-time</option><option>Monthly</option><option>Quarterly</option></select>
+        </div>
+        <div class="form-field full"><label>Receipt Photo (optional)</label>
+          <div style="border:1.5px dashed var(--color-border-2);border-radius:var(--radius-md);padding:16px;text-align:center;background:var(--color-bg);cursor:pointer;font-size:12px;color:var(--color-text-3);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom:4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Upload receipt
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-add-expense')">Cancel</button>
+      <button class="btn-primary" style="width:auto;padding:0 24px;" onclick="closeModal('modal-add-expense')">Save Expense</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Compose Notice -->
+<div id="modal-compose-notice" class="modal-overlay">
+  <div class="modal" style="width:500px;">
+    <div class="modal-header"><h2>Compose Broadcast</h2><button onclick="closeModal('modal-compose-notice')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-field full"><label>Title *</label><input type="text" placeholder="e.g. Water supply interruption on Tuesday"/></div>
+        <div class="form-field"><label>Target Audience</label><select><option>All Tenants (All Properties)</option><option>Green Valley PG — All</option><option>Koramangala PG — All</option><option>Specific floor</option></select></div>
+        <div class="form-field"><label>Priority</label><select><option>Normal</option><option>Important</option><option>Urgent</option></select></div>
+        <div class="form-field full"><label>Message *</label><textarea rows="4" placeholder="Write your notice here..."></textarea></div>
+        <div class="form-field"><label>Schedule (optional)</label><input type="datetime-local"/></div>
+        <div class="form-field">
+          <label>Delivery Channel</label>
+          <select><option>In-app only</option><option>In-app + WhatsApp</option><option>In-app + SMS</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-compose-notice')">Cancel</button>
+      <button class="btn-ghost">Save Draft</button>
+      <button class="btn-primary" style="width:auto;padding:0 24px;" onclick="closeModal('modal-compose-notice')">Send Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Add Staff -->
+<div id="modal-add-staff" class="modal-overlay">
+  <div class="modal" style="width:440px;">
+    <div class="modal-header"><h2>Add Staff / Manager</h2><button onclick="closeModal('modal-add-staff')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-field"><label>Name *</label><input type="text" placeholder="Full name"/></div>
+        <div class="form-field"><label>Phone *</label><input type="tel" placeholder="+91 XXXXX XXXXX"/></div>
+        <div class="form-field full"><label>Role *</label><select><option>Manager</option><option>Housekeeping</option><option>Cook</option><option>Security</option><option>Warden</option><option>Maintenance</option></select></div>
+        <div class="form-field full"><label>Property Scope (Multi-select)</label>
+          <select multiple style="height:80px;"><option>Green Valley PG</option><option>Koramangala PG</option><option>Indiranagar PG</option></select>
+        </div>
+      </div>
+      <div class="alert-banner info" style="margin-top:8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <p>A WhatsApp invite will be sent automatically once added.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-add-staff')">Cancel</button>
+      <button class="btn-primary" style="width:auto;padding:0 24px;" onclick="closeModal('modal-add-staff')">Send Invite</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Navigation & Screen Switching ──
+  function navigate(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(screenId);
+    if (target) target.classList.add('active');
+  }
+
+  function setActive(navItem, screenId) {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if (navItem) navItem.classList.add('active');
+
+    // Panel map
+    const panelMap = {
+      'screen-dashboard':   'panel-dashboard',
+      'screen-properties':  'panel-properties',
+      'screen-tenants':     'panel-tenants',
+      'screen-waitlist':    'panel-waitlist',
+      'screen-finance':     'panel-finance',
+      'screen-expenses':    'panel-expenses',
+      'screen-issues':      'panel-issues',
+      'screen-food':        'panel-food',
+      'screen-notices':     'panel-notices',
+      'screen-staff':       'panel-staff',
+      'screen-subscription':'panel-subscription',
+    };
+
+    // Hide all panels
+    document.querySelectorAll('.panel-screen').forEach(p => p.style.display = 'none');
+    const panelId = panelMap[screenId];
+    if (panelId) {
+      const panel = document.getElementById(panelId);
+      if (panel) panel.style.display = 'block';
+    }
+
+    // Update topbar title
+    const titles = {
+      'panel-dashboard':   'Overview',
+      'panel-properties':  'Properties & Beds',
+      'panel-tenants':     'Tenants',
+      'panel-waitlist':    'Waitlist',
+      'panel-finance':     'Revenue & Dues',
+      'panel-expenses':    'Expenses',
+      'panel-issues':      'Issue Queue',
+      'panel-food':        'Food & Menu',
+      'panel-notices':     'Broadcasts',
+      'panel-staff':       'Staff & Managers',
+      'panel-subscription':'Subscription',
+    };
+    const title = document.getElementById('topbar-title');
+    if (title && panelId) title.textContent = titles[panelId] || '';
+  }
+
+  function setActiveByPanel(panelId) {
+    document.querySelectorAll('.panel-screen').forEach(p => p.style.display = 'none');
+    const panel = document.getElementById(panelId);
+    if (panel) panel.style.display = 'block';
+  }
+
+  // Wire up nav items
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      item.classList.add('active');
+    });
+  });
+
+  // ── Modals ──
+  function openModal(id) {
+    const m = document.getElementById(id);
+    if (m) m.classList.add('open');
+  }
+  function closeModal(id) {
+    const m = document.getElementById(id);
+    if (m) m.classList.remove('open');
+  }
+  // Close on overlay click
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) overlay.classList.remove('open');
+    });
+  });
+
+  // ── OTP auto-advance ──
+  document.querySelectorAll('.otp-box').forEach((box, i, boxes) => {
+    box.addEventListener('input', () => {
+      if (box.value && i < boxes.length - 1) boxes[i + 1].focus();
+    });
+    box.addEventListener('keydown', e => {
+      if (e.key === 'Backspace' && !box.value && i > 0) boxes[i - 1].focus();
+    });
+  });
+</script>
+</body>
+</html>
