@@ -1163,9 +1163,9 @@
                 <table>
                   <thead><tr><th>Tenant</th><th>Room</th><th>Amount</th><th>Due Date</th><th>Status</th><th style="text-align:right">Action</th></tr></thead>
                   <tbody>
-                    <tr><td><div class="font-semibold">Ananya Sharma</div><div class="text-xs text-muted">Green Valley</div></td><td>204-B</td><td>₹8,000</td><td>16 Sep</td><td><span class="badge overdue dot">Overdue</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);margin-right:4px;">Remind</button><button class="btn-primary" style="padding:4px 8px;font-size:11px;">Log Cash</button></td></tr>
-                    <tr><td><div class="font-semibold">Rohit Mehta</div><div class="text-xs text-muted">Koramangala PG</div></td><td>312-A</td><td>₹10,500</td><td>17 Sep</td><td><span class="badge pending dot">Due soon</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);margin-right:4px;">Remind</button><button class="btn-primary" style="padding:4px 8px;font-size:11px;">Log Cash</button></td></tr>
-                    <tr><td><div class="font-semibold">Priya Nair</div><div class="text-xs text-muted">Indiranagar PG</div></td><td>101-A</td><td>₹9,000</td><td>18 Sep</td><td><span class="badge pending dot">Due soon</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);margin-right:4px;">Remind</button><button class="btn-primary" style="padding:4px 8px;font-size:11px;">Log Cash</button></td></tr>
+                    <tr><td><div class="font-semibold">Ananya Sharma</div><div class="text-xs text-muted">Green Valley</div></td><td>204-B</td><td>₹8,000</td><td>16 Sep</td><td><span class="badge overdue dot">Overdue</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);margin-right:4px;">Remind</button><button class="btn-primary" style="padding:4px 8px;font-size:11px;" onclick="openModal('modal-log-payment')">Log Cash</button></td></tr>
+                    <tr><td><div class="font-semibold">Rohit Mehta</div><div class="text-xs text-muted">Koramangala PG</div></td><td>312-A</td><td>₹10,500</td><td>17 Sep</td><td><span class="badge pending dot">Due soon</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);margin-right:4px;">Remind</button><button class="btn-primary" style="padding:4px 8px;font-size:11px;" onclick="openModal('modal-log-payment')">Log Cash</button></td></tr>
+                    <tr><td><div class="font-semibold">Priya Nair</div><div class="text-xs text-muted">Indiranagar PG</div></td><td>101-A</td><td>₹9,000</td><td>18 Sep</td><td><span class="badge pending dot">Due soon</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);margin-right:4px;">Remind</button><button class="btn-primary" style="padding:4px 8px;font-size:11px;" onclick="openModal('modal-log-payment')">Log Cash</button></td></tr>
                     <tr><td><div class="font-semibold">Kiran Patel</div><div class="text-xs text-muted">Green Valley</div></td><td>205-A</td><td>₹7,500</td><td>20 Sep</td><td><span class="badge active dot">On track</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);">Remind</button></td></tr>
                   </tbody>
                 </table>
@@ -1485,7 +1485,7 @@
               <div class="card mt-3">
                 <div class="card-header"><h2>Quick Actions</h2></div>
                 <div class="card-body flex-col gap-2">
-                  <button class="btn-accent w-full">
+                  <button class="btn-accent w-full" onclick="openModal('modal-log-payment')">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                     Log Rent Payment
                   </button>
@@ -1747,6 +1747,7 @@
           <div class="page-header">
             <h1>Revenue & Dues</h1>
             <div class="actions">
+              <button class="btn-accent" onclick="openModal('modal-log-payment')">Log Payment</button>
               <button class="btn-secondary">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Export Report (CSV / PDF)
@@ -1777,8 +1778,8 @@
                 <table>
                   <thead><tr><th>Tenant</th><th>Property</th><th>Amount</th><th>Method</th><th>Status</th><th>Action</th></tr></thead>
                   <tbody>
-                    <tr><td class="font-semibold">Ananya Sharma</td><td class="text-sm text-muted">Green Valley</td><td>₹8,000</td><td><span class="tag orange">Cash</span></td><td><span class="badge overdue dot">Overdue</span></td><td><button class="btn-accent" style="font-size:11px;height:26px;">Log Payment</button></td></tr>
-                    <tr><td class="font-semibold">Rohit Mehta</td><td class="text-sm text-muted">Koramangala</td><td>₹10,500</td><td><span class="tag blue">UPI</span></td><td><span class="badge pending dot">Pending</span></td><td><button class="btn-accent" style="font-size:11px;height:26px;">Log Payment</button></td></tr>
+                    <tr><td class="font-semibold">Ananya Sharma</td><td class="text-sm text-muted">Green Valley</td><td>₹8,000</td><td><span class="tag orange">Cash</span></td><td><span class="badge overdue dot">Overdue</span></td><td><button class="btn-accent" style="font-size:11px;height:26px;" onclick="openModal('modal-log-payment')">Log Payment</button></td></tr>
+                    <tr><td class="font-semibold">Rohit Mehta</td><td class="text-sm text-muted">Koramangala</td><td>₹10,500</td><td><span class="tag blue">UPI</span></td><td><span class="badge pending dot">Pending</span></td><td><button class="btn-accent" style="font-size:11px;height:26px;" onclick="openModal('modal-log-payment')">Log Payment</button></td></tr>
                     <tr><td class="font-semibold">Priya Nair</td><td class="text-sm text-muted">Indiranagar</td><td>₹9,000</td><td><span class="tag orange">Cash</span></td><td><span class="badge active dot">Paid</span></td><td><button class="btn-ghost" style="font-size:11px;height:26px;">Invoice</button></td></tr>
                     <tr><td class="font-semibold">Kiran Patel</td><td class="text-sm text-muted">Green Valley</td><td>₹7,500</td><td><span class="tag blue">UPI</span></td><td><span class="badge active dot">Paid</span></td><td><button class="btn-ghost" style="font-size:11px;height:26px;">Invoice</button></td></tr>
                   </tbody>
@@ -1823,12 +1824,12 @@
               <table>
                 <thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Property</th><th>Amount</th><th>Receipt</th></tr></thead>
                 <tbody>
-                  <tr><td class="text-sm">1 Sep</td><td><span class="tag purple">Staff Salary</span></td><td>Housekeeping — 2 staff (Aug)</td><td>Green Valley</td><td class="font-semibold">₹22,000</td><td><button class="btn-ghost" style="font-size:11px;height:26px;">View</button></td></tr>
-                  <tr><td class="text-sm">3 Sep</td><td><span class="tag blue">Utilities</span></td><td>Electricity bill — Aug</td><td>Green Valley</td><td class="font-semibold">₹14,200</td><td><button class="btn-ghost" style="font-size:11px;height:26px;">View</button></td></tr>
-                  <tr><td class="text-sm">5 Sep</td><td><span class="tag orange">Repairs</span></td><td>AC compressor replacement — Room 204</td><td>Green Valley</td><td class="font-semibold">₹8,500</td><td><button class="btn-ghost" style="font-size:11px;height:26px;">View</button></td></tr>
+                  <tr><td class="text-sm">1 Sep</td><td><span class="tag purple">Staff Salary</span></td><td>Housekeeping — 2 staff (Aug)</td><td>Green Valley</td><td class="font-semibold">₹22,000</td><td><button class="btn-ghost" style="font-size:11px;height:26px;" onclick="openModal('modal-view-receipt')">View</button></td></tr>
+                  <tr><td class="text-sm">3 Sep</td><td><span class="tag blue">Utilities</span></td><td>Electricity bill — Aug</td><td>Green Valley</td><td class="font-semibold">₹14,200</td><td><button class="btn-ghost" style="font-size:11px;height:26px;" onclick="openModal('modal-view-receipt')">View</button></td></tr>
+                  <tr><td class="text-sm">5 Sep</td><td><span class="tag orange">Repairs</span></td><td>AC compressor replacement — Room 204</td><td>Green Valley</td><td class="font-semibold">₹8,500</td><td><button class="btn-ghost" style="font-size:11px;height:26px;" onclick="openModal('modal-view-receipt')">View</button></td></tr>
                   <tr><td class="text-sm">7 Sep</td><td><span class="tag blue">Internet</span></td><td>Broadband bill — Sep</td><td>Koramangala</td><td class="font-semibold">₹3,500</td><td><span class="text-muted text-xs">No receipt</span></td></tr>
-                  <tr><td class="text-sm">10 Sep</td><td><span class="tag purple">Staff Salary</span></td><td>Cook salary — Rajesh (Aug)</td><td>All Properties</td><td class="font-semibold">₹18,000</td><td><button class="btn-ghost" style="font-size:11px;height:26px;">View</button></td></tr>
-                  <tr><td class="text-sm">12 Sep</td><td><span class="tag orange">Repairs</span></td><td>Plumbing — 3rd floor bathroom</td><td>Indiranagar</td><td class="font-semibold">₹6,900</td><td><button class="btn-ghost" style="font-size:11px;height:26px;">View</button></td></tr>
+                  <tr><td class="text-sm">10 Sep</td><td><span class="tag purple">Staff Salary</span></td><td>Cook salary — Rajesh (Aug)</td><td>All Properties</td><td class="font-semibold">₹18,000</td><td><button class="btn-ghost" style="font-size:11px;height:26px;" onclick="openModal('modal-view-receipt')">View</button></td></tr>
+                  <tr><td class="text-sm">12 Sep</td><td><span class="tag orange">Repairs</span></td><td>Plumbing — 3rd floor bathroom</td><td>Indiranagar</td><td class="font-semibold">₹6,900</td><td><button class="btn-ghost" style="font-size:11px;height:26px;" onclick="openModal('modal-view-receipt')">View</button></td></tr>
                 </tbody>
               </table>
             </div>
@@ -1842,6 +1843,7 @@
             <div class="actions">
               <select class="filter-select"><option>All Properties</option><option>Green Valley PG</option></select>
               <select class="filter-select"><option>All Categories</option><option>Electrical</option><option>Plumbing</option><option>WiFi</option></select>
+              <select class="filter-select"><option>Assigned To: All</option><option>Unassigned</option><option>Ravi (Staff)</option><option>Suresh (Staff)</option></select>
             </div>
           </div>
           <div class="kanban">
@@ -1850,15 +1852,18 @@
               <div class="kanban-cards">
                 <div class="kanban-card" onclick="openModal('modal-issue-detail')">
                   <div class="k-title">WiFi not working in Room 201</div>
-                  <div class="k-meta"><span class="k-cat">WiFi</span> · Room 201 · 4h ago</div>
+                  <div class="k-meta" style="margin-bottom:8px;"><span class="k-cat">WiFi</span> · Room 201 · 4h ago</div>
+                  <div style="font-size:11px;color:var(--color-warn);background:var(--color-warn-bg);padding:2px 6px;border-radius:4px;display:inline-block;">Unassigned</div>
                 </div>
                 <div class="kanban-card" onclick="openModal('modal-issue-detail')">
                   <div class="k-title">Bathroom tap leaking</div>
-                  <div class="k-meta"><span class="k-cat">Plumbing</span> · Room 305 · 1d ago</div>
+                  <div class="k-meta" style="margin-bottom:8px;"><span class="k-cat">Plumbing</span> · Room 305 · 1d ago</div>
+                  <div style="font-size:11px;color:var(--color-warn);background:var(--color-warn-bg);padding:2px 6px;border-radius:4px;display:inline-block;">Unassigned</div>
                 </div>
                 <div class="kanban-card" onclick="openModal('modal-issue-detail')">
                   <div class="k-title">Bed mattress needs replacement</div>
-                  <div class="k-meta"><span class="k-cat">Furniture</span> · Room 402 · 2d ago</div>
+                  <div class="k-meta" style="margin-bottom:8px;"><span class="k-cat">Furniture</span> · Room 402 · 2d ago</div>
+                  <div style="font-size:11px;color:var(--color-warn);background:var(--color-warn-bg);padding:2px 6px;border-radius:4px;display:inline-block;">Unassigned</div>
                 </div>
               </div>
             </div>
@@ -1867,11 +1872,13 @@
               <div class="kanban-cards">
                 <div class="kanban-card" onclick="openModal('modal-issue-detail')">
                   <div class="k-title">Light fixture flickering</div>
-                  <div class="k-meta"><span class="k-cat">Electrical</span> · Room 110 · Ravi (staff)</div>
+                  <div class="k-meta" style="margin-bottom:8px;"><span class="k-cat">Electrical</span> · Room 110 · 2d ago</div>
+                  <div style="font-size:11px;color:var(--color-primary);background:var(--color-bg);padding:2px 6px;border-radius:4px;display:inline-flex;align-items:center;gap:4px;"><div class="avatar" style="width:14px;height:14px;font-size:8px;">R</div> Ravi (Staff)</div>
                 </div>
                 <div class="kanban-card" onclick="openModal('modal-issue-detail')">
                   <div class="k-title">Common area TV not working</div>
-                  <div class="k-meta"><span class="k-cat">Electrical</span> · Floor 2 · Suresh (staff)</div>
+                  <div class="k-meta" style="margin-bottom:8px;"><span class="k-cat">Electrical</span> · Floor 2 · 3d ago</div>
+                  <div style="font-size:11px;color:var(--color-primary);background:var(--color-bg);padding:2px 6px;border-radius:4px;display:inline-flex;align-items:center;gap:4px;"><div class="avatar" style="width:14px;height:14px;font-size:8px;">S</div> Suresh (Staff)</div>
                 </div>
               </div>
             </div>
@@ -2004,7 +2011,7 @@
                   <p>Water supply will be off from 10 AM to 2 PM on Tuesday for maintenance. Please store water in advance.</p>
                   <div class="meta">Sent to: All Properties (41 tenants) · 14 Sep, 6:30 PM · 39 read</div>
                 </div>
-                <span class="badge active">38 / 41 Read</span>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;"><span class="badge active">38 / 41 Read</span><button class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="openModal('modal-compose-notice')">Edit / Expire</button></div>
               </div>
               <div class="notice-item">
                 <div class="notice-icon food">
@@ -2138,12 +2145,13 @@
 
         <!-- ════════════ P&L REPORT PANEL ════════════ -->
         <div id="panel-pnl" class="panel-screen" style="display:none;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
-            <h2 style="font-size:20px;font-weight:700;">Profit &amp; Loss</h2>
-            <div style="display:flex;gap:12px;">
-              <select class="input-sm"><option>2026</option><option>2025</option></select>
+          <div class="page-header">
+            <h1>Profit &amp; Loss</h1>
+            <div class="actions">
+              <select class="filter-select"><option>All Months</option><option>September</option><option>August</option><option>July</option></select>
+              <select class="filter-select"><option>2026</option><option>2025</option></select>
               <button class="btn-secondary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export PDF</button>
-              <button class="btn-primary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export CSV</button>
+              <button class="btn-secondary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export CSV</button>
             </div>
           </div>
           
@@ -2235,6 +2243,32 @@
           </div>
 
           <div class="card" style="padding:24px;margin-bottom:24px;">
+            <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">Notification Settings</h3>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:12px;">
+              <div>
+                <div style="font-weight:600;margin-bottom:4px;">Rent Defaulter Alerts</div>
+                <div style="font-size:12px;color:var(--color-text-3);">Get notified when tenants miss rent deadlines.</div>
+              </div>
+              <div style="display:flex;gap:16px;font-size:13px;align-items:center;">
+                <label style="display:flex;align-items:center;gap:4px;"><input type="checkbox" checked/> App</label>
+                <label style="display:flex;align-items:center;gap:4px;"><input type="checkbox" checked/> SMS</label>
+                <label style="display:flex;align-items:center;gap:4px;"><input type="checkbox"/> Email</label>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;border:1px solid var(--color-border);border-radius:var(--radius-md);">
+              <div>
+                <div style="font-weight:600;margin-bottom:4px;">New Issue Reports</div>
+                <div style="font-size:12px;color:var(--color-text-3);">Alerts for new tickets raised by tenants.</div>
+              </div>
+              <div style="display:flex;gap:16px;font-size:13px;align-items:center;">
+                <label style="display:flex;align-items:center;gap:4px;"><input type="checkbox" checked/> App</label>
+                <label style="display:flex;align-items:center;gap:4px;"><input type="checkbox"/> SMS</label>
+                <label style="display:flex;align-items:center;gap:4px;"><input type="checkbox"/> Email</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="padding:24px;margin-bottom:24px;">
             <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">Security</h3>
             <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:12px;">
               <div>
@@ -2246,9 +2280,9 @@
             <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;border:1px solid var(--color-border);border-radius:var(--radius-md);">
               <div>
                 <div style="font-weight:600;margin-bottom:4px;">Two-Factor Authentication (2FA)</div>
-                <div style="font-size:12px;color:var(--color-text-3);">Add an extra layer of security using an authenticator app.</div>
+                <div style="font-size:12px;color:var(--color-text-3);">Require an OTP for login from new devices.</div>
               </div>
-              <button class="btn-primary">Enable 2FA</button>
+              <button class="btn-secondary">Enable 2FA</button>
             </div>
           </div>
           
@@ -2261,12 +2295,19 @@
               </div>
               <button class="btn-secondary">Request Export</button>
             </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:12px;">
+              <div>
+                <div style="font-weight:600;margin-bottom:4px;">Transfer Property Ownership</div>
+                <div style="font-size:12px;color:var(--color-text-3);">Transfer full admin rights to another user. This cannot be undone.</div>
+              </div>
+              <button class="btn-secondary" style="color:var(--color-danger);border-color:var(--color-border);">Initiate Transfer</button>
+            </div>
             <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;border:1px solid var(--color-danger-bg);background:var(--color-danger-bg);border-radius:var(--radius-md);">
               <div>
                 <div style="font-weight:600;color:var(--color-danger);margin-bottom:4px;">Delete Account</div>
-                <div style="font-size:12px;color:var(--color-danger);">Permanently remove your account and all associated data. This action is irreversible.</div>
+                <div style="font-size:12px;color:var(--color-danger);">Permanently delete your account and all associated properties.</div>
               </div>
-              <button class="btn-primary" style="background:var(--color-danger);">Delete Account</button>
+              <button class="btn-secondary" style="color:var(--color-danger);border-color:var(--color-danger);">Delete Account</button>
             </div>
           </div>
         </div>
@@ -2358,7 +2399,7 @@
                   <td style="padding:14px 20px;">30 Aug 2026</td>
                   <td style="padding:14px 20px;">2 / 4 Complete</td>
                   <td style="padding:14px 20px;"><span class="badge active dot" style="background:var(--color-warn-bg);color:var(--color-warn);">Pending Refund</span></td>
-                  <td style="padding:14px 20px;"><button class="btn-primary" style="font-size:12px;padding:6px 12px;">Process Exit</button></td>
+                  <td style="padding:14px 20px;"><button class="btn-primary" style="font-size:12px;padding:6px 12px;" onclick="openModal('modal-deboard')">Process Exit</button></td>
                 </tr>
               </tbody>
             </table>
@@ -2909,6 +2950,86 @@
   </div>
 </div>
 
+<!-- Modal: Bed Change Request -->
+<div id="modal-bed-change" class="modal-overlay">
+  <div class="modal" style="width:500px;">
+    <div class="modal-header"><h2>Process Bed Change</h2><button onclick="closeModal('modal-bed-change')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body">
+      <div style="background:var(--color-bg);padding:16px;border-radius:var(--radius-md);margin-bottom:16px;">
+        <h3 style="font-size:14px;font-weight:600;margin-bottom:8px;">Request Details</h3>
+        <div class="info-row" style="padding:4px 0;"><span class="info-label">Tenant</span><span class="info-val">Amit Sharma (Room 102-B)</span></div>
+        <div class="info-row" style="padding:4px 0;"><span class="info-label">Requested</span><span class="info-val">Room 105-A (Single Share)</span></div>
+        <div class="info-row" style="padding:4px 0;border-bottom:none;"><span class="info-label">Reason</span><span class="info-val">Needs quiet space for exams</span></div>
+      </div>
+      <div class="form-grid">
+        <div class="form-field full">
+          <label>Assign New Bed</label>
+          <select class="input-field">
+            <option>Room 105-A (Available)</option>
+            <option>Room 106-B (Available)</option>
+            <option>No beds available</option>
+          </select>
+        </div>
+      </div>
+      <div class="alert-banner info" style="margin-top:16px;align-items:flex-start;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <div>
+          <p><strong>Rent Difference: +₹4,000/mo</strong></p>
+          <p style="font-size:12px;margin-top:4px;">Approving this will close the old bed assignment and create a pro-rated adjustment for the next invoice cycle.</p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content:space-between;">
+      <button class="btn-secondary" onclick="closeModal('modal-bed-change')" style="color:var(--color-danger);border-color:var(--color-border);">Reject Request</button>
+      <div>
+        <button class="btn-secondary" onclick="closeModal('modal-bed-change')">Cancel</button>
+        <button class="btn-primary" onclick="closeModal('modal-bed-change')">Approve &amp; Move Bed</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Log Payment -->
+<div id="modal-log-payment" class="modal-overlay">
+  <div class="modal" style="width:400px;">
+    <div class="modal-header"><h2>Log Manual Payment</h2><button onclick="closeModal('modal-log-payment')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-field full"><label>Tenant</label><select class="input-field"><option>Ananya Sharma (Room 204-B)</option><option>Amit Sharma (Room 102-B)</option></select></div>
+        <div class="form-field"><label>Amount (₹)</label><input type="number" class="input-field" value="8000"/></div>
+        <div class="form-field"><label>Date Received</label><input type="date" class="input-field" value="2026-09-15"/></div>
+        <div class="form-field full"><label>Payment Method</label><select class="input-field"><option>Cash</option><option>Bank Transfer / UPI</option></select></div>
+        <div class="form-field full"><label>Reference ID (Optional)</label><input type="text" class="input-field" placeholder="UPI Ref or Cheque No."/></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-log-payment')">Cancel</button>
+      <button class="btn-primary" onclick="closeModal('modal-log-payment')">Save Payment &amp; Generate Receipt</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: View Receipt -->
+<div id="modal-view-receipt" class="modal-overlay">
+  <div class="modal" style="width:480px;">
+    <div class="modal-header"><h2>Expense Receipt</h2><button onclick="closeModal('modal-view-receipt')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body" style="text-align:center;">
+      <div style="background:var(--color-bg);padding:16px;border-radius:var(--radius-md);margin-bottom:16px;text-align:left;">
+        <div class="info-row" style="padding:4px 0;"><span class="info-label">Category</span><span class="info-val"><span class="tag orange">Repairs</span></span></div>
+        <div class="info-row" style="padding:4px 0;"><span class="info-label">Description</span><span class="info-val">AC compressor replacement</span></div>
+        <div class="info-row" style="padding:4px 0;border-bottom:none;"><span class="info-label">Amount</span><span class="info-val" style="font-weight:700;">₹8,500</span></div>
+      </div>
+      <div style="border:1px solid var(--color-border);border-radius:var(--radius-md);height:300px;display:flex;align-items:center;justify-content:center;background:#F9FAFB;color:var(--color-text-3);">
+        [Receipt Image Placeholder]
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content:space-between;">
+      <button class="btn-secondary" style="color:var(--color-danger);border-color:var(--color-border);">Delete Expense</button>
+      <button class="btn-secondary" onclick="closeModal('modal-view-receipt')">Close</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal: Deboard Tenant -->
 <div id="modal-deboard" class="modal-overlay">
   <div class="modal" style="width:480px;">
@@ -2978,7 +3099,8 @@
         <div class="form-field"><label>Target Audience</label><select><option>All Tenants (All Properties)</option><option>Green Valley PG — All</option><option>Koramangala PG — All</option><option>Specific floor</option></select></div>
         <div class="form-field"><label>Priority</label><select><option>Normal</option><option>Important</option><option>Urgent</option></select></div>
         <div class="form-field full"><label>Message *</label><textarea rows="4" placeholder="Write your notice here..."></textarea></div>
-        <div class="form-field"><label>Schedule (optional)</label><input type="datetime-local"/></div>
+        <div class="form-field"><label>Schedule (optional)</label><input type="datetime-local" class="input-field"/></div>
+        <div class="form-field"><label>Expiry Date (optional)</label><input type="date" class="input-field"/></div>
         <div class="form-field">
           <label>Delivery Channel</label>
           <select><option>In-app only</option><option>In-app + WhatsApp</option><option>In-app + SMS</option></select>
