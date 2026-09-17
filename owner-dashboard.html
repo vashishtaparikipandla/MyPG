@@ -1163,10 +1163,10 @@
                 <table>
                   <thead><tr><th>Tenant</th><th>Room</th><th>Amount</th><th>Due Date</th><th>Status</th><th style="text-align:right">Action</th></tr></thead>
                   <tbody>
-                    <tr><td><div class="font-semibold">Ananya Sharma</div><div class="text-xs text-muted">Green Valley</div></td><td>204-B</td><td>₹8,000</td><td>16 Sep</td><td><span class="badge overdue dot">Overdue</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);margin-right:4px;" onclick="alert('Payment reminder sent to tenant.')">Remind</button><button class="btn-primary" style="padding:4px 8px;font-size:11px;" onclick="openModal('modal-log-payment')">Log Cash</button></td></tr>
-                    <tr><td><div class="font-semibold">Rohit Mehta</div><div class="text-xs text-muted">Koramangala PG</div></td><td>312-A</td><td>₹10,500</td><td>17 Sep</td><td><span class="badge pending dot">Due soon</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);margin-right:4px;" onclick="alert('Payment reminder sent to tenant.')">Remind</button><button class="btn-primary" style="padding:4px 8px;font-size:11px;" onclick="openModal('modal-log-payment')">Log Cash</button></td></tr>
-                    <tr><td><div class="font-semibold">Priya Nair</div><div class="text-xs text-muted">Indiranagar PG</div></td><td>101-A</td><td>₹9,000</td><td>18 Sep</td><td><span class="badge pending dot">Due soon</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);margin-right:4px;" onclick="alert('Payment reminder sent to tenant.')">Remind</button><button class="btn-primary" style="padding:4px 8px;font-size:11px;" onclick="openModal('modal-log-payment')">Log Cash</button></td></tr>
-                    <tr><td><div class="font-semibold">Kiran Patel</div><div class="text-xs text-muted">Green Valley</div></td><td>205-A</td><td>₹7,500</td><td>20 Sep</td><td><span class="badge active dot">On track</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);">Remind</button></td></tr>
+                    <tr><td><div class="flex items-center gap-2"><div class="user-avatar" style="width:28px;height:28px;font-size:11px;background:#4F46E5;color:white;">AS</div><div><div class="font-semibold">Ananya Sharma</div><div class="text-xs text-muted">Green Valley</div></div></div></td><td>204-B</td><td>₹8,000</td><td>16 Sep</td><td><span class="badge overdue dot">Overdue</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);margin-right:4px;" onclick="alert('Payment reminder sent to tenant.')">Remind</button><button class="btn-primary" style="padding:4px 8px;font-size:11px;" onclick="openModal('modal-log-payment')">Log Cash</button></td></tr>
+                    <tr><td><div class="flex items-center gap-2"><div class="user-avatar" style="width:28px;height:28px;font-size:11px;background:#059669;color:white;">RM</div><div><div class="font-semibold">Rohit Mehta</div><div class="text-xs text-muted">Koramangala PG</div></div></div></td><td>312-A</td><td>₹10,500</td><td>17 Sep</td><td><span class="badge pending dot">Due soon</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);margin-right:4px;" onclick="alert('Payment reminder sent to tenant.')">Remind</button><button class="btn-primary" style="padding:4px 8px;font-size:11px;" onclick="openModal('modal-log-payment')">Log Cash</button></td></tr>
+                    <tr><td><div class="flex items-center gap-2"><div class="user-avatar" style="width:28px;height:28px;font-size:11px;background:#D97706;color:white;">PN</div><div><div class="font-semibold">Priya Nair</div><div class="text-xs text-muted">Indiranagar PG</div></div></div></td><td>101-A</td><td>₹9,000</td><td>18 Sep</td><td><span class="badge pending dot">Due soon</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);margin-right:4px;" onclick="alert('Payment reminder sent to tenant.')">Remind</button><button class="btn-primary" style="padding:4px 8px;font-size:11px;" onclick="openModal('modal-log-payment')">Log Cash</button></td></tr>
+                    <tr><td><div class="flex items-center gap-2"><div class="user-avatar" style="width:28px;height:28px;font-size:11px;background:#9333EA;color:white;">KP</div><div><div class="font-semibold">Kiran Patel</div><div class="text-xs text-muted">Green Valley</div></div></div></td><td>205-A</td><td>₹7,500</td><td>20 Sep</td><td><span class="badge active dot">On track</span></td><td style="text-align:right"><button class="btn-secondary" style="padding:4px 8px;font-size:11px;border:none;background:var(--color-bg);">Remind</button></td></tr>
                   </tbody>
                 </table>
               </div>
@@ -1467,7 +1467,7 @@
         <div id="panel-tenant-profile" class="panel-screen" style="display:none;">
           <div class="breadcrumb"><a href="#" onclick="setActiveByPanel('panel-tenants')">Tenants</a><span>/</span><span>Ananya Sharma</span></div>
           <div class="page-header" style="margin-bottom:16px;">
-            <h1>Ananya Sharma</h1>
+            <h1 class="flex items-center gap-3"><div class="user-avatar" style="width:36px;height:36px;font-size:14px;background:#4F46E5;color:white;">AS</div>Ananya Sharma</h1>
             <div class="actions">
               <button class="btn-ghost">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -1685,7 +1685,7 @@
                 <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="5" x2="9" y2="19"/><line x1="15" y1="5" x2="15" y2="19"/></svg></div>
                 <div class="waitlist-rank top">1</div>
                 <div style="flex:1;">
-                  <div class="wl-name">Siddharth Jain</div>
+                  <div class="wl-name flex items-center gap-2"><div class="user-avatar" style="width:24px;height:24px;font-size:10px;background:#D97706;color:white;">SJ</div>Siddharth Jain</div>
                   <div class="wl-meta">+91 98765 22222 · 2-share preference · Added 2 Sep · Walk-in</div>
                 </div>
                 <span class="badge notified dot">Notified</span>
@@ -1699,7 +1699,7 @@
                 <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="5" x2="9" y2="19"/><line x1="15" y1="5" x2="15" y2="19"/></svg></div>
                 <div class="waitlist-rank top">2</div>
                 <div style="flex:1;">
-                  <div class="wl-name">Pooja Devi</div>
+                  <div class="wl-name flex items-center gap-2"><div class="user-avatar" style="width:24px;height:24px;font-size:10px;background:#9333EA;color:white;">PD</div>Pooja Devi</div>
                   <div class="wl-meta">+91 98765 33333 · 2-share preference · Added 5 Sep · Referral</div>
                 </div>
                 <span class="badge new-i dot">Interested</span>
@@ -1712,7 +1712,7 @@
                 <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="5" x2="9" y2="19"/><line x1="15" y1="5" x2="15" y2="19"/></svg></div>
                 <div class="waitlist-rank">3</div>
                 <div style="flex:1;">
-                  <div class="wl-name">Raju Verma</div>
+                  <div class="wl-name flex items-center gap-2"><div class="user-avatar" style="width:24px;height:24px;font-size:10px;background:#059669;color:white;">RV</div>Raju Verma</div>
                   <div class="wl-meta">+91 98765 44444 · Private room · Added 8 Sep · Phone inquiry</div>
                 </div>
                 <span class="badge new-i dot">Interested</span>
@@ -1725,7 +1725,7 @@
                 <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="5" x2="9" y2="19"/><line x1="15" y1="5" x2="15" y2="19"/></svg></div>
                 <div class="waitlist-rank">4</div>
                 <div style="flex:1;">
-                  <div class="wl-name">Divya Krishnan</div>
+                  <div class="wl-name flex items-center gap-2"><div class="user-avatar" style="width:24px;height:24px;font-size:10px;background:#3B82F6;color:white;">DK</div>Divya Krishnan</div>
                   <div class="wl-meta">+91 98765 55555 · 3-share preference · Added 10 Sep · Website lead</div>
                 </div>
                 <span class="badge new-i dot">Interested</span>
@@ -1738,7 +1738,7 @@
                 <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="5" x2="9" y2="19"/><line x1="15" y1="5" x2="15" y2="19"/></svg></div>
                 <div class="waitlist-rank">5</div>
                 <div style="flex:1;">
-                  <div class="wl-name">Tejas Nair</div>
+                  <div class="wl-name flex items-center gap-2"><div class="user-avatar" style="width:24px;height:24px;font-size:10px;background:#4F46E5;color:white;">TN</div>Tejas Nair</div>
                   <div class="wl-meta">+91 98765 66666 · 2-share preference · Added 12 Sep</div>
                 </div>
                 <span class="badge expired dot">Expired</span>
@@ -1793,10 +1793,10 @@
                 <table>
                   <thead><tr><th>Tenant</th><th>Property</th><th>Amount</th><th>Method</th><th>Status</th><th>Action</th></tr></thead>
                   <tbody>
-                    <tr><td class="font-semibold">Ananya Sharma</td><td class="text-sm text-muted">Green Valley</td><td>₹8,000</td><td><span class="tag orange">Cash</span></td><td><span class="badge overdue dot">Overdue</span></td><td><button class="btn-accent" style="font-size:11px;height:26px;" onclick="openModal('modal-log-payment')">Log Payment</button></td></tr>
-                    <tr><td class="font-semibold">Rohit Mehta</td><td class="text-sm text-muted">Koramangala</td><td>₹10,500</td><td><span class="tag blue">UPI</span></td><td><span class="badge pending dot">Pending</span></td><td><button class="btn-accent" style="font-size:11px;height:26px;" onclick="openModal('modal-log-payment')">Log Payment</button></td></tr>
-                    <tr><td class="font-semibold">Priya Nair</td><td class="text-sm text-muted">Indiranagar</td><td>₹9,000</td><td><span class="tag orange">Cash</span></td><td><span class="badge active dot">Paid</span></td><td><button class="btn-ghost" style="font-size:11px;height:26px;">Invoice</button></td></tr>
-                    <tr><td class="font-semibold">Kiran Patel</td><td class="text-sm text-muted">Green Valley</td><td>₹7,500</td><td><span class="tag blue">UPI</span></td><td><span class="badge active dot">Paid</span></td><td><button class="btn-ghost" style="font-size:11px;height:26px;">Invoice</button></td></tr>
+                    <tr><td><div class="flex items-center gap-2"><div class="user-avatar" style="width:24px;height:24px;font-size:10px;background:#4F46E5;color:white;">AS</div><div class="font-semibold">Ananya Sharma</div></div></td><td class="text-sm text-muted">Green Valley</td><td>₹8,000</td><td><span class="tag orange">Cash</span></td><td><span class="badge overdue dot">Overdue</span></td><td><button class="btn-accent" style="font-size:11px;height:26px;" onclick="openModal('modal-log-payment')">Log Payment</button></td></tr>
+                    <tr><td><div class="flex items-center gap-2"><div class="user-avatar" style="width:24px;height:24px;font-size:10px;background:#059669;color:white;">RM</div><div class="font-semibold">Rohit Mehta</div></div></td><td class="text-sm text-muted">Koramangala</td><td>₹10,500</td><td><span class="tag blue">UPI</span></td><td><span class="badge pending dot">Pending</span></td><td><button class="btn-accent" style="font-size:11px;height:26px;" onclick="openModal('modal-log-payment')">Log Payment</button></td></tr>
+                    <tr><td><div class="flex items-center gap-2"><div class="user-avatar" style="width:24px;height:24px;font-size:10px;background:#D97706;color:white;">PN</div><div class="font-semibold">Priya Nair</div></div></td><td class="text-sm text-muted">Indiranagar</td><td>₹9,000</td><td><span class="tag orange">Cash</span></td><td><span class="badge active dot">Paid</span></td><td><button class="btn-ghost" style="font-size:11px;height:26px;">Invoice</button></td></tr>
+                    <tr><td><div class="flex items-center gap-2"><div class="user-avatar" style="width:24px;height:24px;font-size:10px;background:#9333EA;color:white;">KP</div><div class="font-semibold">Kiran Patel</div></div></td><td class="text-sm text-muted">Green Valley</td><td>₹7,500</td><td><span class="tag blue">UPI</span></td><td><span class="badge active dot">Paid</span></td><td><button class="btn-ghost" style="font-size:11px;height:26px;">Invoice</button></td></tr>
                   </tbody>
                 </table>
               </div>
@@ -1807,9 +1807,9 @@
                 <table>
                   <thead><tr><th>Tenant</th><th>Deposit</th><th>Status</th></tr></thead>
                   <tbody>
-                    <tr><td class="font-semibold">Ananya Sharma</td><td>₹16,000</td><td><span class="badge active dot">Held</span></td></tr>
-                    <tr><td class="font-semibold">Rohit Mehta</td><td>₹21,000</td><td><span class="badge active dot">Held</span></td></tr>
-                    <tr><td class="font-semibold">Meenu Verma</td><td>₹15,000</td><td><span class="badge pending dot">Refund Pending</span></td></tr>
+                    <tr><td><div class="flex items-center gap-2"><div class="user-avatar" style="width:24px;height:24px;font-size:10px;background:#4F46E5;color:white;">AS</div><div class="font-semibold">Ananya Sharma</div></div></td><td>₹16,000</td><td><span class="badge active dot">Held</span></td></tr>
+                    <tr><td><div class="flex items-center gap-2"><div class="user-avatar" style="width:24px;height:24px;font-size:10px;background:#059669;color:white;">RM</div><div class="font-semibold">Rohit Mehta</div></div></td><td>₹21,000</td><td><span class="badge active dot">Held</span></td></tr>
+                    <tr><td><div class="flex items-center gap-2"><div class="user-avatar" style="width:24px;height:24px;font-size:10px;background:#E11D48;color:white;">MV</div><div class="font-semibold">Meenu Verma</div></div></td><td>₹15,000</td><td><span class="badge pending dot">Refund Pending</span></td></tr>
                   </tbody>
                 </table>
               </div>
@@ -2434,7 +2434,7 @@
               </thead>
               <tbody style="font-size:14px;">
                 <tr style="border-top:1px solid var(--color-border);">
-                  <td style="padding:14px 20px;font-weight:500;">Karan Patel</td>
+                  <td style="padding:14px 20px;font-weight:500;"><div class="flex items-center gap-2"><div class="user-avatar" style="width:24px;height:24px;font-size:10px;background:#4F46E5;color:white;">KP</div>Karan Patel</div></td>
                   <td style="padding:14px 20px;">30 Aug 2026</td>
                   <td style="padding:14px 20px;">2 / 4 Complete</td>
                   <td style="padding:14px 20px;"><span class="badge active dot" style="background:var(--color-warn-bg);color:var(--color-warn);">Pending Refund</span></td>
@@ -2556,7 +2556,7 @@
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
           <div>
             <h3 style="font-size:18px;font-weight:700;margin-bottom:4px;">WiFi not working in Room 201</h3>
-            <div style="font-size:13px;color:var(--color-text-3);">Reported by <span style="color:var(--color-text-1);font-weight:600;">Ananya Sharma</span> (Room 201) · 4h ago</div>
+            <div style="font-size:13px;color:var(--color-text-3);display:flex;align-items:center;gap:6px;">Reported by <div class="flex items-center gap-2"><div class="user-avatar" style="width:18px;height:18px;font-size:9px;background:#4F46E5;color:white;">AS</div><span style="color:var(--color-text-1);font-weight:600;">Ananya Sharma</span></div> (Room 201) · 4h ago</div>
           </div>
           <span class="badge" style="background:#FEE2E2;color:#DC2626;border-color:#FEE2E2;">High Priority</span>
         </div>
@@ -2589,7 +2589,7 @@
         <div class="timeline" style="margin-bottom:20px;">
           <div class="tl-item">
             <div class="tl-line"><div class="tl-dot"></div><div class="connector"></div></div>
-            <div class="tl-content"><div class="tl-title">Issue Created</div><div class="tl-sub">Ananya Sharma · Today at 9:30 AM</div></div>
+            <div class="tl-content"><div class="tl-title">Issue Created</div><div class="tl-sub" style="display:flex;align-items:center;gap:6px;"><div class="user-avatar" style="width:14px;height:14px;font-size:7px;background:#4F46E5;color:white;">AS</div>Ananya Sharma · Today at 9:30 AM</div></div>
           </div>
         </div>
         <div style="display:flex;gap:12px;">
@@ -2881,11 +2881,11 @@
       <div style="font-size:13px;font-weight:600;margin-bottom:10px;display:flex;justify-content:space-between;"><span>Beds</span><button class="btn-secondary" style="height:24px;font-size:11px;" onclick="closeModal('modal-room-detail');openModal('modal-block-bed')">Block Bed for Maintenance</button></div>
       <div style="display:flex;flex-direction:column;gap:10px;">
         <div style="background:var(--color-success-bg);border:1px solid #BBF7D0;border-radius:var(--radius-md);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;">
-          <div><div style="font-size:13px;font-weight:600;">Bed A — ₹8,000/mo</div><div style="font-size:12px;color:var(--color-text-3);">Ananya Sharma · Occupied since 1 Jul</div></div>
+          <div><div style="font-size:13px;font-weight:600;">Bed A — ₹8,000/mo</div><div style="font-size:12px;color:var(--color-text-3);display:flex;align-items:center;gap:6px;"><div class="user-avatar" style="width:16px;height:16px;font-size:8px;background:#4F46E5;color:white;">AS</div>Ananya Sharma · Occupied since 1 Jul</div></div>
           <span class="badge occupied dot">Occupied</span>
         </div>
         <div style="background:var(--color-success-bg);border:1px solid #BBF7D0;border-radius:var(--radius-md);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;">
-          <div><div style="font-size:13px;font-weight:600;">Bed B — ₹8,000/mo</div><div style="font-size:12px;color:var(--color-text-3);">Preethi R. · Occupied since 15 Jun</div></div>
+          <div><div style="font-size:13px;font-weight:600;">Bed B — ₹8,000/mo</div><div style="font-size:12px;color:var(--color-text-3);display:flex;align-items:center;gap:6px;"><div class="user-avatar" style="width:16px;height:16px;font-size:8px;background:#E11D48;color:white;">PR</div>Preethi R. · Occupied since 15 Jun</div></div>
           <span class="badge occupied dot">Occupied</span>
         </div>
       </div>
